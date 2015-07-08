@@ -1,5 +1,7 @@
 'use strict';
 
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var FeedbackCard = React.createClass({
   render() {
     var employee = this.props.employee;
@@ -41,25 +43,43 @@ var App = React.createClass({
   },
 
   getInitialState() {
+    // this.state.response maybe only temporary
     return {
-      active: 0
+      active: 0,
+      response: 'none'
     };
   },
 
   handleFeedback(response) {
-    this.setState({active: this.state.active + 1});
-    console.log(response);
+    this.setState({
+      active: this.state.active + 1,
+      response: response
+    });
   },
 
   render() {
     return (
-      <div className="feedback-card__wrapper">
-        {this.data.employees.map((employee, i) => {
-          if(i < 5 && i >= this.state.active) {
-            return <FeedbackCard employee={employee} index={i} key={i}/>;
-          }
-        })}
-        <FeedbackActions handleFeedback={this.handleFeedback}/>
+      <div>
+        <header className="header">
+          <div className="header__brand">
+            <strong>Feedback</strong>
+          </div>
+          <div className="header__session">
+            Andrew Liebchen
+          </div>
+        </header>
+        <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
+          <CSSTransitionGroup transitionName="feedback">
+            {this.data.employees.map((employee, i) => {
+              if(i < 5 && i >= this.state.active) {
+                return <FeedbackCard employee={employee} index={i} key={i}/>;
+              }
+            })}
+          </CSSTransitionGroup>
+          {this.state.active === 5 ?
+            <div className="null">All done!</div>
+          : <FeedbackActions handleFeedback={this.handleFeedback}/>}
+        </div>
       </div>
     );
   }

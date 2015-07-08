@@ -8,9 +8,29 @@ $feedback-card-size: 20em;
 
 html,
 body {
+  background-color: #f7f7f7;
+  color: #333;
   font-family: "helvetica neue", helvetica, arial, sans-serif;
   font-size: 16px;
   line-height: 1.3;
+}
+
+.null {
+  text-align: center;
+  font-weight: bold;
+}
+
+.header {
+  color: #999;
+  padding: 1em;
+}
+
+.header__brand {
+  float: left;
+}
+
+.header__session {
+  float: right;
 }
 
 .feedback-card__wrapper {
@@ -67,7 +87,7 @@ body {
 .feedback-action {
   $size: 5em;
   border-radius: $size / 2;
-  border: 1px solid;
+  border: 2px solid;
   cursor: pointer;
   font-weight: bold;
   line-height: $size;
@@ -88,4 +108,32 @@ body {
   background-color: rgba($color, 0.2);
   color: $color;
   float: left;
+}
+
+// Animations
+.feedback-enter {
+  opacity: 0.01;
+  transition: opacity 0.2s linear;
+}
+
+.feedback-enter.feedback-enter-active {
+  opacity: 1;
+}
+
+.feedback-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s ease-in-out;
+}
+
+.feedback-leave.feedback-leave-active {
+  opacity: 0.01;
+
+  .feedback-response_positive & {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .feedback-response_negative & {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
