@@ -1,5 +1,7 @@
 'use strict';
 
+_ = lodash;
+
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var FeedbackCard = React.createClass({
@@ -37,8 +39,9 @@ var App = React.createClass({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
+    // Use createFeedbackGroup(Employees.find().fetch()) to return only the 5 we want
     return {
-      employees: Employees.find().fetch()
+      feedbackGroup: Employees.find().fetch()
     };
   },
 
@@ -50,6 +53,24 @@ var App = React.createClass({
     };
   },
 
+  createFeedbackGroup(employees) {
+    // Create feedback sessions
+    // Make an array of all Employee _ids
+    var employeesList = employees.map(function(i){
+      return i._id
+    });
+    console.log(employeesList);
+
+    // Temporarily make the current user === the first employee in the list
+    // Remove the current user from that array
+    var feedbackSuperGroup = _.without(employeesList, employeesList[0]);
+    console.log(feedbackSuperGroup);
+
+    // Create 5 random numbers within the length of the array
+
+    // Pull out 5 Employee _ids at random from the array
+  },
+
   handleFeedback(response) {
     this.setState({
       active: this.state.active + 1,
@@ -58,6 +79,7 @@ var App = React.createClass({
   },
 
   render() {
+    this.createFeedbackGroup(this.data.feedbackGroup);
     return (
       <div>
         <header className="header">
@@ -70,7 +92,7 @@ var App = React.createClass({
         </header>
         <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
           <CSSTransitionGroup transitionName="feedback">
-            {this.data.employees.map((employee, i) => {
+            {this.data.feedbackGroup.map((employee, i) => {
               if(i < 5 && i >= this.state.active) {
                 return <FeedbackCard employee={employee} index={i} key={i}/>;
               }
@@ -85,8 +107,8 @@ var App = React.createClass({
   }
 });
 
-if (Meteor.isClient) {
-  Meteor.startup(function () {
+if(Meteor.isClient) {
+  Meteor.startup(function() {
     React.render(<App />, document.getElementById('root'));
   });
 }
