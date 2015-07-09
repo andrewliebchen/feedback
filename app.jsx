@@ -39,9 +39,8 @@ var App = React.createClass({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
-    // Use createFeedbackGroup(Employees.find().fetch()) to return only the 5 we want
     return {
-      feedbackGroup: Employees.find().fetch()
+      employees: Employees.find().fetch()
     };
   },
 
@@ -59,16 +58,16 @@ var App = React.createClass({
     var employeesList = employees.map(function(i){
       return i._id
     });
-    console.log(employeesList);
 
     // Temporarily make the current user === the first employee in the list
     // Remove the current user from that array
-    var feedbackSuperGroup = _.without(employeesList, employeesList[0]);
-    console.log(feedbackSuperGroup);
+    // Reorder the array randomly
+    var feedbackSuperGroup = _.without(employeesList, employeesList[0]).sort(function() {
+      return 0.5 - Math.random();
+    });
 
-    // Create 5 random numbers within the length of the array
-
-    // Pull out 5 Employee _ids at random from the array
+    // Pull out the first five
+    return _.take(feedbackSuperGroup, 5);
   },
 
   handleFeedback(response) {
@@ -79,7 +78,9 @@ var App = React.createClass({
   },
 
   render() {
-    this.createFeedbackGroup(this.data.feedbackGroup);
+    var feedbackGroup = this.createFeedbackGroup(this.data.employees);
+    console.log(feedbackGroup);
+
     return (
       <div>
         <header className="header">
@@ -92,8 +93,9 @@ var App = React.createClass({
         </header>
         <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
           <CSSTransitionGroup transitionName="feedback">
-            {this.data.feedbackGroup.map((employee, i) => {
-              if(i < 5 && i >= this.state.active) {
+            {this.data.employees.map((employee, i) => {
+              console.log(_.contains(feedbackGroup, employee._id));
+              if(_.contains(feedbackGroup, employee._id)) {
                 return <FeedbackCard employee={employee} index={i} key={i}/>;
               }
             })}
