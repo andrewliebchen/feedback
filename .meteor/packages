@@ -7,8 +7,8 @@
 meteor-platform
 autopublish
 insecure
-react
 stevezhu:lodash
 jquery
 fourseven:scss
 mrt:normalize.css
+reactjs:react

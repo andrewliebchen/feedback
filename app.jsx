@@ -5,6 +5,10 @@ _ = lodash;
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var FeedbackCard = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextProps.id !== this.props.id;
+  },
+
   render() {
     var employee = this.props.employee;
     return (
@@ -36,9 +40,9 @@ var FeedbackActions = React.createClass({
 });
 
 var App = React.createClass({
-  mixins: [ReactMeteorData],
+  mixins: [ReactMeteor.Mixin],
 
-  getMeteorData() {
+  getMeteorState() {
     return {
       employees: Employees.find().fetch()
     };
@@ -52,24 +56,6 @@ var App = React.createClass({
     };
   },
 
-  createFeedbackGroup(employees) {
-    // Create feedback sessions
-    // Make an array of all Employee _ids
-    var employeesList = employees.map(function(i){
-      return i._id
-    });
-
-    // Temporarily make the current user === the first employee in the list
-    // Remove the current user from that array
-    // Reorder the array randomly
-    var feedbackSuperGroup = _.without(employeesList, employeesList[0]).sort(function() {
-      return 0.5 - Math.random();
-    });
-
-    // Pull out the first five
-    return _.take(feedbackSuperGroup, 5);
-  },
-
   handleFeedback(response) {
     this.setState({
       active: this.state.active + 1,
@@ -78,8 +64,7 @@ var App = React.createClass({
   },
 
   render() {
-    var feedbackGroup = this.createFeedbackGroup(this.data.employees);
-    console.log(feedbackGroup);
+    var feedbackGroup = _.take(_.shuffle(this.state.employees), 5);
 
     return (
       <div>
@@ -93,9 +78,8 @@ var App = React.createClass({
         </header>
         <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
           <CSSTransitionGroup transitionName="feedback">
-            {this.data.employees.map((employee, i) => {
-              console.log(_.contains(feedbackGroup, employee._id));
-              if(_.contains(feedbackGroup, employee._id)) {
+            {feedbackGroup.map((employee, i) => {
+              if(i >= this.state.active) {
                 return <FeedbackCard employee={employee} index={i} key={i}/>;
               }
             })}
