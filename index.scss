@@ -1,5 +1,13 @@
 $feedback-card-size: 20em;
 
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -20,9 +28,14 @@ body {
   font-weight: bold;
 }
 
-.header {
-  color: #999;
+.wrapper {
   padding: 1em;
+}
+
+.header {
+  @include clearfix;
+  color: #999;
+  padding: 0 0 1em;
 }
 
 .header__brand {

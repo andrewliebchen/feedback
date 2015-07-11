@@ -35,9 +35,14 @@ var FeedbackActions = React.createClass({
   }
 });
 
-FeedbackGroup = React.createClass({
+var FeedbackGroup = ReactMeteor.createClass({
+  getMeteorState() {
+    return {
+      employees: Employees.find().fetch()
+    };
+  },
+
   getInitialState() {
-    // this.state.response maybe only temporary
     return {
       active: 0,
       response: 'none'
@@ -47,7 +52,7 @@ FeedbackGroup = React.createClass({
   handleFeedback(response) {
     // Update the DB
     Meteor.call('addFeedback', {
-      id: this.props.employees[this.state.active]._id,
+      id: this.state.employees[this.state.active]._id,
       response: response,
       period: 7
     });
@@ -63,7 +68,7 @@ FeedbackGroup = React.createClass({
     return (
       <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
         <CSSTransitionGroup transitionName="feedback">
-          {this.props.employees.map((employee, i) => {
+          {this.state.employees.map((employee, i) => {
             if(i >= this.state.active) {
               return (
                 <FeedbackCard
@@ -82,7 +87,41 @@ FeedbackGroup = React.createClass({
   }
 });
 
+FeedbackSession = React.createClass({
+  render(){
+    return (
+      <div className="wrapper">
+        <Header/>
+        <FeedbackGroup/>
+      </div>
+    );
+  }
+});
+
+if(Meteor.isClient) {
+  FlowRouter.route('/feedback/:_id', {
+    subscriptions: function(params) {
+      this.register('feedbackSession', Meteor.subscribe('feedbackSession', params._id));
+    },
+
+    action: function() {
+      $(document).ready(function() {
+        React.render(<FeedbackSession/>, document.getElementById('yield'));
+      });
+    }
+  });
+};
+
 if(Meteor.isServer) {
+  Meteor.publish('feedbackSession', function(id){
+    return [
+      FeedbackSessions.find(id),
+      Employees.find({
+        _id: {$in: FeedbackSessions.findOne(id).employees}
+      })
+    ];
+  });
+
   Meteor.methods({
     'addFeedback': function(args){
       return Employees.update(args.id,
