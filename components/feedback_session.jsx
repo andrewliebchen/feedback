@@ -56,7 +56,7 @@ var FeedbackGroup = ReactMeteor.createClass({
     Meteor.call('addFeedback', {
       id: this.state.employees[this.state.active]._id,
       response: response,
-      period: 7,
+      period: this.state.feedbackSession.period,
       feedbackSession: this.state.feedbackSession[0]._id,
       createdAt: Date.now()
     });

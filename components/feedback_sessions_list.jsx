@@ -2,6 +2,8 @@
  * @jsx React.DOM
  */
 
+ var _ = lodash;
+
 FeedbackSessionsList = React.createClass({
   handleDeleteAllFeedbackSessions() {
     if(window.confirm('Are you sure you want to delete all sessions?')) {
@@ -13,6 +15,11 @@ FeedbackSessionsList = React.createClass({
     Meteor.call('createFeedbackSessions');
   },
 
+  renderEmployee(respondant) {
+    var employee = _.find(this.props.employees, {_id: respondant});
+    return <Avatar employee={employee}/>;
+  },
+
   render() {
     return (
       <section className="panel panel-default">
@@ -20,11 +27,20 @@ FeedbackSessionsList = React.createClass({
           <h3 className="panel-title">Feedback Sessions</h3>
         </header>
         <table className="table">
+          <thead>
+            <th>Feedback session respondant</th>
+            <th>Period</th>
+            <th/>
+          </thead>
           <tbody>
             {this.props.feedbackSessions.map((session, i) =>{
               return (
                 <tr key={i}>
-                  <td><a href={`/feedback/${session._id}`}>Session</a></td>
+                  <td>{this.renderEmployee(session.respondant)}</td>
+                  <td>{session.period}</td>
+                  <td>
+                    <a href={`/feedback/${session._id}`} className="btn btn-default btn-sm">View</a>
+                  </td>
                 </tr>
               );
             })}
@@ -62,7 +78,9 @@ if(Meteor.isServer) {
         });
 
         return FeedbackSessions.insert({
-          employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1))
+          respondant: currentEmployee._id,
+          employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1)),
+          period: moment().format('M')
         });
       }
 

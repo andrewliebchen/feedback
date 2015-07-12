@@ -15,16 +15,7 @@ var EmployeeRow = React.createClass({
   render() {
     return (
       <tr>
-        <td>
-          <div className="media">
-            <div className="media-left">
-              <img src={this.props.employee.picture.thumbnail} className="img-rounded" width="24"/>
-            </div>
-            <div className="media-body">
-              {`${_.capitalize(this.props.employee.name.first)} ${_.capitalize(this.props.employee.name.last)}`}
-            </div>
-          </div>
-        </td>
+        <td><Avatar employee={this.props.employee}/></td>
         <td>
           <select defaultValue={this.props.employee.team} onChange={this.handleSelectTeam}>
             <option value="no team">No team</option>
