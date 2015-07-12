@@ -2,16 +2,16 @@
  * @jsx React.DOM
  */
 
+var _ = lodash;
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var FeedbackCard = React.createClass({
   render() {
-    var employee = this.props.employee;
     return (
       <div className={`feedback-card feedback-card_${this.props.index}`}>
-        <img className="feedback-card__image" src={employee.picture.large}/>
+        <img className="feedback-card__image" src={this.props.employee.picture.large}/>
         <h2 className="feedback-card__name">
-          {`${_.capitalize(employee.name.first)} ${_.capitalize(employee.name.last)}`}
+          {`${_.capitalize(this.props.employee.name.first)} ${_.capitalize(this.props.employee.name.last)}`}
         </h2>
       </div>
     );
@@ -93,7 +93,7 @@ var FeedbackGroup = ReactMeteor.createClass({
 FeedbackSession = React.createClass({
   render(){
     return (
-      <div className="wrapper">
+      <div className="container">
         <Header/>
         <FeedbackGroup/>
       </div>

@@ -26,7 +26,7 @@ var EmployeeRow = React.createClass({
           </div>
         </td>
         <td>
-          <select defaultValue="no team" onChange={this.handleSelectTeam}>
+          <select defaultValue={this.props.employee.team} onChange={this.handleSelectTeam}>
             <option value="no team">No team</option>
             <option value="team 1">Team 1</option>
             <option value="team 2">Team 2</option>
@@ -39,13 +39,23 @@ var EmployeeRow = React.createClass({
               return <span key={i}>{feedback.response === 'positive' ? "👍" : "👎"}</span>;
             })}
           </td>
-        : null}
+        : <td/>}
       </tr>
     );
   }
 });
 
 EmployeesList = React.createClass({
+  handleAddEmployee() {
+    $.ajax({
+      url: 'http://api.randomuser.me/',
+      dataType: 'json',
+      success: function(data){
+        Meteor.call('newEmployee', data);
+      }
+    });
+  },
+
   render() {
     return (
       <section className="panel panel-default">
@@ -59,6 +69,11 @@ EmployeesList = React.createClass({
             })}
           </tbody>
         </table>
+        <footer className="panel-footer">
+          <button className="btn btn-primary" onClick={this.handleAddEmployee}>
+            New employee
+          </button>
+        </footer>
       </section>
     );
   }
@@ -70,6 +85,10 @@ if(Meteor.isServer) {
       Employees.update(args.id, {
         $set: {team: args.team}
       });
+    },
+
+    'newEmployee': function(employee) {
+      Employees.insert(employee.results[0].user);
     }
   });
 }
