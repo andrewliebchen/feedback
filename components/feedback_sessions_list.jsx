@@ -3,22 +3,16 @@
  */
 
 FeedbackSessionsList = React.createClass({
-  handleCreateFeedbackSession() {
-    var currentUserTeam = 'team 1'; // Temp...need a current user
-    var teamEmployeeIds = [];
-    var otherEmployeeIds = [];
-    this.props.employees.map(function(employee) {
-      if(employee.team === 'team 1') {
-        return teamEmployeeIds.push(employee._id);
-      } else {
-        return otherEmployeeIds.push(employee._id);
-      }
-    });
-    var feedbackGroup = _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1));
+  handleDeleteAllFeedbackSessions() {
+    if(window.confirm('Are you sure you want to delete all sessions?')) {
+      Meteor.call('deleteAllFeedbackSessions');
+    }
+  },
 
-    Meteor.call('newFeedbackSession', {
-      employees: feedbackGroup
-    }, function(error, result) {
+  handleCreateFeedbackSession() {
+    var currentUser = Employees.findOne(); // Temp...need a current user
+
+    Meteor.call('newFeedbackSession', currentUser, function(error, result) {
       FlowRouter.go(`/feedback/${result}`);
     });
   },
@@ -41,8 +35,11 @@ FeedbackSessionsList = React.createClass({
           </tbody>
         </table>
         <footer className="panel-footer">
+          <button className="btn btn-danger" onClick={this.handleDeleteAllFeedbackSessions}>
+            Delete all
+          </button>
           <button className="btn btn-primary" onClick={this.handleCreateFeedbackSession}>
-            New feedback session
+            Add feedback sessions
           </button>
         </footer>
       </section>
@@ -52,8 +49,27 @@ FeedbackSessionsList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'newFeedbackSession': function(employees) {
-      return FeedbackSessions.insert(employees);
+    'newFeedbackSession': function(currentUser) {
+      var teamEmployeeIds = [];
+      var otherEmployeeIds = [];
+
+      Employees.find().fetch().map(function(employee) {
+        if(employee._id !== currentUser._id){
+          if(employee.team === currentUser.team) {
+            return teamEmployeeIds.push(employee._id);
+          } else {
+            return otherEmployeeIds.push(employee._id);
+          }
+        }
+      });
+
+      return FeedbackSessions.insert({
+        employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1))
+      });
+    },
+
+    'deleteAllFeedbackSessions': function() {
+      FeedbackSessions.remove({});
     }
   });
 }
