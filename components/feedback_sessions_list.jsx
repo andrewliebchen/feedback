@@ -4,11 +4,20 @@
 
 FeedbackSessionsList = React.createClass({
   handleCreateFeedbackSession() {
-    var employeeIds = this.props.employees.map(function(employee) {
-      return employee._id
+    var currentUserTeam = 'team 1'; // Temp...need a current user
+    var teamEmployeeIds = [];
+    var otherEmployeeIds = [];
+    this.props.employees.map(function(employee) {
+      if(employee.team === 'team 1') {
+        return teamEmployeeIds.push(employee._id);
+      } else {
+        return otherEmployeeIds.push(employee._id);
+      }
     });
+    var feedbackGroup = _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1));
+
     Meteor.call('newFeedbackSession', {
-      employees: _.take(_.shuffle(employeeIds), 5)
+      employees: feedbackGroup
     }, function(error, result) {
       FlowRouter.go(`/feedback/${result}`);
     });
