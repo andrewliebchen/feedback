@@ -10,11 +10,7 @@ FeedbackSessionsList = React.createClass({
   },
 
   handleCreateFeedbackSession() {
-    var currentUser = Employees.findOne(); // Temp...need a current user
-
-    Meteor.call('newFeedbackSession', currentUser, function(error, result) {
-      FlowRouter.go(`/feedback/${result}`);
-    });
+    Meteor.call('createFeedbackSessions');
   },
 
   render() {
@@ -49,22 +45,31 @@ FeedbackSessionsList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'newFeedbackSession': function(currentUser) {
-      var teamEmployeeIds = [];
-      var otherEmployeeIds = [];
+    'createFeedbackSessions': function() {
+      function createFeedbackSession(employees, currentEmployee) {
+        var teamEmployeeIds = [];
+        var otherEmployeeIds = [];
 
-      Employees.find().fetch().map(function(employee) {
-        if(employee._id !== currentUser._id){
-          if(employee.team === currentUser.team) {
-            return teamEmployeeIds.push(employee._id);
-          } else {
-            return otherEmployeeIds.push(employee._id);
+        // For each employee, create a feedback session
+        employees.map(function(employee) {
+          if(employee._id !== currentEmployee._id) {
+            if(employee.team === currentEmployee.team) {
+              return teamEmployeeIds.push(employee._id);
+            } else {
+              return otherEmployeeIds.push(employee._id);
+            }
           }
-        }
-      });
+        });
 
-      return FeedbackSessions.insert({
-        employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1))
+        return FeedbackSessions.insert({
+          employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1))
+        });
+      }
+
+      var employees = Employees.find().fetch();
+
+      employees.map(function(employee) {
+        createFeedbackSession(employees, employee);
       });
     },
 
