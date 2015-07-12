@@ -19,13 +19,15 @@ UserList = ReactMeteor.createClass({
     });
     Meteor.call('newFeedbackSession', {
       employees: _.take(_.shuffle(employeeIds), 5)
+    }, function(error, result) {
+      FlowRouter.go(`/feedback/${result}`);
     });
   },
 
   renderEmployeeRow(employee, key) {
     return (
       <tr key={key}>
-        <td>{employee.name.first} {employee.name.last}</td>
+        <td>{`${employee.name.first} ${employee.name.last}`}</td>
         {employee.feedback ?
           <td>
             {employee.feedback.map((feedback, i) => {
@@ -92,7 +94,7 @@ if(Meteor.isServer) {
 
   Meteor.methods({
     'newFeedbackSession': function(employees) {
-      FeedbackSessions.insert(employees);
+      return FeedbackSessions.insert(employees);
     }
   });
 }
