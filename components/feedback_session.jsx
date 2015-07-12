@@ -10,7 +10,9 @@ var FeedbackCard = React.createClass({
     return (
       <div className={`feedback-card feedback-card_${this.props.index}`}>
         <img className="feedback-card__image" src={employee.picture.large}/>
-        <h2 className="feedback-card__name">{employee.name.first} {employee.name.last}</h2>
+        <h2 className="feedback-card__name">
+          {`${_.capitalize(employee.name.first)} ${_.capitalize(employee.name.last)}`}
+        </h2>
       </div>
     );
   }
