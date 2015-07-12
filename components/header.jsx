@@ -7,7 +7,7 @@ Header = React.createClass({
     return (
       <header className="header">
         <div className="header__brand">
-          <strong>Feedback</strong>
+          <a href="/"><strong>Feedback</strong></a>
         </div>
         <div className="header__session">
           Andrew Liebchen

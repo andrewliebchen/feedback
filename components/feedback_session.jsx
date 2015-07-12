@@ -38,7 +38,8 @@ var FeedbackActions = React.createClass({
 var FeedbackGroup = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employees: Employees.find().fetch()
+      employees: Employees.find().fetch(),
+      feedbackSession: FeedbackSessions.find().fetch()
     };
   },
 
@@ -50,14 +51,14 @@ var FeedbackGroup = ReactMeteor.createClass({
   },
 
   handleFeedback(response) {
-    // Update the DB
     Meteor.call('addFeedback', {
       id: this.state.employees[this.state.active]._id,
       response: response,
-      period: 7
+      period: 7,
+      feedbackSession: this.state.feedbackSession[0]._id,
+      createdAt: Date.now()
     });
 
-    // Update the UI
     this.setState({
       active: this.state.active + 1,
       response: response
@@ -125,11 +126,13 @@ if(Meteor.isServer) {
   Meteor.methods({
     'addFeedback': function(args){
       return Employees.update(args.id,
-        {$set: {
-          feedback: {
+        {$addToSet: {
+          feedback : [{
             response: args.response,
-            period: args.period
-          }
+            period: args.period,
+            feedbackSession: args.feedbackSession,
+            createdAt: args.createdAt
+          }]
         }
       });
     }
