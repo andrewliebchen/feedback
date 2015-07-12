@@ -56,6 +56,15 @@ EmployeesList = React.createClass({
     });
   },
 
+  handleDownload() {
+    Meteor.call('downloadEmployees', function(err, fileContent) {
+      if(fileContent){
+        var blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, 'employee_list.csv');
+      }
+    });
+  },
+
   render() {
     return (
       <section className="panel panel-default">
@@ -70,6 +79,9 @@ EmployeesList = React.createClass({
           </tbody>
         </table>
         <footer className="panel-footer">
+          <button className="btn btn-default" onClick={this.handleDownload}>
+            Download CSV
+          </button>
           <button className="btn btn-primary" onClick={this.handleAddEmployee}>
             New employee
           </button>
@@ -89,6 +101,10 @@ if(Meteor.isServer) {
 
     'newEmployee': function(employee) {
       Employees.insert(employee.results[0].user);
+    },
+
+    'downloadEmployees': function() {
+      return exportcsv.exportToCSV(Employees.find().fetch());
     }
   });
 }
