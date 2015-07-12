@@ -127,12 +127,12 @@ if(Meteor.isServer) {
     'addFeedback': function(args){
       return Employees.update(args.id,
         {$addToSet: {
-          feedback : [{
+          feedback : {
             response: args.response,
             period: args.period,
             feedbackSession: args.feedbackSession,
             createdAt: args.createdAt
-          }]
+          }
         }
       });
     }

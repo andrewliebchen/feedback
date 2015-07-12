@@ -22,18 +22,34 @@ UserList = ReactMeteor.createClass({
     });
   },
 
+  renderEmployeeRow(employee, key) {
+    return (
+      <tr key={key}>
+        <td>{employee.name.first} {employee.name.last}</td>
+        {employee.feedback ?
+          <td>
+            {employee.feedback.map((feedback, i) => {
+              return <span key={i}>{feedback.response === 'positive' ? "👍" : "👎"}</span>;
+            })}
+          </td>
+        : null}
+      </tr>
+    );
+  },
+
   render() {
     return (
       <div className="wrapper">
         <Header/>
         <h2>Employees</h2>
-        {this.state.employees.map((employee, i) => {
-          return (
-            <div key={i}>
-              {employee.name.first} {employee.name.last}
-            </div>
-          );
-        })}
+        <table>
+          <tbody>
+            {this.state.employees.map((employee, i) => {
+              return this.renderEmployeeRow(employee, i);
+            })}
+          </tbody>
+        </table>
+
         <h2>Feedback Sessions</h2>
         {this.state.feedbackSessions.map((session, i) =>{
           return (
