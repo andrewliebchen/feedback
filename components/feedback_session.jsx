@@ -40,7 +40,7 @@ var FeedbackActions = React.createClass({
 var FeedbackGroup = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employees: Employees.find().fetch(),
+      employees: Meteor.users.find().fetch(),
       feedbackSession: FeedbackSessions.find().fetch()
     };
   },
@@ -75,7 +75,7 @@ var FeedbackGroup = ReactMeteor.createClass({
             if(i >= this.state.active) {
               return (
                 <FeedbackCard
-                  employee={employee}
+                  employee={employee.profile}
                   index={i}
                   key={i}/>
               );
@@ -119,7 +119,7 @@ if(Meteor.isServer) {
   Meteor.publish('feedbackSession', function(id){
     return [
       FeedbackSessions.find(id),
-      Employees.find({
+      Meteor.users.find({
         _id: {$in: FeedbackSessions.findOne(id).employees}
       })
     ];
@@ -127,9 +127,9 @@ if(Meteor.isServer) {
 
   Meteor.methods({
     'addFeedback': function(args){
-      return Employees.update(args.id,
+      return Meteor.users.update(args.id,
         {$addToSet: {
-          feedback : {
+          "profile.feedback": {
             response: args.response,
             period: args.period,
             feedbackSession: args.feedbackSession,

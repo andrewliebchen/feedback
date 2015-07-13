@@ -17,7 +17,7 @@ FeedbackSessionsList = React.createClass({
 
   renderEmployee(respondant) {
     var employee = _.find(this.props.employees, {_id: respondant});
-    return <Avatar employee={employee}/>;
+    return <Avatar employee={employee.profile}/>;
   },
 
   render() {
@@ -69,7 +69,7 @@ if(Meteor.isServer) {
         // For each employee, create a feedback session
         employees.map(function(employee) {
           if(employee._id !== currentEmployee._id) {
-            if(employee.team === currentEmployee.team) {
+            if(employee.profile.team === currentEmployee.profile.team) {
               return teamEmployeeIds.push(employee._id);
             } else {
               return otherEmployeeIds.push(employee._id);
@@ -84,7 +84,7 @@ if(Meteor.isServer) {
         });
       }
 
-      var employees = Employees.find().fetch();
+      var employees = Meteor.users.find().fetch();
 
       employees.map(function(employee) {
         createFeedbackSession(employees, employee);
