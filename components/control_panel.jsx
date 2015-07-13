@@ -7,7 +7,7 @@ var _ = lodash;
 ControlPanel = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employees: Employees.find().fetch(),
+      employees: Meteor.users.find().fetch(),
       feedbackSessions: FeedbackSessions.find().fetch()
     };
   },
@@ -42,7 +42,7 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.publish('employees', function() {
-    return Employees.find();
+    return Meteor.users.find();
   });
 
   Meteor.publish('feedbackSessions', function() {

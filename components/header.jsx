@@ -10,7 +10,7 @@ Header = React.createClass({
           <a href="/"><strong>Feedback</strong></a>
         </div>
         <div className="header__session">
-          Andrew Liebchen
+          <IncludeTemplate template={Template.loginButtons}/>
         </div>
       </header>
     );

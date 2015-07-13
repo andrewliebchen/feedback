@@ -9,24 +9,24 @@ var EmployeeRow = React.createClass({
     Meteor.call('employeeTeam', {
       id: this.props.employee._id,
       team: event.target.value
-    })
+    });
   },
 
   render() {
     return (
       <tr>
-        <td><Avatar employee={this.props.employee}/></td>
+        <td><Avatar employee={this.props.employee.profile}/></td>
         <td>
-          <select defaultValue={this.props.employee.team} onChange={this.handleSelectTeam}>
+          <select defaultValue={this.props.employee.profile.team} onChange={this.handleSelectTeam}>
             <option value="no team">No team</option>
             <option value="team 1">Team 1</option>
             <option value="team 2">Team 2</option>
             <option value="team 3">Team 3</option>
           </select>
         </td>
-        {this.props.employee.feedback ?
+        {this.props.employee.profile.feedback ?
           <td>
-            {this.props.employee.feedback.map((feedback, i) => {
+            {this.props.employee.profile.feedback.map((feedback, i) => {
               return <span key={i}>{feedback.response === 'positive' ? "👍" : "👎"}</span>;
             })}
           </td>
@@ -45,6 +45,12 @@ EmployeesList = React.createClass({
         Meteor.call('newEmployee', data);
       }
     });
+  },
+
+  handleDeleteAllEmployees() {
+    if(window.confirm(`Are you sure you want to delete all employees? This will also delete all feedback sessions.`)) {
+      Meteor.call('deleteAllEmployees');
+    }
   },
 
   handleDownload() {
@@ -70,6 +76,9 @@ EmployeesList = React.createClass({
           </tbody>
         </table>
         <footer className="panel-footer">
+          <button className="btn btn-danger" onClick={this.handleDeleteAllEmployees}>
+            Delete All
+          </button>
           <button className="btn btn-default" onClick={this.handleDownload}>
             Download CSV
           </button>
@@ -85,13 +94,37 @@ EmployeesList = React.createClass({
 if(Meteor.isServer) {
   Meteor.methods({
     'employeeTeam': function(args) {
-      Employees.update(args.id, {
-        $set: {team: args.team}
+      Meteor.users.update(args.id, {
+        $set: {
+          "profile.team": args.team
+        }
       });
     },
 
     'newEmployee': function(employee) {
-      Employees.insert(employee.results[0].user);
+      Accounts.createUser({
+        username: employee.results[0].user.username,
+        email : employee.results[0].user.email,
+        password : employee.results[0].user.password,
+        profile: {
+          team: 'no team',
+          gender: employee.results[0].user.gender,
+          name: {
+            first: employee.results[0].user.name.first,
+            last: employee.results[0].user.name.last
+          },
+          picture: {
+            large: employee.results[0].user.picture.large,
+            medium: employee.results[0].user.picture.medium,
+            thumbnail: employee.results[0].user.picture.thumbnail,
+          }
+        }
+      });
+    },
+
+    'deleteAllEmployees': function() {
+      Meteor.users.remove({});
+      FeedbackSessions.remove({});
     },
 
     'downloadEmployees': function() {
