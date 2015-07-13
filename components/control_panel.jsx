@@ -7,15 +7,22 @@ var _ = lodash;
 ControlPanel = ReactMeteor.createClass({
   getMeteorState() {
     return {
+      currentOrganization: Organizations.findOne(),
       employees: Meteor.users.find().fetch(),
       feedbackSessions: FeedbackSessions.find().fetch()
     };
   },
 
+  handleChangeOrganization(event) {
+    console.log(event.target.value);
+  },
+
   render() {
     return (
       <div className="container">
-        <Header/>
+        <Header
+          currentOrganization={this.state.currentOrganization}
+          changeOrganization={this.handleChangeOrganization}/>
         <EmployeesList employees={this.state.employees}/>
         <FeedbackSessionsList
           feedbackSessions={this.state.feedbackSessions}
@@ -28,6 +35,7 @@ ControlPanel = ReactMeteor.createClass({
 if(Meteor.isClient) {
   FlowRouter.route('/', {
     subscriptions: function(params) {
+      this.register('currentOrganization', Meteor.subscribe('currentOrganization'));
       this.register('employees', Meteor.subscribe('employees'));
       this.register('feedbackSessions', Meteor.subscribe('feedbackSessions'));
     },
@@ -41,6 +49,11 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
+  // Once there's a current user, query that user and return only her organziation
+  Meteor.publish('currentOrganization', function() {
+    return Organizations.find();
+  });
+
   Meteor.publish('employees', function() {
     return Meteor.users.find();
   });
