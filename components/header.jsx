@@ -66,11 +66,13 @@ Header = ReactMeteor.createClass({
       <header className="header">
         <div className="header__brand">
           <a href="/"><strong>Feedback</strong></a>
-          <select defaultValue={this.props.currentOrganization} onChange={this.props.changeOrganization}>
-            {this.state.organizations.map((organization, i) => {
-              return <option key={i} value={organization.name}>{organization.name}</option>;
-            })}
-          </select>
+          {this.state.organizations ?
+            <select defaultValue={this.props.currentOrganization} onChange={this.props.changeOrganization}>
+              {this.state.organizations.map((organization, i) => {
+                return <option key={i} value={organization.name}>{organization.name}</option>;
+              })}
+            </select>
+          : null}
           <button className="btn btn-default btn-xs" onClick={this.handleToggleNewOrganization}>
             New
           </button>

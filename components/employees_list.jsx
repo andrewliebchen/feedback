@@ -42,8 +42,8 @@ EmployeesList = React.createClass({
     $.ajax({
       url: 'http://api.randomuser.me/',
       dataType: 'json',
-      success: function(data){
-        Meteor.call('newEmployee', data);
+      success: (data) => {
+        Meteor.call('newEmployee', data, this.props.currentOrganization._id);
       }
     });
   },
@@ -72,7 +72,10 @@ EmployeesList = React.createClass({
         <table className="table">
           <tbody>
             {this.props.employees.map((employee, i) => {
-              return <EmployeeRow key={i} employee={employee}/>;
+              // Temporarily match to current org here, until we build out current user
+              if(employee.profile.organization === this.props.currentOrganization._id) {
+                return <EmployeeRow key={i} employee={employee}/>;
+              }
             })}
           </tbody>
         </table>
@@ -102,12 +105,13 @@ if(Meteor.isServer) {
       });
     },
 
-    'newEmployee': function(employee) {
+    'newEmployee': function(employee, currentOrganizationId) {
       Accounts.createUser({
         username: employee.results[0].user.username,
         email : employee.results[0].user.email,
         password : employee.results[0].user.password,
         profile: {
+          organization: currentOrganizationId,
           team: 'no team',
           gender: employee.results[0].user.gender,
           name: {
