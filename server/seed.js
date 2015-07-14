@@ -1,7 +1,7 @@
 function createAdmin() {
   return Accounts.createUser({
-    username: "heavybutterfly920",
-    email : "manuela.velasco50@example.com",
+    username: "admin",
+    email : "admin@example.com",
     password : "password",
     profile: {
       organization: "",
