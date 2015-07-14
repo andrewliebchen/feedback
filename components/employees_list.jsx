@@ -39,10 +39,7 @@ EmployeesList = React.createClass({
         <table className="table">
           <tbody>
             {this.props.employees.map((employee, i) => {
-              // Temporarily match to current org here, until we build out current user
-              if(employee.profile.organization === this.props.currentOrganization._id) {
-                return <EmployeeRow key={i} employee={employee}/>;
-              }
+              return <EmployeeRow key={i} employee={employee}/>;
             })}
           </tbody>
         </table>

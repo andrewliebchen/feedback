@@ -7,29 +7,25 @@ var _ = lodash;
 ControlPanel = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      currentOrganization: Organizations.findOne(),
       employees: Meteor.users.find().fetch(),
       feedbackSessions: FeedbackSessions.find().fetch()
     };
   },
 
-  handleChangeOrganization(event) {
-    console.log(event.target.value);
-  },
-
   render() {
     return (
       <div className="container">
-        <AdminHeader
-          currentOrganization={this.state.currentOrganization}
-          changeOrganization={this.handleChangeOrganization}/>
         <Header/>
-        <EmployeesList
-          employees={this.state.employees}
-          currentOrganization={this.state.currentOrganization}/>
-        <FeedbackSessionsList
-          feedbackSessions={this.state.feedbackSessions}
-          employees={this.state.employees}/>
+        {Meteor.user() ?
+          <div>
+            <EmployeesList
+              employees={this.state.employees}
+              currentOrganization={Meteor.user().profile.organization}/>
+            <FeedbackSessionsList
+              feedbackSessions={this.state.feedbackSessions}
+              employees={this.state.employees}/>
+          </div>
+        : null}
       </div>
     );
   }
@@ -38,8 +34,7 @@ ControlPanel = ReactMeteor.createClass({
 if(Meteor.isClient) {
   FlowRouter.route('/', {
     subscriptions: function(params) {
-      this.register('currentOrganization', Meteor.subscribe('currentOrganization'));
-      this.register('employees', Meteor.subscribe('employees'));
+      this.register('employees', Meteor.subscribe('employees', Meteor.userId()));
       this.register('feedbackSessions', Meteor.subscribe('feedbackSessions'));
     },
 
@@ -52,16 +47,11 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
-  // Once there's a current user, query that user and return only her organziation
-  Meteor.publish('currentOrganization', function() {
-    return Organizations.find();
-  });
-
   Meteor.publish('employees', function(currentOrganizationId) {
-    return Meteor.users.find();
+    return Meteor.users.find({'profile.organization': currentOrganizationId});
   });
 
-  Meteor.publish('feedbackSessions', function() {
-    return FeedbackSessions.find();
+  Meteor.publish('feedbackSessions', function(currentOrganizationId) {
+    return FeedbackSessions.find({'organization': currentOrganizationId});
   });
 }

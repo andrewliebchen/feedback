@@ -78,6 +78,7 @@ if(Meteor.isServer) {
         });
 
         return FeedbackSessions.insert({
+          organization: currentEmployee.profile.organization,
           respondant: currentEmployee._id,
           employees: _.take(_.shuffle(teamEmployeeIds), 4).concat(_.take(_.shuffle(otherEmployeeIds), 1)),
           period: moment().format('M')
