@@ -17,7 +17,7 @@ FeedbackSessionsList = React.createClass({
 
   renderEmployee(respondant) {
     var employee = _.find(this.props.employees, {_id: respondant});
-    return <Avatar employee={employee.profile}/>;
+    return <Avatar employee={employee}/>;
   },
 
   render() {
@@ -39,7 +39,7 @@ FeedbackSessionsList = React.createClass({
                   <td>{this.renderEmployee(session.respondant)}</td>
                   <td>{session.period}</td>
                   <td>
-                    <a href={`/feedback/${session._id}`} className="btn btn-default btn-sm">View</a>
+                    <a href={`/feedbacks/${session._id}`} className="btn btn-default btn-sm">View</a>
                   </td>
                 </tr>
               );

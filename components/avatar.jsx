@@ -6,15 +6,16 @@ var _ = lodash;
 
 Avatar = React.createClass({
   render() {
+    var profile = this.props.employee.profile;
     return (
-      <div className="media">
+      <a href={`/employees/${this.props.employee._id}`} className="avatar media">
         <div className="media-left">
-          <img src={this.props.employee.picture.thumbnail} className="img-rounded" width="24"/>
+          <img src={profile.picture.thumbnail} className="img-rounded" width="24"/>
         </div>
         <div className="media-body">
-          {`${_.capitalize(this.props.employee.name.first)} ${_.capitalize(this.props.employee.name.last)}`}
+          {`${_.capitalize(profile.name.first)} ${_.capitalize(profile.name.last)}`}
         </div>
-      </div>
+      </a>
     );
   }
 })

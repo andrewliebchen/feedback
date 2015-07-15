@@ -28,6 +28,10 @@ body {
   font-weight: bold;
 }
 
+.avatar {
+  display: block;
+}
+
 .header {
   @include clearfix;
   color: #999;

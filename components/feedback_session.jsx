@@ -102,7 +102,7 @@ FeedbackSession = React.createClass({
 });
 
 if(Meteor.isClient) {
-  FlowRouter.route('/feedback/:_id', {
+  FlowRouter.route('/feedbacks/:_id', {
     subscriptions: function(params) {
       this.register('feedbackSession', Meteor.subscribe('feedbackSession', params._id));
     },
