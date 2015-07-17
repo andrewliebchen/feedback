@@ -16,7 +16,6 @@ EmployeeProfile = ReactMeteor.createClass({
       <div className="container">
         <Header />
         <div className="panel panel-default">
-          {this.state.employee.profile ?
           <div className="panel-body">
             <img src={this.state.employee.profile.picture.medium} className="img-rounded"/>
             <FormGroup
@@ -39,7 +38,6 @@ EmployeeProfile = ReactMeteor.createClass({
               label="Gender"
               defaultValue={this.state.employee.profile.gender}/>
           </div>
-          : <span>SET IT UP</span>}
           <footer className="panel-footer">
             <button className="btn btn-primary">Update profile</button>
           </footer>
@@ -56,7 +54,7 @@ if(Meteor.isClient) {
     },
 
     action: function() {
-      $(document).ready(function() {
+      FlowRouter.subsReady('employeeProfile', function() {
         React.render(<EmployeeProfile/>, document.getElementById('yield'));
       });
     }

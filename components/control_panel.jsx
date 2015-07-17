@@ -38,7 +38,7 @@ if(Meteor.isClient) {
     },
 
     action: function(param) {
-      $(document).ready(function(){
+      FlowRouter.subsReady('employees', function() {
         React.render(<ControlPanel/>, document.getElementById('yield'));
       });
     }
