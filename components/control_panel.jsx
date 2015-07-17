@@ -19,8 +19,7 @@ ControlPanel = ReactMeteor.createClass({
           <span>
             <Header/>
             <EmployeesList
-              employees={this.state.employees}
-              currentOrganization={Meteor.user().profile.organization}/>
+              employees={this.state.employees}/>
             <FeedbackSessionsList
               feedbackSessions={this.state.feedbackSessions}
               employees={this.state.employees}/>
@@ -47,8 +46,10 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
-  Meteor.publish('employees', function(currentOrganizationId) {
-    return Meteor.users.find({'profile.organization': currentOrganizationId});
+  Meteor.publish('employees', function(currentUserId) {
+    return Meteor.users.find({
+      'profile.organization': Meteor.users.findOne({_id: currentUserId}).profile.organization
+    });
   });
 
   Meteor.publish('feedbackSessions', function(currentOrganizationId) {

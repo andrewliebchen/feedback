@@ -4,30 +4,10 @@
 
 var _ = lodash;
 
-var FormGroup = React.createClass({
-  getDefaultProps() {
-    return {
-      type: 'text'
-    };
-  },
-
-  render() {
-    return (
-      <div className="form-group">
-        <label>{this.props.label}</label>
-        <input
-          className="form-control"
-          type={this.props.type}
-          defaultValue={this.props.defaultValue}/>
-      </div>
-    );
-  }
-});
-
 EmployeeProfile = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employee: Meteor.users.findOne()
+      employee: Meteor.users.findOne({_id: FlowRouter.getParam('_id')})
     };
   },
 
@@ -36,6 +16,7 @@ EmployeeProfile = ReactMeteor.createClass({
       <div className="container">
         <Header />
         <div className="panel panel-default">
+          {this.state.employee.profile ?
           <div className="panel-body">
             <img src={this.state.employee.profile.picture.medium} className="img-rounded"/>
             <FormGroup
@@ -47,10 +28,10 @@ EmployeeProfile = ReactMeteor.createClass({
             <FormGroup
               label="Username"
               defaultValue={this.state.employee.username}/>
-            <FormGroup
+            {/*<FormGroup
               label="Email"
               type="email"
-              defaultValue={this.state.employee.emails[0]}/>
+              defaultValue={this.state.employee.emails[0]}/>*/}
             <FormGroup
               label="Team"
               defaultValue={this.state.employee.profile.team}/>
@@ -58,6 +39,7 @@ EmployeeProfile = ReactMeteor.createClass({
               label="Gender"
               defaultValue={this.state.employee.profile.gender}/>
           </div>
+          : <span>SET IT UP</span>}
           <footer className="panel-footer">
             <button className="btn btn-primary">Update profile</button>
           </footer>

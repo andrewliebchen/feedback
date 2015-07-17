@@ -31,6 +31,9 @@ EmployeeRow = React.createClass({
             })}
           </td>
         : <td/>}
+        <td>
+          <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-xs">Edit</a>
+        </td>
       </tr>
     );
   }
