@@ -2,7 +2,6 @@
  * @jsx React.DOM
  */
 
-
 Login = React.createClass({
   render() {
     return (
@@ -12,3 +11,13 @@ Login = React.createClass({
     );
   }
 });
+
+if(Meteor.isClient) {
+  FlowRouter.route('/login', {
+    action: function(param) {
+      $(document).ready(function() {
+        React.render(<Login/>, document.getElementById('yield'));
+      });
+    }
+  });
+}

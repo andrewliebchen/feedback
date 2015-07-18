@@ -15,16 +15,12 @@ ControlPanel = ReactMeteor.createClass({
   render() {
     return (
       <div className="container">
-        {Meteor.user() ?
-          <span>
-            <Header/>
-            <EmployeesList
-              employees={this.state.employees}/>
-            <FeedbackSessionsList
-              feedbackSessions={this.state.feedbackSessions}
-              employees={this.state.employees}/>
-          </span>
-        : <Login/>}
+        <Header/>
+        <EmployeesList
+          employees={this.state.employees}/>
+        <FeedbackSessionsList
+          feedbackSessions={this.state.feedbackSessions}
+          employees={this.state.employees}/>
       </div>
     );
   }
