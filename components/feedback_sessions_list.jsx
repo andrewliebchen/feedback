@@ -27,11 +27,6 @@ FeedbackSessionsList = React.createClass({
           <h3 className="panel-title">Feedback Sessions</h3>
         </header>
         <table className="table">
-          <thead>
-            <th>Feedback session respondant</th>
-            <th>Period</th>
-            <th/>
-          </thead>
           <tbody>
             {this.props.feedbackSessions.map((session, i) =>{
               return (

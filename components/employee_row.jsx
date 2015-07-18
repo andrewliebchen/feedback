@@ -16,13 +16,15 @@ EmployeeRow = React.createClass({
         <td>
           <Avatar employee={this.props.employee}/></td>
         <td>
-          {/* Need to be able to create teams here */}
+          <TeamChooser/>
+          {/*
           <select defaultValue={this.props.employee.profile.team} onChange={this.handleSelectTeam}>
             <option value="no team">No team</option>
             <option value="team 1">Team 1</option>
             <option value="team 2">Team 2</option>
             <option value="team 3">Team 3</option>
           </select>
+          */}
         </td>
         {this.props.employee.profile.feedback ?
           <td>
@@ -32,7 +34,7 @@ EmployeeRow = React.createClass({
           </td>
         : <td/>}
         <td>
-          <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-xs">Edit</a>
+          <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
         </td>
       </tr>
     );
