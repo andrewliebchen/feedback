@@ -127,9 +127,9 @@ if(Meteor.isServer) {
 
   Meteor.methods({
     'addFeedback': function(args){
-      return Meteor.users.update(args.id,
-        {$addToSet: {
-          "profile.feedback": {
+      return Meteor.users.update(args.id,{
+        $addToSet: {
+          'profile.feedback': {
             response: args.response,
             period: args.period,
             feedbackSession: args.feedbackSession,

@@ -5,7 +5,7 @@ function createAdmin() {
     password : "password",
     profile: {
       organization: "",
-      team: "",
+      teams: [],
       gender: "female",
       name: {
         first: "manuela",

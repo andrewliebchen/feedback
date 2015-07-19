@@ -113,7 +113,7 @@ if(Meteor.isServer) {
         password: employee.password,
         profile: {
           organization: currentOrganizationId,
-          team: 'no team',
+          teams: [],
           gender: employee.gender,
           name: {
             first: employee.name.first,
@@ -135,7 +135,7 @@ if(Meteor.isServer) {
         password: '',
         profile: {
           organization: currentOrganizationId,
-          team: 'no team',
+          teams: [],
           gender: '',
           name: {
             first: '',

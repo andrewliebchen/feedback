@@ -13,19 +13,7 @@ EmployeeRow = React.createClass({
   render() {
     return (
       <tr>
-        <td>
-          <Avatar employee={this.props.employee}/></td>
-        <td>
-          <TeamChooser organization={this.props.organization}/>
-          {/*
-          <select defaultValue={this.props.employee.profile.team} onChange={this.handleSelectTeam}>
-            <option value="no team">No team</option>
-            <option value="team 1">Team 1</option>
-            <option value="team 2">Team 2</option>
-            <option value="team 3">Team 3</option>
-          </select>
-          */}
-        </td>
+        <td><Avatar employee={this.props.employee}/></td>
         {this.props.employee.profile.feedback ?
           <td>
             {this.props.employee.profile.feedback.map((feedback, i) => {
@@ -33,6 +21,11 @@ EmployeeRow = React.createClass({
             })}
           </td>
         : <td/>}
+        <td>
+          <TeamChooser
+            organization={this.props.organization}
+            employee={this.props.employee}/>
+        </td>
         <td>
           <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
         </td>
