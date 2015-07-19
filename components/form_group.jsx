@@ -12,9 +12,10 @@ FormGroup = React.createClass({
   render() {
     return (
       <div className="form-group">
-        <label>{this.props.label}</label>
+        {this.props.label ?
+          <label>{this.props.label}</label>
+        : null}
         <input
-          ref={this.props.refString}
           className="form-control"
           type={this.props.type}
           defaultValue={this.props.defaultValue}/>
