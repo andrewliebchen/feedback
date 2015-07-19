@@ -18,7 +18,8 @@ ControlPanel = ReactMeteor.createClass({
       <div className="container">
         <Header/>
         <EmployeesList
-          employees={this.state.employees}/>
+          employees={this.state.employees}
+          organization={this.state.organization}/>
         <FeedbackSessionsList
           feedbackSessions={this.state.feedbackSessions}
           employees={this.state.employees}/>
@@ -31,12 +32,12 @@ if(Meteor.isClient) {
   FlowRouter.route('/', {
     subscriptions: function(params) {
       this.register('employees', Meteor.subscribe('employees'));
-      this.register('organization', Meteor.subscribe('organization'));
       this.register('feedbackSessions', Meteor.subscribe('feedbackSessions'));
     },
 
     action: function(param) {
-      FlowRouter.subsReady('employees', function() {
+
+      $(document).ready(function(){
         React.render(<ControlPanel/>, document.getElementById('yield'));
       });
     }
@@ -46,14 +47,10 @@ if(Meteor.isClient) {
 if(Meteor.isServer) {
   Meteor.publish('employees', function() {
     var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-    return Meteor.users.find({
-      'profile.organization': currentOrgId
-    });
-  });
-
-  Meteor.publish('organization', function() {
-    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-    return Organizations.find({_id: currentOrgId});
+    return [
+      Meteor.users.find({'profile.organization': currentOrgId}),
+      Organizations.find({_id: currentOrgId})
+    ];
   });
 
   Meteor.publish('feedbackSessions', function() {

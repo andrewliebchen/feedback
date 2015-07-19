@@ -58,7 +58,7 @@ EmployeesList = React.createClass({
         <table className="table">
           <tbody>
             {this.props.employees.map((employee, i) => {
-              return <EmployeeRow key={i} employee={employee}/>;
+              return <EmployeeRow key={i} employee={employee} organization={this.props.organization}/>;
             })}
           </tbody>
         </table>

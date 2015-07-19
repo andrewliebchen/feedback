@@ -16,7 +16,7 @@ EmployeeRow = React.createClass({
         <td>
           <Avatar employee={this.props.employee}/></td>
         <td>
-          <TeamChooser/>
+          <TeamChooser organization={this.props.organization}/>
           {/*
           <select defaultValue={this.props.employee.profile.team} onChange={this.handleSelectTeam}>
             <option value="no team">No team</option>

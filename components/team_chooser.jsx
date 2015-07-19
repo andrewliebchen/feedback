@@ -5,8 +5,7 @@
 TeamChooser = React.createClass({
   getInitialState() {
     return {
-      teams: Organizations.findOne().teams,
-      dropdown: true
+      dropdown: false
     }
   },
 
@@ -15,10 +14,10 @@ TeamChooser = React.createClass({
   },
 
   handleNewTeam() {
-    // Meteor.call('addTeam', {
-    //   organization: Meteor.user().profile.organization,
-    //   name: React.findDOMNode(this.refs.newTeam).value
-    // });
+    Meteor.call('addTeam', {
+      org: Meteor.user().profile.organization,
+      team: React.findDOMNode(this.refs.newTeam).value
+    });
   },
 
   render() {
@@ -30,7 +29,7 @@ TeamChooser = React.createClass({
         {this.state.dropdown ?
           <span>
             <ul className="dropdown-menu" style={{display: 'block'}}>
-              {this.state.teams.map((team, i) => {
+              {this.props.organization.teams.map((team, i) => {
                 return <li key={i}><a>{team}</a></li>;
               })}
               <li className="form-inline">
@@ -51,9 +50,8 @@ TeamChooser = React.createClass({
 if(Meteor.isServer) {
   Meteor.methods({
     'addTeam': function(args) {
-      Teams.insert({
-        organization: args.organization,
-        name: args.name
+      Organizations.update(args.org, {
+        $addToSet: {'teams': args.team}
       });
     }
   });
