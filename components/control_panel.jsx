@@ -8,6 +8,7 @@ ControlPanel = ReactMeteor.createClass({
   getMeteorState() {
     return {
       employees: Meteor.users.find().fetch(),
+      organization: Organizations.findOne(),
       feedbackSessions: FeedbackSessions.find().fetch()
     };
   },
@@ -30,6 +31,7 @@ if(Meteor.isClient) {
   FlowRouter.route('/', {
     subscriptions: function(params) {
       this.register('employees', Meteor.subscribe('employees'));
+      this.register('organization', Meteor.subscribe('organization'));
       this.register('feedbackSessions', Meteor.subscribe('feedbackSessions'));
     },
 
@@ -47,6 +49,11 @@ if(Meteor.isServer) {
     return Meteor.users.find({
       'profile.organization': currentOrgId
     });
+  });
+
+  Meteor.publish('organization', function() {
+    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+    return Organizations.find({_id: currentOrgId});
   });
 
   Meteor.publish('feedbackSessions', function() {

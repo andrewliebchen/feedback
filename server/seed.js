@@ -27,7 +27,8 @@ Meteor.startup(function() {
     Organizations.insert({
       name: 'Weyland-Yutani Corp.',
       createdAt: Date.now(),
-      admin: seedAdmin
+      admin: seedAdmin,
+      teams: ['Team 1', 'Team 2', 'Team 3']
     }, function(error, result){
       Meteor.users.update(seedAdmin, {
         $set: {

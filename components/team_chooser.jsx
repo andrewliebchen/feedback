@@ -2,15 +2,10 @@
  * @jsx React.DOM
  */
 
-TeamChooser = ReactMeteor.createClass({
-  getMeteorState() {
-    return {
-      teams: Teams.find().fetch()
-    }
-  },
-
+TeamChooser = React.createClass({
   getInitialState() {
     return {
+      teams: Organizations.findOne().teams,
       dropdown: true
     }
   },
@@ -20,10 +15,10 @@ TeamChooser = ReactMeteor.createClass({
   },
 
   handleNewTeam() {
-    Meteor.call('addTeam', {
-      organization: Meteor.user().profile.organization,
-      name: React.findDOMNode(this.refs.newTeam).value
-    });
+    // Meteor.call('addTeam', {
+    //   organization: Meteor.user().profile.organization,
+    //   name: React.findDOMNode(this.refs.newTeam).value
+    // });
   },
 
   render() {
@@ -36,7 +31,7 @@ TeamChooser = ReactMeteor.createClass({
           <span>
             <ul className="dropdown-menu" style={{display: 'block'}}>
               {this.state.teams.map((team, i) => {
-                return <li key={i}><a>{team.name}</a></li>;
+                return <li key={i}><a>{team}</a></li>;
               })}
               <li className="form-inline">
                 <div className="form-group">
@@ -53,18 +48,7 @@ TeamChooser = ReactMeteor.createClass({
   }
 });
 
-if(Meteor.isClient) {
-  Meteor.subscribe('teams');
-}
-
 if(Meteor.isServer) {
-  Meteor.publish('teams', function() {
-    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-    return Teams.find({
-      organization: currentOrgId
-    });
-  });
-
   Meteor.methods({
     'addTeam': function(args) {
       Teams.insert({
