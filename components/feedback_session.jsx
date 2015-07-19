@@ -82,7 +82,7 @@ var FeedbackGroup = ReactMeteor.createClass({
             }
           })}
         </CSSTransitionGroup>
-        {this.state.active === 5 ?
+        {this.state.active === this.state.employees.length ?
           <div className="null">All done!</div>
         : <FeedbackActions handleFeedback={this.handleFeedback}/>}
       </div>
