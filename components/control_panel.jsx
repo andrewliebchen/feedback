@@ -7,10 +7,34 @@ var _ = lodash;
 ControlPanel = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employees: Meteor.users.find().fetch(),
-      organization: Organizations.findOne(),
-      feedbackSessions: FeedbackSessions.find().fetch()
+      employees: this.getEmployees(),
+      organization: this.getOrganization(),
+      feedbackSessions: this.getFeedbackSessions()
     };
+  },
+
+  getEmployees() {
+    if(FlowRouter.subsReady('employees')) {
+      return Meteor.users.find().fetch();
+    } else {
+      return [];
+    }
+  },
+
+  getOrganization() {
+    if(FlowRouter.subsReady('employees')) {
+      return Organizations.findOne();
+    } else {
+      return [];
+    }
+  },
+
+  getFeedbackSessions() {
+    if(FlowRouter.subsReady('feedbackSessions')) {
+      return FeedbackSessions.find().fetch();
+    } else {
+      return [];
+    }
   },
 
   render() {
@@ -36,8 +60,7 @@ if(Meteor.isClient) {
     },
 
     action: function(param) {
-
-      $(document).ready(function(){
+      $(document).ready(function() {
         React.render(<ControlPanel/>, document.getElementById('yield'));
       });
     }
