@@ -9,6 +9,13 @@ Organization = ReactMeteor.createClass({
     };
   },
 
+  handleSaveOrganization() {
+    Meteor.call('updateOrganization', {
+      id: this.state.organization._id,
+      name: React.findDOMNode(this.refs.orgName).value
+    });
+  },
+
   render() {
     return (
       <div className="container">
@@ -18,23 +25,39 @@ Organization = ReactMeteor.createClass({
             <h3 className="panel-title">Organization</h3>
           </header>
           <div className="panel-body">
-            <FormGroup
-              label="Organization name"
-              defaultValue={this.state.organization.name}/>
-
-            <h4>Teams</h4>
-            <ul className="list-group">
-              {this.state.organization.teams.map((team, i) => {
-                return (
-                  <li className="list-group-item" key={i}>
-                    {team}
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="form-group">
+              <label>Organization name</label>
+              <input
+                type="text"
+                className="form-control"
+                ref="orgName"
+                defaultValue={this.state.organization.name}/>
+            </div>
+            <dl>
+              <dt>Created</dt>
+              <dd>{moment(this.state.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
+            </dl>
+            <dl>
+              <dt>Teams</dt>
+              <dd>
+                <ul className="list-group">
+                  {this.state.organization.teams.map((team, i) => {
+                    return (
+                      <li className="list-group-item" key={i}>
+                        {team}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </dd>
+            </dl>
           </div>
           <footer className="panel-footer">
-            <button className="btn btn-primary">Save</button>
+            <button
+              className="btn btn-primary"
+              onClick={this.handleSaveOrganization}>
+              Save
+            </button>
           </footer>
         </section>
       </div>
@@ -51,6 +74,16 @@ if(Meteor.isClient) {
     action: function() {
       FlowRouter.subsReady('organization', function() {
         React.render(<Organization/>, document.getElementById('yield'));
+      });
+    }
+  });
+}
+
+if(Meteor.isServer) {
+  Meteor.methods({
+    'updateOrganization': function(args) {
+      Organizations.update(args.id, {
+        $set: {name: args.name}
       });
     }
   });
