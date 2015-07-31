@@ -11,6 +11,16 @@ EmployeeProfile = ReactMeteor.createClass({
     };
   },
 
+  handleEmployeeUpdate() {
+    Meteor.call('updateEmployee', {
+      id: this.state.employee._id,
+      firstName: React.findDOMNode(this.refs.firstName).value,
+      lastName: React.findDOMNode(this.refs.lastName).value,
+      username: React.findDOMNode(this.refs.username).value,
+      email: React.findDOMNode(this.refs.email).value
+    });
+  },
+
   render() {
     return (
       <div className="container">
@@ -18,28 +28,41 @@ EmployeeProfile = ReactMeteor.createClass({
         <div className="panel panel-default">
           <div className="panel-body">
             <img src={this.state.employee.profile.picture.medium} className="img-rounded"/>
-            <FormGroup
-              label="First name"
-              defaultValue={_.capitalize(this.state.employee.profile.name.first)}/>
-            <FormGroup
-              label="Last name"
-              defaultValue={_.capitalize(this.state.employee.profile.name.last)}/>
-            <FormGroup
-              label="Username"
-              defaultValue={this.state.employee.username}/>
-            {/*<FormGroup
-              label="Email"
-              type="email"
-              defaultValue={this.state.employee.emails[0]}/>*/}
-            <FormGroup
-              label="Team"
-              defaultValue={this.state.employee.profile.team}/>
-            <FormGroup
-              label="Gender"
-              defaultValue={this.state.employee.profile.gender}/>
+            <div className="form-group">
+              <label>First name</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={_.capitalize(this.state.employee.profile.name.first)}
+                ref="firstName"/>
+            </div>
+            <div className="form-group">
+              <label>Last name</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={_.capitalize(this.state.employee.profile.name.last)}
+                ref="lastName"/>
+            </div>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={this.state.employee.username}
+                ref="username"/>
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                defaultValue={this.state.employee.emails[0].address}
+                ref="email"/>
+            </div>
           </div>
           <footer className="panel-footer">
-            <button className="btn btn-primary">Update profile</button>
+            <button className="btn btn-primary" onClick={this.handleEmployeeUpdate}>Update profile</button>
           </footer>
         </div>
       </div>
@@ -64,5 +87,18 @@ if(Meteor.isClient) {
 if(Meteor.isServer) {
   Meteor.publish('employeeProfile', function(id) {
     return Meteor.users.find({_id: id});
+  });
+
+  Meteor.methods({
+    'updateEmployee': function(args) {
+      Meteor.users.update(args.id, {
+        $set: {
+          'profile.name.first': args.firstName,
+          'profile.name.last': args.lastName,
+          'username': args.username,
+          'email.0.address': args.email
+        }
+      });
+    }
   });
 }
