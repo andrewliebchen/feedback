@@ -73,9 +73,6 @@ if(Meteor.isServer) {
           }
         });
 
-        console.log(teamEmployeeIds);
-        console.log(otherEmployeeIds);
-
         return FeedbackSessions.insert({
           organization: currentEmployee.profile.organization,
           respondant: currentEmployee._id,
@@ -85,7 +82,6 @@ if(Meteor.isServer) {
       }
 
       var employees = Meteor.users.find().fetch();
-      console.log(employees);
 
       employees.map(function(employee) {
         createFeedbackSession(employees, employee);
