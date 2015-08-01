@@ -31,22 +31,23 @@ EmployeesList = React.createClass({
       url: 'http://api.randomuser.me/',
       dataType: 'json',
       success: (data) => {
-        Meteor.call('newEmployee', data.results[0].user, Meteor.user().profile.organization);
+        var randomUser = data.results[0].user;
+        var newEmployee = {
+          username: randomUser.username,
+          email: randomUser.email,
+          password: randomUser.password,
+          organization: Meteor.user().profile.organization,
+          firstName: randomUser.profile.name.first,
+          lastName: randomUser.profile.name.last,
+        };
+
+        Meteor.call('newEmployee', newEmployee);
       }
     });
   },
 
   toggleNewEmployeeModal() {
     this.setState({newEmployeeModal: !this.state.newEmployeeModal});
-  },
-
-  handleAddEmployee() {
-    Meteor.call(
-      'basicNewEmployee',
-      React.findDOMNode(this.refs.newEmployeeEmail).value,
-      Meteor.user().profile.organization
-    );
-    this.setState({newEmployeeEmail: false});
   },
 
   render() {
@@ -79,24 +80,7 @@ EmployeesList = React.createClass({
 
         {this.state.newEmployeeModal ?
           <Modal>
-            <div className="modal-header">
-              <button className="close" onClick={this.toggleNewEmployeeModal}>&times;</button>
-              <h4 className="modal-title">New Employee</h4>
-            </div>
-            <div className="modal-body">
-              <div className="form-group">
-                <label>New Employee Email</label>
-                <input
-                  ref="newEmployeeEmail"
-                  className="form-control"
-                  type="Text"
-                  placeholder="fran@example.com"/>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-default" onClick={this.toggleNewEmployeeModal}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={this.handleAddEmployee}>Add employee</button>
-            </div>
+            <NewEmployeeForm organization={this.props.organization}/>
           </Modal>
         : null}
       </section>
@@ -106,45 +90,23 @@ EmployeesList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'newEmployee': function(employee, currentOrganizationId) {
+    'newEmployee': function(employee) {
       return Accounts.createUser({
         username: employee.username,
         email: employee.email,
         password: employee.password,
         profile: {
-          organization: currentOrganizationId,
-          teams: [],
+          organization: employee.organization,
+          teams: employee.teams,
           gender: employee.gender,
           name: {
-            first: employee.name.first,
-            last: employee.name.last
+            first: employee.firstName,
+            last: employee.lastName
           },
           picture: {
-            large: employee.picture.large,
-            medium: employee.picture.medium,
-            thumbnail: employee.picture.thumbnail,
-          }
-        }
-      });
-    },
-
-    'basicNewEmployee': function(employeeEmail, currentOrganizationId) {
-      return Accounts.createUser({
-        username: '',
-        email: employeeEmail,
-        password: '',
-        profile: {
-          organization: currentOrganizationId,
-          teams: [],
-          gender: '',
-          name: {
-            first: '',
-            last: ''
-          },
-          picture: {
-            large: '',
-            medium: '',
-            thumbnail: '',
+            large: employee.largePicture,
+            medium: employee.mediumPicture,
+            thumbnail: employee.thumbnailPicture
           }
         }
       });
