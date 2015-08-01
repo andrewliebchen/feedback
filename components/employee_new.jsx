@@ -115,4 +115,28 @@ if(Meteor.isServer) {
   Meteor.publish('newEmployee', function(id) {
     return Organizations.find({_id: id});
   });
+
+  Meteor.methods({
+    'newEmployee': function(employee) {
+      return Accounts.createUser({
+        username: employee.username,
+        email: employee.email,
+        password: employee.password,
+        profile: {
+          organization: employee.organization,
+          teams: employee.teams,
+          gender: employee.gender,
+          name: {
+            first: employee.firstName,
+            last: employee.lastName
+          },
+          picture: {
+            large: employee.largePicture,
+            medium: employee.mediumPicture,
+            thumbnail: employee.thumbnailPicture
+          }
+        }
+      });
+    },
+  });
 }

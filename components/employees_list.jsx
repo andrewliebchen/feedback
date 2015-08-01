@@ -90,28 +90,6 @@ EmployeesList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'newEmployee': function(employee) {
-      return Accounts.createUser({
-        username: employee.username,
-        email: employee.email,
-        password: employee.password,
-        profile: {
-          organization: employee.organization,
-          teams: employee.teams,
-          gender: employee.gender,
-          name: {
-            first: employee.firstName,
-            last: employee.lastName
-          },
-          picture: {
-            large: employee.largePicture,
-            medium: employee.mediumPicture,
-            thumbnail: employee.thumbnailPicture
-          }
-        }
-      });
-    },
-
     'deleteAllEmployees': function() {
       Meteor.users.remove({});
       FeedbackSessions.remove({});
