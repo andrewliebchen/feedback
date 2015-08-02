@@ -62,7 +62,8 @@ var FeedbackGroup = ReactMeteor.createClass({
             if(i >= this.state.active) {
               return (
                 <FeedbackCard
-                  employee={employee.profile}
+                  name={employee.profile.name}
+                  image={employee.profile.picture.large}
                   index={i}
                   key={i}/>
               );
