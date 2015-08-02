@@ -53,7 +53,7 @@ ControlPanel = ReactMeteor.createClass({
 });
 
 if(Meteor.isClient) {
-  FlowRouter.route('/', {
+  FlowRouter.route('/admin', {
     subscriptions: function(params) {
       this.register('employees', Meteor.subscribe('employees'));
       this.register('organization', Meteor.subscribe('organization'));

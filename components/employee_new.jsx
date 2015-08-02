@@ -5,8 +5,7 @@
 NewEmployeeForm = React.createClass({
   getInitialState() {
     return {
-      newEmployeeName: null,
-      hidePassword: true
+      newEmployeeName: null
     };
   },
 
@@ -15,15 +14,10 @@ NewEmployeeForm = React.createClass({
     this.setState({newEmployeeName: React.findDOMNode(this.refs.name).value});
   },
 
-  handlePasswordToggle() {
-    this.setState({hidePassword: !this.state.hidePassword});
-  },
-
   handleNewEmployee() {
     var newEmployee = {
       username: React.findDOMNode(this.refs.email).value,
       email: `${React.findDOMNode(this.refs.email).value}@${this.props.organization.domain}`,
-      password: React.findDOMNode(this.refs.password).value,
       organization: this.props.organization._id,
       name: React.findDOMNode(this.refs.name).value
     };
@@ -49,18 +43,6 @@ NewEmployeeForm = React.createClass({
                 className="form-control"
                 ref="email"/>
               <div className="input-group-addon">@{this.props.organization.domain}</div>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <div className="input-group">
-              <input
-                type={this.state.hidePassword ? 'password' : 'text'}
-                className="form-control"
-                ref="password"/>
-              <div className="input-group-addon" onClick={this.handlePasswordToggle}>
-                {this.state.hidePassword ? 'show' : 'hide'}
-              </div>
             </div>
           </div>
           <div className="form-group">
@@ -112,16 +94,20 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
+  Accounts.config({
+    sendVerificationEmail: true,
+    forbidClientAccountCreation: false
+  });
+
   Meteor.publish('newEmployee', function(id) {
     return Organizations.find({_id: id});
   });
 
   Meteor.methods({
     'newEmployee': function(employee) {
-      return Accounts.createUser({
+      var newUserId = Accounts.createUser({
         username: employee.username,
         email: employee.email,
-        password: employee.password,
         profile: {
           organization: employee.organization,
           teams: employee.teams,
@@ -134,6 +120,9 @@ if(Meteor.isServer) {
           }
         }
       });
+
+      Accounts.sendEnrollmentEmail(newUserId);
+      return newUserId;
     },
   });
 }
