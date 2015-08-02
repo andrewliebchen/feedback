@@ -7,10 +7,7 @@ function createAdmin() {
       organization: "",
       teams: [],
       gender: "female",
-      name: {
-        first: "manuela",
-        last: "velasco"
-      },
+      name: "Manuela Velasco",
       picture: {
         large: "http://api.randomuser.me/portraits/women/39.jpg",
         medium: "http://api.randomuser.me/portraits/med/women/39.jpg",
@@ -26,6 +23,7 @@ Meteor.startup(function() {
 
     Organizations.insert({
       name: 'Weyland-Yutani Corp.',
+      domain: 'example.com',
       createdAt: Date.now(),
       admin: seedAdmin,
       teams: ['Team 1', 'Team 2', 'Team 3']

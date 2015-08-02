@@ -11,14 +11,29 @@ EmployeeProfile = ReactMeteor.createClass({
     };
   },
 
+  getInitialState() {
+    return {
+      employeeName: null
+    };
+  },
+
+  updateNewEmployeeName() {
+    // This will have to include pictures
+    this.setState({employeeName: React.findDOMNode(this.refs.name).value});
+  },
+
   handleEmployeeUpdate() {
     Meteor.call('updateEmployee', {
       id: this.state.employee._id,
-      firstName: React.findDOMNode(this.refs.firstName).value,
-      lastName: React.findDOMNode(this.refs.lastName).value,
+      name: React.findDOMNode(this.refs.name).value,
       username: React.findDOMNode(this.refs.username).value,
       email: React.findDOMNode(this.refs.email).value
     });
+  },
+
+  componentDidMount() {
+    // Need to wait until state is ready to get employee name
+    this.setState({employeeName: this.state.employee.profile.name})
   },
 
   render() {
@@ -27,22 +42,15 @@ EmployeeProfile = ReactMeteor.createClass({
         <Header />
         <div className="panel panel-default">
           <div className="panel-body">
-            <img src={this.state.employee.profile.picture.medium} className="img-rounded"/>
+            <FeedbackCard name={this.state.employeeName} image={this.state.employee.profile.picture.large} index={0}/>
             <div className="form-group">
-              <label>First name</label>
+              <label>Name</label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={_.capitalize(this.state.employee.profile.name.first)}
-                ref="firstName"/>
-            </div>
-            <div className="form-group">
-              <label>Last name</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={_.capitalize(this.state.employee.profile.name.last)}
-                ref="lastName"/>
+                defaultValue={_.capitalize(this.state.employee.profile.name)}
+                onChange={this.updateNewEmployeeName}
+                ref="name"/>
             </div>
             <div className="form-group">
               <label>Username</label>
@@ -93,8 +101,7 @@ if(Meteor.isServer) {
     'updateEmployee': function(args) {
       Meteor.users.update(args.id, {
         $set: {
-          'profile.name.first': args.firstName,
-          'profile.name.last': args.lastName,
+          'profile.name': args.name,
           'username': args.username,
           'email.0.address': args.email
         }

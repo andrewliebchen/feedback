@@ -5,8 +5,18 @@
 NewEmployeeForm = React.createClass({
   getInitialState() {
     return {
+      newEmployeeName: null,
       hidePassword: true
     };
+  },
+
+  updateNewEmployeeName() {
+    // This will have to include pictures
+    this.setState({newEmployeeName: React.findDOMNode(this.refs.name).value});
+  },
+
+  handlePasswordToggle() {
+    this.setState({hidePassword: !this.state.hidePassword});
   },
 
   handleNewEmployee() {
@@ -15,17 +25,12 @@ NewEmployeeForm = React.createClass({
       email: `${React.findDOMNode(this.refs.email).value}@${this.props.organization.domain}`,
       password: React.findDOMNode(this.refs.password).value,
       organization: this.props.organization._id,
-      firstName: React.findDOMNode(this.refs.firstName).value,
-      lastName: React.findDOMNode(this.refs.lastName).value
+      name: React.findDOMNode(this.refs.name).value
     };
 
     Meteor.call('newEmployee', newEmployee, function(err, success) {
       success ? FlowRouter.go('/') : console.log('Whoops!');
     });
-  },
-
-  handlePasswordToggle() {
-    this.setState({hidePassword: !this.state.hidePassword});
   },
 
   render() {
@@ -35,6 +40,7 @@ NewEmployeeForm = React.createClass({
           <h3 className="panel-title">Create your profile</h3>
         </header>
         <div className="panel-body">
+          <FeedbackCard name={this.state.newEmployeeName} image={null} index={0}/>
           <div className="form-group">
             <label>Email</label>
             <div className="input-group">
@@ -42,7 +48,7 @@ NewEmployeeForm = React.createClass({
                 type="text"
                 className="form-control"
                 ref="email"/>
-              <div className="input-group-addon">{this.props.organization.domain}</div>
+              <div className="input-group-addon">@{this.props.organization.domain}</div>
             </div>
           </div>
           <div className="form-group">
@@ -58,18 +64,12 @@ NewEmployeeForm = React.createClass({
             </div>
           </div>
           <div className="form-group">
-            <label>First name</label>
+            <label>Name</label>
             <input
               type="text"
               className="form-control"
-              ref="firstName"/>
-          </div>
-          <div className="form-group">
-            <label>Last name</label>
-            <input
-              type="text"
-              className="form-control"
-              ref="lastName"/>
+              onChange={this.updateNewEmployeeName}
+              ref="name"/>
           </div>
         </div>
         <footer className="panel-footer">
@@ -126,10 +126,7 @@ if(Meteor.isServer) {
           organization: employee.organization,
           teams: employee.teams,
           gender: employee.gender,
-          name: {
-            first: employee.firstName,
-            last: employee.lastName
-          },
+          name: employee.name,
           picture: {
             large: employee.largePicture,
             medium: employee.mediumPicture,

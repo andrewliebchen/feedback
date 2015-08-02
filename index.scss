@@ -70,9 +70,14 @@ body {
   position: absolute;
   transform-origin: 50% 0;
   width: $feedback-card-size;
+  height: $feedback-card-size;
 
   &:nth-child(1) {
     z-index: 5;
+  }
+
+  .panel-body & {
+    position: relative;
   }
 
   @for $i from 2 through 5 {

@@ -14,9 +14,7 @@ Avatar = React.createClass({
             <img src={profile.picture.thumbnail} className="img-rounded" width="24"/>
           </div>
         : null}
-        <div className="media-body">
-          {`${_.capitalize(profile.name.first)} ${_.capitalize(profile.name.last)}`}
-        </div>
+        <div className="media-body">{_.capitalize(profile.name)}</div>
       </a>
     );
   }
