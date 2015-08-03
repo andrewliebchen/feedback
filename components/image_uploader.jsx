@@ -34,7 +34,7 @@ ImageUploader = React.createClass({
 if(Meteor.isServer) {
   Meteor.methods({
     'updateImage': function(args) {
-      Meteor.users.update(args.id, {
+      return Meteor.users.update(args.id, {
         $set: {
           'profile.imageSrc': args.imageSrc
         }

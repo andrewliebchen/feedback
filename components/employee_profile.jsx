@@ -7,7 +7,7 @@ var _ = lodash;
 EmployeeProfile = ReactMeteor.createClass({
   getMeteorState() {
     return {
-      employee: Meteor.users.findOne({_id: FlowRouter.getParam('_id')})
+      employee: Meteor.users.findOne(FlowRouter.getParam('_id'))
     };
   },
 
@@ -95,7 +95,7 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.publish('employeeProfile', function(id) {
-    return Meteor.users.find({_id: id});
+    return Meteor.users.find(id);
   });
 
   Meteor.methods({
