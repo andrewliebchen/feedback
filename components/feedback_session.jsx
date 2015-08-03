@@ -63,7 +63,7 @@ var FeedbackGroup = ReactMeteor.createClass({
               return (
                 <FeedbackCard
                   name={employee.profile.name}
-                  image={employee.profile.picture.large}
+                  image={employee.profile.imageSrc}
                   index={i}
                   key={i}/>
               );

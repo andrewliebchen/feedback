@@ -38,9 +38,7 @@ EmployeesList = React.createClass({
           password: randomUser.password,
           organization: Meteor.user().profile.organization,
           name: `${randomUser.name.first} ${randomUser.name.last}`,
-          largePicture: randomUser.picture.large,
-          mediumPicture: randomUser.picture.medium,
-          thumbnailPicture: randomUser.picture.thumbnail
+          imageSrc: randomUser.picture.large
         };
 
         Meteor.call('newEmployee', newEmployee);

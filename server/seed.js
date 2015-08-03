@@ -8,11 +8,7 @@ function createAdmin() {
       teams: [],
       gender: "female",
       name: "Manuela Velasco",
-      picture: {
-        large: "http://api.randomuser.me/portraits/women/39.jpg",
-        medium: "http://api.randomuser.me/portraits/med/women/39.jpg",
-        thumbnail: "http://api.randomuser.me/portraits/thumb/women/39.jpg"
-      }
+      imageSrc: "http://api.randomuser.me/portraits/women/39.jpg"
     }
   });
 }

@@ -113,11 +113,7 @@ if(Meteor.isServer) {
           teams: employee.teams,
           gender: employee.gender,
           name: employee.name,
-          picture: {
-            large: employee.largePicture,
-            medium: employee.mediumPicture,
-            thumbnail: employee.thumbnailPicture
-          }
+          imageSrc: employee.imageSrc,
         }
       });
 
