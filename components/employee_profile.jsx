@@ -31,6 +31,23 @@ EmployeeProfile = ReactMeteor.createClass({
     });
   },
 
+  handleImageUpload(event) {
+    var uploader = new Slingshot.Upload('fileUploads');
+    uploader.send(event.target.files[0], (error, imageSrc) => {
+      if (error) {
+        console.error('Error uploading', uploader.xhr.response);
+        alert (error);
+      }
+      else {
+        console.log(imageSrc);
+        Meteor.call('updateImage', {
+          id: this.state.employee._id,
+          imageSrc: imageSrc
+        });
+      }
+    });
+  },
+
   componentDidMount() {
     // Need to wait until state is ready to get employee name
     this.setState({employeeName: this.state.employee.profile.name})
@@ -43,6 +60,14 @@ EmployeeProfile = ReactMeteor.createClass({
         <div className="panel panel-default">
           <div className="panel-body">
             <FeedbackCard name={this.state.employeeName} image={this.state.employee.profile.picture.large} index={0}/>
+
+            <div className="form-group">
+              <label>Image</label>
+              <input
+                type="file"
+                className="form-control"
+                onChange={this.handleImageUpload}/>
+            </div>
             <div className="form-group">
               <label>Name</label>
               <input
@@ -106,6 +131,14 @@ if(Meteor.isServer) {
           'email.0.address': args.email
         }
       });
+    },
+
+    'updateImage': function(args) {
+      Meteor.users.update(args.id, {
+        $set: {
+          'profile.picture.large': args.imageSrc
+        }
+      })
     }
   });
 }
