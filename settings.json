@@ -1,0 +1,10 @@
+{
+  "AWSBucketName": "feedback-k8sxfpyc4",
+  "AWSAccessKeyId": "AKIAJAIUVNYH2ZN3BDWA",
+  "AWSSecretAccessKey": "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",
+  "sendgrid": {
+    "username": "andrewliebchen",
+    "password": "Etx38oCQoEciHD",
+    "host": "smtp.sendgrid.net:587"
+  }
+}
