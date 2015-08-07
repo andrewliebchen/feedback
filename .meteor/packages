@@ -19,3 +19,4 @@ accounts-password
 accounts-ui-unstyled
 email
 edgee:slingshot
+percolate:synced-cron
