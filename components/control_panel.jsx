@@ -41,6 +41,8 @@ ControlPanel = ReactMeteor.createClass({
     return (
       <div className="container">
         <Header/>
+        <OrganizationList
+          organization={this.state.organization}/>
         <EmployeesList
           employees={this.state.employees}
           organization={this.state.organization}/>
