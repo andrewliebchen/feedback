@@ -10,7 +10,6 @@ stevezhu:lodash
 jquery
 fourseven:scss
 mrt:normalize.css
-reactjs:react
 meteorhacks:flow-router
 twbs:bootstrap
 lfergon:exportcsv
@@ -21,3 +20,4 @@ email
 edgee:slingshot
 percolate:synced-cron
 kadira:react-layout
+react

@@ -15,7 +15,7 @@ NewEmployeeForm = React.createClass({
   },
 
   handleNewEmployee() {
-    var newEmployee = {
+    let newEmployee = {
       username: React.findDOMNode(this.refs.email).value,
       email: `${React.findDOMNode(this.refs.email).value}@${this.props.organization.domain}`,
       organization: this.props.organization._id,
@@ -62,8 +62,10 @@ NewEmployeeForm = React.createClass({
   }
 })
 
-var NewEmployee = ReactMeteor.createClass({
-  getMeteorState() {
+const NewEmployee = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       organization: Organizations.findOne()
     };
@@ -73,7 +75,7 @@ var NewEmployee = ReactMeteor.createClass({
     return (
       <div className="container">
         <Header noSession/>
-        <NewEmployeeForm organization={this.state.organization}/>
+        <NewEmployeeForm organization={this.data.organization}/>
       </div>
     );
   }
@@ -107,7 +109,7 @@ if(Meteor.isServer) {
 
   Meteor.methods({
     'newEmployee': function(employee) {
-      var newUserId = Accounts.createUser({
+      let newUserId = Accounts.createUser({
         username: employee.username,
         email: employee.email,
         profile: {

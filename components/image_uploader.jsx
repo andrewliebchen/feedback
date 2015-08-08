@@ -4,7 +4,7 @@
 
 ImageUploader = React.createClass({
   handleImageUpload(event) {
-    var uploader = new Slingshot.Upload('fileUploads');
+    let uploader = new Slingshot.Upload('fileUploads');
     uploader.send(event.target.files[0], (error, imageSrc) => {
       if (error) {
         console.error('Error uploading', uploader.xhr.response);

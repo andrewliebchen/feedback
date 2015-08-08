@@ -2,7 +2,7 @@
  * @jsx React.DOM
  */
 
- var _ = lodash;
+const _ = lodash;
 
 FeedbackSessionsList = React.createClass({
   handleDeleteAllFeedbackSessions() {
@@ -16,7 +16,7 @@ FeedbackSessionsList = React.createClass({
   },
 
   renderEmployee(respondant) {
-    var employee = _.find(this.props.employees, {_id: respondant});
+    let employee = _.find(this.props.employees, {_id: respondant});
     return <Avatar employee={employee}/>;
   },
 
@@ -58,8 +58,8 @@ if(Meteor.isServer) {
   Meteor.methods({
     'createFeedbackSessions': function() {
       function createFeedbackSession(employees, currentEmployee) {
-        var teamEmployeeIds = [];
-        var otherEmployeeIds = [];
+        let teamEmployeeIds = [];
+        let otherEmployeeIds = [];
 
         // For each employee, create a feedback session
         employees.map(function(employee) {
@@ -81,7 +81,7 @@ if(Meteor.isServer) {
         });
       }
 
-      var employees = Meteor.users.find().fetch();
+      let employees = Meteor.users.find().fetch();
 
       employees.map(function(employee) {
         createFeedbackSession(employees, employee);

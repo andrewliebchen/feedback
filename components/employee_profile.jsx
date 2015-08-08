@@ -2,10 +2,12 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
-EmployeeProfile = ReactMeteor.createClass({
-  getMeteorState() {
+EmployeeProfile = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       employee: Meteor.users.findOne(FlowRouter.getParam('_id'))
     };
@@ -24,7 +26,7 @@ EmployeeProfile = ReactMeteor.createClass({
 
   handleEmployeeUpdate() {
     Meteor.call('updateEmployee', {
-      id: this.state.employee._id,
+      id: this.data.employee._id,
       name: React.findDOMNode(this.refs.name).value,
       username: React.findDOMNode(this.refs.username).value,
       email: React.findDOMNode(this.refs.email).value
@@ -33,23 +35,22 @@ EmployeeProfile = ReactMeteor.createClass({
 
   componentDidMount() {
     // Need to wait until state is ready to get employee name
-    this.setState({employeeName: this.state.employee.profile.name})
+    this.setState({employeeName: this.data.employee.profile.name})
   },
 
   render() {
     return (
-      <div className="container">
-        <Header />
+      <div>
         <div className="panel panel-default">
           <div className="panel-body">
-            <FeedbackCard name={this.state.employeeName} image={this.state.employee.profile.imageSrc} index={0}/>
-            <ImageUploader employeeId={this.state.employee._id}/>
+            <FeedbackCard name={this.data.employeeName} image={this.data.employee.profile.imageSrc} index={0}/>
+            <ImageUploader employeeId={this.data.employee._id}/>
             <div className="form-group">
               <label>Name</label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={_.capitalize(this.state.employee.profile.name)}
+                defaultValue={_.capitalize(this.data.employee.profile.name)}
                 onChange={this.updateNewEmployeeName}
                 ref="name"/>
             </div>
@@ -58,7 +59,7 @@ EmployeeProfile = ReactMeteor.createClass({
               <input
                 type="text"
                 className="form-control"
-                defaultValue={this.state.employee.username}
+                defaultValue={this.data.employee.username}
                 ref="username"/>
             </div>
             <div className="form-group">
@@ -66,7 +67,7 @@ EmployeeProfile = ReactMeteor.createClass({
               <input
                 type="email"
                 className="form-control"
-                defaultValue={this.state.employee.emails[0].address}
+                defaultValue={this.data.employee.emails[0].address}
                 ref="email"/>
             </div>
           </div>
@@ -88,7 +89,7 @@ if(Meteor.isClient) {
     action: function() {
       FlowRouter.subsReady('employeeProfile', function() {
         ReactLayout.render(Layout, {
-          content: <employeeProfile/>
+          content: <EmployeeProfile/>
         });
       });
     }
