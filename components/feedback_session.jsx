@@ -2,8 +2,8 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+const _ = lodash;
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var FeedbackActions = React.createClass({
   render() {
@@ -24,8 +24,10 @@ var FeedbackActions = React.createClass({
   }
 });
 
-var FeedbackGroup = ReactMeteor.createClass({
-  getMeteorState() {
+FeedbackSession = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       employees: Meteor.users.find().fetch(),
       feedbackSession: FeedbackSessions.find().fetch()
@@ -41,10 +43,10 @@ var FeedbackGroup = ReactMeteor.createClass({
 
   handleFeedback(response) {
     Meteor.call('addFeedback', {
-      id: this.state.employees[this.state.active]._id,
+      id: this.data.employees[this.state.active]._id,
       response: response,
-      period: this.state.feedbackSession.period,
-      feedbackSession: this.state.feedbackSession[0]._id,
+      period: this.data.feedbackSession.period,
+      feedbackSession: this.data.feedbackSession[0]._id,
       createdAt: Date.now()
     });
 
@@ -58,7 +60,7 @@ var FeedbackGroup = ReactMeteor.createClass({
     return (
       <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
         <CSSTransitionGroup transitionName="feedback">
-          {this.state.employees.map((employee, i) => {
+          {this.data.employees.map((employee, i) => {
             if(i >= this.state.active) {
               return (
                 <FeedbackCard
@@ -70,20 +72,9 @@ var FeedbackGroup = ReactMeteor.createClass({
             }
           })}
         </CSSTransitionGroup>
-        {this.state.active === this.state.employees.length ?
+        {this.state.active === this.data.employees.length ?
           <div className="null">All done!</div>
         : <FeedbackActions handleFeedback={this.handleFeedback}/>}
-      </div>
-    );
-  }
-});
-
-FeedbackSession = React.createClass({
-  render(){
-    return (
-      <div className="container">
-        <Header/>
-        <FeedbackGroup/>
       </div>
     );
   }
@@ -96,7 +87,7 @@ if(Meteor.isClient) {
     },
 
     action: function() {
-      $(document).ready(function() {
+      FlowRouter.subsReady('feedbackSession', function() {
         ReactLayout.render(Layout, {
           content: <FeedbackSession/>
         });

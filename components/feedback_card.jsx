@@ -2,7 +2,7 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
 FeedbackCard = React.createClass({
   propTypes: {

@@ -2,11 +2,13 @@
  * @jsx React.DOM
  */
 
-var cx = React.addons.classSet;
-var _ = lodash;
+const cx = React.addons.classSet;
+const _ = lodash;
 
-EditOrganization = ReactMeteor.createClass({
-  getMeteorState() {
+EditOrganization = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       organization: Organizations.findOne()
     };
@@ -14,15 +16,15 @@ EditOrganization = ReactMeteor.createClass({
 
   handleSaveOrganization() {
     Meteor.call('updateOrganization', {
-      id: this.state.organization._id,
+      id: this.data.organization._id,
       name: React.findDOMNode(this.refs.orgName).value
     });
   },
 
   handleFeedbackToggle() {
     Meteor.call('toggleFrequency', {
-      id: this.state.organization._id,
-      status: !this.state.organization.feedback.status
+      id: this.data.organization._id,
+      status: !this.data.organization.feedback.status
     });
   },
 
@@ -31,15 +33,14 @@ EditOrganization = ReactMeteor.createClass({
   },
 
   render() {
-    var feedbackStatusClassName = cx({
+    let feedbackStatusClassName = cx({
       "btn": true,
-      "btn-success": this.state.organization.feedback.status,
-      "btn-danger": !this.state.organization.feedback.status
+      "btn-success": this.data.organization.feedback.status,
+      "btn-danger": !this.data.organization.feedback.status
     });
 
     return (
-      <div className="container">
-        <Header/>
+      <div>
         <section className="panel panel-default">
           <header className="panel-heading">
             <h3 className="panel-title">Organization</h3>
@@ -51,18 +52,18 @@ EditOrganization = ReactMeteor.createClass({
                 type="text"
                 className="form-control"
                 ref="orgName"
-                defaultValue={this.state.organization.name}/>
+                defaultValue={this.data.organization.name}/>
             </div>
             <div className="form-group">
               <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
-                {`Feedback ${this.state.organization.feedback.status ? 'on' : 'off'}`}
+                {`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}
               </button>
             </div>
             <div className="form-group">
               <label>Feedback frequency</label>
               <select
                 className="form-control"
-                defaultValue={this.state.organization.feedback.frequency}
+                defaultValue={this.data.organization.feedback.frequency}
                 onChange={this.handleFeedbackFrequency}>
                 <option value="Monthly">Monthly</option>
                 <option value="Weekly">Weekly</option>
@@ -70,7 +71,7 @@ EditOrganization = ReactMeteor.createClass({
             </div>
             <dl>
               <dt>Created</dt>
-              <dd>{moment(this.state.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
+              <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
             </dl>
           </div>
           <footer className="panel-footer">
@@ -87,7 +88,7 @@ EditOrganization = ReactMeteor.createClass({
           </header>
           <div className="panel-body">
             <ul className="list-group">
-              {this.state.organization.teams.map((team, i) => {
+              {this.data.organization.teams.map((team, i) => {
                 return (
                   <li className="list-group-item" key={i}>
                     <input
