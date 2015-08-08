@@ -2,10 +2,12 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
-Registration = ReactMeteor.createClass({
-  getMeteorState() {
+Registration = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       organization: Organizations.findOne()
     };
@@ -16,7 +18,7 @@ Registration = ReactMeteor.createClass({
       email: React.findDOMNode(this.refs.email).value,
       password: React.findDOMNode(this.refs.password).value,
       profile: {
-        organization: this.state.organization._id,
+        organization: this.data.organization._id,
         name: {
           first: React.findDOMNode(this.refs.firstName).value,
           last: React.findDOMNode(this.refs.lastName).value
@@ -33,11 +35,10 @@ Registration = ReactMeteor.createClass({
 
   render() {
     return (
-      <div className="container">
-        <Header/>
+      <div>
         <section className="panel panel-default">
           <header className="panel-heading">
-            <h3 className="panel-title">Register for {this.state.organization.name}</h3>
+            <h3 className="panel-title">Register for {this.data.organization.name}</h3>
           </header>
           <form>
             <div className="panel-body">

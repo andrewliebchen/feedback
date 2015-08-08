@@ -2,7 +2,7 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
 EmployeesList = React.createClass({
   getInitialState() {
@@ -20,7 +20,7 @@ EmployeesList = React.createClass({
   handleDownload() {
     Meteor.call('downloadEmployees', function(err, fileContent) {
       if(fileContent){
-        var blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
+        let blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
         saveAs(blob, 'employee_list.csv');
       }
     });
@@ -31,8 +31,8 @@ EmployeesList = React.createClass({
       url: 'http://api.randomuser.me/',
       dataType: 'json',
       success: (data) => {
-        var randomUser = data.results[0].user;
-        var newEmployee = {
+        let randomUser = data.results[0].user;
+        let newEmployee = {
           username: randomUser.username,
           email: randomUser.email,
           password: randomUser.password,
