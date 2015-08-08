@@ -28,8 +28,11 @@ EditOrganization = React.createClass({
     });
   },
 
-  handleFeedbackFrequency() {
-
+  handleFeedbackFrequency(event) {
+    Meteor.call('feedbackFrequency', {
+      id: this.data.organization._id,
+      frequency: event.target.value
+    });
   },
 
   render() {
@@ -140,6 +143,12 @@ if(Meteor.isServer) {
     'toggleFrequency': function(args) {
       Organizations.update(args.id, {
         $set: {'feedback.status': args.status}
+      });
+    },
+
+    'feedbackFrequency': function(args) {
+      Organizations.update(args.id, {
+        $set: {'feedback.frequency': args.frequency}
       });
     }
   });
