@@ -97,14 +97,14 @@ if(Meteor.isServer) {
       const currentOrgId = Meteor.users.findOne(Meteor.userId).profile.organization;
       const currentOrgFeedback = Organizations.findOne(currentOrgId).feedback;
       SyncedCron.stop();
-      
+
       SyncedCron.add({
         name: 'Build feedback sessions',
         schedule: function(parser) {
           if(currentOrgFeedback.frequency === 'Monthly'){
-            return parser.recur().every(1).month().first().onWeekday().on('18:00:00').time();
+            return parser.text('on the first day of the month at 8:00 am');
           } else {
-            return parser.recur().every(1).weekOfMonth().last().onWeekday().on('8:00:00').time();
+            return parser.text('at 8:00 am on Monday');
           }
         },
 
