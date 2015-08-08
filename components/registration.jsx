@@ -77,7 +77,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('registration', function() {
-        React.render(<Registration/>, document.getElementById('yield'));
+        ReactLayout.render(Registration);
       });
     }
   });

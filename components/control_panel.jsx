@@ -80,9 +80,7 @@ if(Meteor.isClient) {
     },
 
     action: function(param) {
-      $(document).ready(function() {
-        React.render(<ControlPanel/>, document.getElementById('yield'));
-      });
+      ReactLayout.render(ControlPanel);
     }
   });
 }
