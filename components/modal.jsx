@@ -11,6 +11,7 @@ Modal = React.createClass({
             {this.props.children}
           </div>
         </div>
+        <div className="modal-background" onClick={this.props.close}/>
       </div>
     );
   }
