@@ -13,29 +13,25 @@ EmployeeProfile = React.createClass({
     };
   },
 
-  getInitialState() {
-    return {
-      employeeName: null
-    };
-  },
-
-  updateNewEmployeeName() {
-    // This will have to include pictures
-    this.setState({employeeName: React.findDOMNode(this.refs.name).value});
-  },
-
-  handleEmployeeUpdate() {
-    Meteor.call('updateEmployee', {
+  handleUpdateEmployeeName(event) {
+    Meteor.call('updateEmployeeName', {
       id: this.data.employee._id,
-      name: React.findDOMNode(this.refs.name).value,
-      username: React.findDOMNode(this.refs.username).value,
-      email: React.findDOMNode(this.refs.email).value
+      name: event.target.value
     });
   },
 
-  componentDidMount() {
-    // Need to wait until state is ready to get employee name
-    this.setState({employeeName: this.data.employee.profile.name})
+  handleUpdateEmployeeUsername(event) {
+    Meteor.call('updateEmployeeUsername', {
+      id: this.data.employee._id,
+      username: event.target.value
+    });
+  },
+
+  handleUpdateEmployeeEmail(event) {
+    Meteor.call('updateEmployeeEmail', {
+      id: this.data.employee._id,
+      email: event.target.value
+    });
   },
 
   render() {
@@ -43,7 +39,7 @@ EmployeeProfile = React.createClass({
       <div>
         <div className="panel panel-default">
           <div className="panel-body">
-            <FeedbackCard name={this.data.employeeName} image={this.data.employee.profile.imageSrc} index={0}/>
+            <FeedbackCard name={this.data.employee.profile.name} image={this.data.employee.profile.imageSrc} index={0}/>
             <ImageUploader employeeId={this.data.employee._id}/>
             <div className="form-group">
               <label>Name</label>
@@ -51,8 +47,7 @@ EmployeeProfile = React.createClass({
                 type="text"
                 className="form-control"
                 defaultValue={_.capitalize(this.data.employee.profile.name)}
-                onChange={this.updateNewEmployeeName}
-                ref="name"/>
+                onChange={this.handleUpdateEmployeeName}/>
             </div>
             <div className="form-group">
               <label>Username</label>
@@ -60,7 +55,7 @@ EmployeeProfile = React.createClass({
                 type="text"
                 className="form-control"
                 defaultValue={this.data.employee.username}
-                ref="username"/>
+                onChange={this.handleUpdateEmployeeUsername}/>
             </div>
             <div className="form-group">
               <label>Email</label>
@@ -68,12 +63,9 @@ EmployeeProfile = React.createClass({
                 type="email"
                 className="form-control"
                 defaultValue={this.data.employee.emails[0].address}
-                ref="email"/>
+                onChange={this.handleUpdateEmployeeEmail}/>
             </div>
           </div>
-          <footer className="panel-footer">
-            <button className="btn btn-primary" onClick={this.handleEmployeeUpdate}>Update profile</button>
-          </footer>
         </div>
       </div>
     );
@@ -102,11 +94,25 @@ if(Meteor.isServer) {
   });
 
   Meteor.methods({
-    'updateEmployee': function(args) {
+    'updateEmployeeName': function(args) {
       Meteor.users.update(args.id, {
         $set: {
-          'profile.name': args.name,
-          'username': args.username,
+          'profile.name': args.name
+        }
+      });
+    },
+
+    'updateEmployeeUsername': function(args) {
+      Meteor.users.update(args.id, {
+        $set: {
+          'profile.username': args.username
+        }
+      });
+    },
+
+    'updateEmployeeEmail': function(args) {
+      Meteor.users.update(args.id, {
+        $set: {
           'email.0.address': args.email
         }
       });

@@ -14,10 +14,10 @@ EditOrganization = React.createClass({
     };
   },
 
-  handleSaveOrganization() {
+  handleUpdateOrganization(event) {
     Meteor.call('updateOrganization', {
       id: this.data.organization._id,
-      name: React.findDOMNode(this.refs.orgName).value
+      name: event.target.value
     });
   },
 
@@ -54,8 +54,8 @@ EditOrganization = React.createClass({
               <input
                 type="text"
                 className="form-control"
-                ref="orgName"
-                defaultValue={this.data.organization.name}/>
+                defaultValue={this.data.organization.name}
+                onChange={this.handleUpdateOrganization}/>
             </div>
             <div className="form-group">
               <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
@@ -77,13 +77,6 @@ EditOrganization = React.createClass({
               <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
             </dl>
           </div>
-          <footer className="panel-footer">
-            <button
-              className="btn btn-primary"
-              onClick={this.handleSaveOrganization}>
-              Save
-            </button>
-          </footer>
         </section>
         <section className="panel panel-default">
           <header className="panel-heading">
@@ -94,22 +87,12 @@ EditOrganization = React.createClass({
               {this.data.organization.teams.map((team, i) => {
                 return (
                   <li className="list-group-item" key={i}>
-                    <input
-                      type="text"
-                      className="form-control"
-                      defaultValue={team}/>
+                    {team}
                   </li>
                 );
               })}
             </ul>
           </div>
-          <footer className="panel-footer">
-            <button
-              className="btn btn-primary"
-              onClick={this.handleSaveTeams}>
-              Save
-            </button>
-          </footer>
         </section>
       </div>
     );
