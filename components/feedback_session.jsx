@@ -97,7 +97,7 @@ if(Meteor.isClient) {
 
     action: function() {
       $(document).ready(function() {
-        React.render(<FeedbackSession/>, document.getElementById('yield'));
+        ReactLayout.render(FeedbackSession);
       });
     }
   });

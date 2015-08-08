@@ -87,7 +87,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('employeeProfile', function() {
-        React.render(<EmployeeProfile/>, document.getElementById('yield'));
+        ReactLayout.render(EmployeeProfile);
       });
     }
   });
