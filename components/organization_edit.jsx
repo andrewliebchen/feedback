@@ -127,12 +127,14 @@ if(Meteor.isServer) {
       Organizations.update(args.id, {
         $set: {'feedback.status': args.status}
       });
+      Meteor.call('scheduleFeedbackSessions');
     },
 
     'feedbackFrequency': function(args) {
       Organizations.update(args.id, {
         $set: {'feedback.frequency': args.frequency}
       });
+      Meteor.call('scheduleFeedbackSessions');
     }
   });
 }
