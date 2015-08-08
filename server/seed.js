@@ -22,6 +22,10 @@ Meteor.startup(function() {
       domain: 'example.com',
       createdAt: Date.now(),
       admin: seedAdmin,
+      feedback: {
+        status: true,
+        frequency: 'Monthly'
+      },
       teams: ['Team 1', 'Team 2', 'Team 3']
     }, function(error, result){
       Meteor.users.update(seedAdmin, {

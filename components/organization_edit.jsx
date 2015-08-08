@@ -2,9 +2,10 @@
  * @jsx React.DOM
  */
 
+var cx = React.addons.classSet;
 var _ = lodash;
 
-Organization = ReactMeteor.createClass({
+EditOrganization = ReactMeteor.createClass({
   getMeteorState() {
     return {
       organization: Organizations.findOne()
@@ -18,7 +19,24 @@ Organization = ReactMeteor.createClass({
     });
   },
 
+  handleFeedbackToggle() {
+    Meteor.call('toggleFrequency', {
+      id: this.state.organization._id,
+      status: !this.state.organization.feedback.status
+    });
+  },
+
+  handleFeedbackFrequency() {
+
+  },
+
   render() {
+    var feedbackStatusClassName = cx({
+      "btn": true,
+      "btn-success": this.state.organization.feedback.status,
+      "btn-danger": !this.state.organization.feedback.status
+    });
+
     return (
       <div className="container">
         <Header/>
@@ -34,6 +52,21 @@ Organization = ReactMeteor.createClass({
                 className="form-control"
                 ref="orgName"
                 defaultValue={this.state.organization.name}/>
+            </div>
+            <div className="form-group">
+              <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
+                {`Feedback ${this.state.organization.feedback.status ? 'on' : 'off'}`}
+              </button>
+            </div>
+            <div className="form-group">
+              <label>Feedback frequency</label>
+              <select
+                className="form-control"
+                defaultValue={this.state.organization.feedback.frequency}
+                onChange={this.handleFeedbackFrequency}>
+                <option value="Monthly">Monthly</option>
+                <option value="Weekly">Weekly</option>
+              </select>
             </div>
             <dl>
               <dt>Created</dt>
@@ -87,7 +120,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('organization', function() {
-        React.render(<Organization/>, document.getElementById('yield'));
+        ReactLayout.render(EditOrganization);
       });
     }
   });
@@ -98,6 +131,12 @@ if(Meteor.isServer) {
     'updateOrganization': function(args) {
       Organizations.update(args.id, {
         $set: {name: args.name}
+      });
+    },
+
+    'toggleFrequency': function(args) {
+      Organizations.update(args.id, {
+        $set: {'feedback.status': args.status}
       });
     }
   });

@@ -41,8 +41,25 @@ ControlPanel = ReactMeteor.createClass({
     return (
       <div className="container">
         <Header/>
-        <OrganizationList
-          organization={this.state.organization}/>
+          <div className="panel panel-default">
+            <header className="panel-heading">
+              <h3 className="panel-title">Organization</h3>
+            </header>
+            <table className="table">
+              <tbody>
+                <tr>
+                  <td>{this.state.organization.name}</td>
+                  <td>
+                    <a
+                      className="btn btn-default btn-sm pull-right"
+                      href="/organization">
+                      Edit
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         <EmployeesList
           employees={this.state.employees}
           organization={this.state.organization}/>
