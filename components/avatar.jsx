@@ -2,11 +2,11 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
 Avatar = React.createClass({
   render() {
-    var profile = this.props.employee.profile;
+    let profile = this.props.employee.profile;
     return (
       <a href={`/employees/${this.props.employee._id}`} className="avatar media">
         {profile.imageSrc ?

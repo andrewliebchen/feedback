@@ -2,10 +2,12 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
-ControlPanel = ReactMeteor.createClass({
-  getMeteorState() {
+ControlPanel = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
     return {
       employees: this.getEmployees(),
       organization: this.getOrganization(),
@@ -47,7 +49,7 @@ ControlPanel = ReactMeteor.createClass({
           <table className="table">
             <tbody>
               <tr>
-                <td>{this.state.organization.name}</td>
+                <td>{this.data.organization.name}</td>
                 <td>
                   <a
                     className="btn btn-default btn-sm pull-right"
@@ -60,11 +62,11 @@ ControlPanel = ReactMeteor.createClass({
           </table>
         </div>
         <EmployeesList
-          employees={this.state.employees}
-          organization={this.state.organization}/>
+          employees={this.data.employees}
+          organization={this.data.organization}/>
         <FeedbackSessionsList
-          feedbackSessions={this.state.feedbackSessions}
-          employees={this.state.employees}/>
+          feedbackSessions={this.data.feedbackSessions}
+          employees={this.data.employees}/>
       </div>
     );
   }
@@ -88,17 +90,17 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.publish('employees', function() {
-    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+    let currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
     return Meteor.users.find({'profile.organization': currentOrgId});
   });
 
   Meteor.publish('organization', function() {
-    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+    let currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
     return Organizations.find({_id: currentOrgId});
   });
 
   Meteor.publish('feedbackSessions', function() {
-    var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+    let currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
     return FeedbackSessions.find({'organization': currentOrgId});
   });
 }

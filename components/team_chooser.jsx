@@ -2,9 +2,9 @@
  * @jsx React.DOM
  */
 
-var _ = lodash;
+const _ = lodash;
 
-var Team = React.createClass({
+const Team = React.createClass({
   handleTeamCheck(event) {
     if(event.target.checked) {
       Meteor.call('assignTeam', {
