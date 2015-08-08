@@ -55,6 +55,10 @@ FeedbackSessionsList = React.createClass({
 });
 
 if(Meteor.isServer) {
+  Meteor.startup(function(){
+    Meteor.call('scheduleFeedbackSessions');
+  });
+
   Meteor.methods({
     'createFeedbackSessions': function() {
       function createFeedbackSession(employees, currentEmployee) {
@@ -86,6 +90,30 @@ if(Meteor.isServer) {
       employees.map(function(employee) {
         createFeedbackSession(employees, employee);
       });
+    },
+
+    'scheduleFeedbackSessions': function() {
+      // Feedback CRON job
+      const currentOrgId = Meteor.users.findOne(Meteor.userId).profile.organization;
+      const currentOrgFeedback = Organizations.findOne(currentOrgId).feedback;
+      SyncedCron.stop();
+      
+      SyncedCron.add({
+        name: 'Build feedback sessions',
+        schedule: function(parser) {
+          if(currentOrgFeedback.frequency === 'Monthly'){
+            return parser.recur().every(1).month().first().onWeekday().on('18:00:00').time();
+          } else {
+            return parser.recur().every(1).weekOfMonth().last().onWeekday().on('8:00:00').time();
+          }
+        },
+
+        job: function() {
+          Meteor.call('createFeedbackSessions');
+        }
+      });
+
+      currentOrgFeedback.status ? SyncedCron.start() : SyncedCron.stop();
     },
 
     'deleteAllFeedbackSessions': function() {
