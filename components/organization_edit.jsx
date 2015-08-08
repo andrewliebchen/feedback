@@ -120,7 +120,9 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('organization', function() {
-        ReactLayout.render(EditOrganization);
+        ReactLayout.render(Layout, {
+          content: <EditOrganization/>
+        });
       });
     }
   });
