@@ -16,7 +16,9 @@ if(Meteor.isClient) {
   FlowRouter.route('/login', {
     action: function(param) {
       $(document).ready(function() {
-        ReactLayout.render(Login);
+        ReactLayout.render(Layout, {
+          content: <Login/>
+        });
       });
     }
   });

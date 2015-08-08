@@ -39,27 +39,26 @@ ControlPanel = ReactMeteor.createClass({
 
   render() {
     return (
-      <div className="container">
-        <Header/>
-          <div className="panel panel-default">
-            <header className="panel-heading">
-              <h3 className="panel-title">Organization</h3>
-            </header>
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td>{this.state.organization.name}</td>
-                  <td>
-                    <a
-                      className="btn btn-default btn-sm pull-right"
-                      href="/organization">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div>
+        <div className="panel panel-default">
+          <header className="panel-heading">
+            <h3 className="panel-title">Organization</h3>
+          </header>
+          <table className="table">
+            <tbody>
+              <tr>
+                <td>{this.state.organization.name}</td>
+                <td>
+                  <a
+                    className="btn btn-default btn-sm pull-right"
+                    href="/organization">
+                    Edit
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <EmployeesList
           employees={this.state.employees}
           organization={this.state.organization}/>
@@ -80,7 +79,9 @@ if(Meteor.isClient) {
     },
 
     action: function(param) {
-      ReactLayout.render(ControlPanel);
+      ReactLayout.render(Layout, {
+        content: <ControlPanel/>
+      });
     }
   });
 }
