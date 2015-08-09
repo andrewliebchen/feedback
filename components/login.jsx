@@ -2,9 +2,14 @@
  * @jsx React.DOM
  */
 
+ const trimInput = function(val) {
+   return val.replace(/^\s*|\s*$/g, "");
+ }
+
 Login = React.createClass({
   getInitialState() {
     return {
+      alert: null,
       showPassword: false
     };
   },
@@ -12,14 +17,13 @@ Login = React.createClass({
   handleLogin(event) {
     event.preventDefault();
     // retrieve the input field values
-    let email = React.findDOMNode(this.refs.email).value
+    let email = trimInput(React.findDOMNode(this.refs.email).value);
     let password = React.findDOMNode(this.refs.password).value;
 
-    // Trim and validate your fields here....
-
-    Meteor.loginWithPassword(email, password, function(err) {
+    Meteor.loginWithPassword(email, password, (err) => {
       if(err){
-
+        console.log('whoops')
+        this.setState({alert: "Whoops, something went wrong! Please try again..."})
       } else {
         FlowRouter.go('/admin');
       }
@@ -36,6 +40,9 @@ Login = React.createClass({
         <div className="row">
           <div className="col-md-4 col-md-offset-4">
             <Header/>
+            {this.state.alert ?
+              <div className="alert alert-danger" role="alert">{this.state.alert}</div>
+            : null}
             <form className="panel panel-default panel-body" action="action">
               <div className="form-group">
                 <label>Email</label>
