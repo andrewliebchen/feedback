@@ -23,7 +23,7 @@ NewEmployeeForm = React.createClass({
     };
 
     Meteor.call('newEmployee', newEmployee, function(err, success) {
-      success ? FlowRouter.go('/') : console.log('Whoops!');
+      success ? FlowRouter.go('/') : console.log(err);
     });
   },
 

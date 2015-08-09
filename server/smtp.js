@@ -5,5 +5,5 @@ Meteor.startup(function () {
     host: Meteor.settings.sendgrid.host
   }
 
-  process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.host);
+  process.env.MAIL_URL = 'smtp://' + smtp.username + ':' + smtp.password + '@' + smtp.host;
 });
