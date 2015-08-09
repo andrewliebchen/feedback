@@ -5,7 +5,7 @@ function createAdmin() {
     password : "password",
     profile: {
       organization: "",
-      teams: [],
+      teams: ['Team 1'],
       gender: "female",
       name: "Manuela Velasco",
       imageSrc: "http://api.randomuser.me/portraits/women/39.jpg"
