@@ -131,6 +131,11 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
+  Meteor.publish('organization', function() {
+    let currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+    return Organizations.find({_id: currentOrgId});
+  });
+  
   Meteor.methods({
     'updateOrganizationName': function(args) {
       Organizations.update(args.id, {
