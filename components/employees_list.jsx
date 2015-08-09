@@ -7,8 +7,7 @@ const _ = lodash;
 EmployeesList = React.createClass({
   getInitialState() {
     return {
-      newEmployeeModal: false,
-      emailInviteModal: false
+      newEmployeeModal: false
     };
   },
 
@@ -51,10 +50,6 @@ EmployeesList = React.createClass({
     this.setState({newEmployeeModal: !this.state.newEmployeeModal});
   },
 
-  toggleEmailInvite() {
-    this.setState({emailInviteModal: !this.state.emailInviteModal});
-  },
-
   render() {
     return (
       <section className="panel panel-default">
@@ -81,20 +76,12 @@ EmployeesList = React.createClass({
           <button className="btn btn-default" onClick={this.toggleNewEmployeeModal}>
             New employee
           </button>
-          <button className="btn btn-primary" onClick={this.toggleEmailInvite}>
-            Email invite
-          </button>
+          <EmailInvite/>
         </footer>
 
         {this.state.newEmployeeModal ?
           <Modal close={this.toggleNewEmployeeModal}>
             <NewEmployeeForm organization={this.props.organization}/>
-          </Modal>
-        : null}
-
-        {this.state.emailInviteModal ?
-          <Modal close={this.toggleEmailInvite}>
-            <EmailInvite/>
           </Modal>
         : null}
       </section>
