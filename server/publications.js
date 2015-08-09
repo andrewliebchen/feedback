@@ -21,12 +21,16 @@ Meteor.publish('organization', function() {
 });
 
 Meteor.publish('feedbackSession', function(id){
-  return [
-    FeedbackSessions.find(id),
-    Meteor.users.find({
-      _id: {$in: FeedbackSessions.findOne(id).employees}
-    })
-  ];
+  var feedbackSession = FeedbackSessions.findOne(id);
+  var respondant = feedbackSession.respondant;
+  if(Roles.userIsInRole(this.userId, ['admin']) || this.userId === respondant) {
+    return [
+      FeedbackSessions.find(id),
+      Meteor.users.find({
+        _id: {$in: FeedbackSessions.findOne(id).employees}
+      })
+    ];
+  }
 });
 
 Meteor.publish('employeeProfile', function(id) {
