@@ -97,15 +97,6 @@ if(Meteor.isClient) {
 };
 
 if(Meteor.isServer) {
-  Meteor.publish('feedbackSession', function(id){
-    return [
-      FeedbackSessions.find(id),
-      Meteor.users.find({
-        _id: {$in: FeedbackSessions.findOne(id).employees}
-      })
-    ];
-  });
-
   Meteor.methods({
     'addFeedback': function(args){
       return Meteor.users.update(args.id,{

@@ -103,10 +103,6 @@ if(Meteor.isServer) {
     forbidClientAccountCreation: false
   });
 
-  Meteor.publish('newEmployee', function(id) {
-    return Organizations.find({_id: id});
-  });
-
   Meteor.methods({
     'newEmployee': function(employee) {
       let newUserId = Accounts.createUser({

@@ -91,12 +91,6 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
-  Meteor.publish('employeeProfile', function(id) {
-    if(Roles.userIsInRole(this.userId, ['admin']) || this.userId === id) {
-      return Meteor.users.find(id);
-    }
-  });
-
   Meteor.methods({
     'updateEmployeeName': function(args) {
       Meteor.users.update(args.id, {
