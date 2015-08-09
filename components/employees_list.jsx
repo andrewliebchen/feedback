@@ -76,7 +76,7 @@ EmployeesList = React.createClass({
           <button className="btn btn-default" onClick={this.toggleNewEmployeeModal}>
             New employee
           </button>
-          <EmailInvite/>
+          <EmailInvite organizationId={this.props.organization._id}/>
         </footer>
 
         {this.state.newEmployeeModal ?

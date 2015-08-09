@@ -10,9 +10,11 @@ EmailInvite = React.createClass({
   },
 
   sendInviteEmail(event) {
+    let message = `${React.findDOMNode(this.refs.message).value} Visit http://${Meteor.settings.public.siteURL}/${this.props.organizationId}/employees/new to sign up!`
     Meteor.call('sendInviteEmail', {
       to: React.findDOMNode(this.refs.to).value,
-      message: React.findDOMNode(this.refs.message).value
+      subject: React.findDOMNode(this.refs.subject).value,
+      message: message
     });
     this.setState({emailInviteModal: false});
   },
@@ -41,6 +43,14 @@ EmailInvite = React.createClass({
                   className="form-control"
                   placeholder="Seperate each address by a comma"
                   ref="to"/>
+              </div>
+              <div className="form-group">
+                <label>Subject</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  defaultValue="Create your profile on Feedback"
+                  ref="subject"/>
               </div>
               <div className="form-group">
                 <label>Message</label>
@@ -72,7 +82,7 @@ if (Meteor.isServer) {
       Email.send({
         from: 'andrewliebchen@gmail.com',
         to: args.to,
-        subject: 'Create your profile on Feedback',
+        subject: args.subject,
         text: args.message
       });
     }
