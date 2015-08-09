@@ -87,10 +87,6 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
-  Meteor.publish('registration', function(id) {
-    return Organizations.find({_id: id});
-  });
-
   Meteor.methods({
     'registerEmployee': function(employee) {
       return Accounts.createUser({

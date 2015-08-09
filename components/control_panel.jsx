@@ -66,14 +66,3 @@ if(Meteor.isClient) {
     }
   });
 }
-
-if(Meteor.isServer) {
-  Meteor.publish('controlPanel', function() {
-    let currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-    return [
-      Meteor.users.find({'profile.organization': currentOrgId}),
-      Organizations.find({_id: currentOrgId}),
-      FeedbackSessions.find({'organization': currentOrgId})
-    ];
-  });
-}
