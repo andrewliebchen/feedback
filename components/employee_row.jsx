@@ -10,6 +10,10 @@ EmployeeRow = React.createClass({
     });
   },
 
+  handleDelete() {
+    Meteor.call('deleteEmployee', this.props.employee._id);
+  },
+
   render() {
     return (
       <tr>
@@ -29,6 +33,9 @@ EmployeeRow = React.createClass({
         <td>
           <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
         </td>
+        <td>
+          <button className="btn btn-danger btn-sm" onClick={this.handleDelete}>X</button>
+        </td>
       </tr>
     );
   }
@@ -42,6 +49,10 @@ if(Meteor.isServer) {
           "profile.team": args.team
         }
       });
+    },
+
+    'deleteEmployee': function(id) {
+      return Meteor.users.remove(id);
     }
   });
 }
