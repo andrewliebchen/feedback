@@ -6,5 +6,8 @@
     "username": "andrewliebchen",
     "password": "Etx38oCQoEciHD",
     "host": "smtp.sendgrid.net:587"
+  },
+  "public": {
+    "siteURL": "localhost:3000"
   }
 }
