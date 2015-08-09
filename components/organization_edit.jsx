@@ -14,10 +14,17 @@ EditOrganization = React.createClass({
     };
   },
 
-  handleUpdateOrganization(event) {
-    Meteor.call('updateOrganization', {
+  handleUpdateOrganizationName(event) {
+    Meteor.call('updateOrganizationName', {
       id: this.data.organization._id,
       name: event.target.value
+    });
+  },
+
+  handleUpdateOrganizationDomain(event) {
+    Meteor.call('updateOrganizationDomain', {
+      id: this.data.organization._id,
+      domain: event.target.value
     });
   },
 
@@ -55,7 +62,15 @@ EditOrganization = React.createClass({
                 type="text"
                 className="form-control"
                 defaultValue={this.data.organization.name}
-                onChange={this.handleUpdateOrganization}/>
+                onChange={this.handleUpdateOrganizationName}/>
+            </div>
+            <div className="form-group">
+              <label>Email domain</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={this.data.organization.domain}
+                onChange={this.handleUpdateOrganizationDomain}/>
             </div>
             <div className="form-group">
               <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
@@ -117,9 +132,15 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'updateOrganization': function(args) {
+    'updateOrganizationName': function(args) {
       Organizations.update(args.id, {
         $set: {name: args.name}
+      });
+    },
+
+    'updateOrganizationDomain': function(args) {
+      Organizations.update(args.id, {
+        $set: {domain: args.domain}
       });
     },
 
