@@ -21,6 +21,7 @@ FeedbackSessionsList = React.createClass({
   },
 
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <section className="panel panel-default">
         <header className="panel-heading">
@@ -41,14 +42,16 @@ FeedbackSessionsList = React.createClass({
             })}
           </tbody>
         </table>
-        <footer className="panel-footer">
-          <button className="btn btn-danger" onClick={this.handleDeleteAllFeedbackSessions}>
-            Delete all
-          </button>
-          <button className="btn btn-primary" onClick={this.handleCreateFeedbackSession}>
-            Add feedback sessions
-          </button>
-        </footer>
+        {canEdit ?
+          <footer className="panel-footer">
+            <button className="btn btn-danger" onClick={this.handleDeleteAllFeedbackSessions}>
+              Delete all
+            </button>
+            <button className="btn btn-primary" onClick={this.handleCreateFeedbackSession}>
+              Add feedback sessions
+            </button>
+          </footer>
+        : null}
       </section>
     );
   }
@@ -56,7 +59,9 @@ FeedbackSessionsList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.startup(function(){
-    Meteor.call('scheduleFeedbackSessions');
+    if(this.userId){
+      Meteor.call('scheduleFeedbackSessions');
+    }
   });
 
   Meteor.methods({

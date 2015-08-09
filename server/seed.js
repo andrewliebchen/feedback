@@ -16,12 +16,12 @@ function createAdmin() {
 Meteor.startup(function() {
   if(Organizations.find().count() === 0) {
     var seedAdmin = createAdmin();
+    Roles.addUsersToRoles(seedAdmin, ['admin'])
 
     Organizations.insert({
       name: 'Weyland-Yutani Corp.',
       domain: 'example.com',
       createdAt: Date.now(),
-      admin: seedAdmin,
       feedback: {
         status: true,
         frequency: 'Monthly'

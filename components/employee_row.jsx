@@ -15,6 +15,7 @@ EmployeeRow = React.createClass({
   },
 
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
@@ -31,10 +32,12 @@ EmployeeRow = React.createClass({
             employee={this.props.employee}/>
         </td>
         <td>
-          <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
+          {canEdit ?
+            <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
+          : null}
         </td>
         <td>
-          {Meteor.userId() !== this.props.employee._id ?
+          {Meteor.userId() !== this.props.employee._id && canEdit ?
             <button className="btn btn-danger btn-sm" onClick={this.handleDelete}>X</button>
           : null}
         </td>

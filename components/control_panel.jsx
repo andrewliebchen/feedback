@@ -16,6 +16,7 @@ ControlPanel = React.createClass({
   },
 
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <div>
         <div className="panel panel-default">
@@ -27,11 +28,13 @@ ControlPanel = React.createClass({
               <tr>
                 <td>{this.data.organization.name}</td>
                 <td>
-                  <a
-                    className="btn btn-default btn-sm pull-right"
-                    href="/organization">
-                    Edit
-                  </a>
+                  {canEdit ?
+                    <a
+                      className="btn btn-default btn-sm pull-right"
+                      href="/organization">
+                      Edit
+                    </a>
+                  : null}
                 </td>
               </tr>
             </tbody>
