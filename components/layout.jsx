@@ -3,7 +3,7 @@
  */
 
 Layout = React.createClass({
-  render(session) {
+  render() {
     return (
       <div className="container">
         <header className="header">
