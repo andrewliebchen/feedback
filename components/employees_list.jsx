@@ -51,6 +51,7 @@ EmployeesList = React.createClass({
   },
 
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <section className="panel panel-default">
         <header className="panel-heading">
@@ -63,21 +64,23 @@ EmployeesList = React.createClass({
             })}
           </tbody>
         </table>
-        <footer className="panel-footer">
-          <button className="btn btn-danger" onClick={this.handleDeleteAllEmployees}>
-            Delete All
-          </button>
-          <button className="btn btn-default" onClick={this.handleDownload}>
-            Download CSV
-          </button>
-          <button className="btn btn-default" onClick={this.handleAddSeedEmployee}>
-            New seed employee
-          </button>
-          <button className="btn btn-default" onClick={this.toggleNewEmployeeModal}>
-            New employee
-          </button>
-          <EmailInvite organizationId={this.props.organization._id}/>
-        </footer>
+        {canEdit ?
+          <footer className="panel-footer">
+            <button className="btn btn-danger" onClick={this.handleDeleteAllEmployees}>
+              Delete All
+            </button>
+            <button className="btn btn-default" onClick={this.handleDownload}>
+              Download CSV
+            </button>
+            <button className="btn btn-default" onClick={this.handleAddSeedEmployee}>
+              New seed employee
+            </button>
+            <button className="btn btn-default" onClick={this.toggleNewEmployeeModal}>
+              New employee
+            </button>
+            <EmailInvite organizationId={this.props.organization._id}/>
+          </footer>
+        : null}
 
         {this.state.newEmployeeModal ?
           <Modal close={this.toggleNewEmployeeModal}>

@@ -9,7 +9,7 @@ EmployeeProfile = React.createClass({
 
   getMeteorData() {
     return {
-      employee: Meteor.users.findOne(FlowRouter.getParam('_id'))
+      employee: Meteor.users.findOne()
     };
   },
 
@@ -37,36 +37,38 @@ EmployeeProfile = React.createClass({
   render() {
     return (
       <div>
-        <div className="panel panel-default">
-          <div className="panel-body">
-            <FeedbackCard name={this.data.employee.profile.name} image={this.data.employee.profile.imageSrc} index={0}/>
-            <ImageUploader employeeId={this.data.employee._id}/>
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={_.capitalize(this.data.employee.profile.name)}
-                onChange={this.handleUpdateEmployeeName}/>
-            </div>
-            <div className="form-group">
-              <label>Username</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={this.data.employee.username}
-                onChange={this.handleUpdateEmployeeUsername}/>
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                className="form-control"
-                defaultValue={this.data.employee.emails[0].address}
-                onChange={this.handleUpdateEmployeeEmail}/>
+        {this.data.employee ?
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <FeedbackCard name={this.data.employee.profile.name} image={this.data.employee.profile.imageSrc} index={0}/>
+              <ImageUploader employeeId={this.data.employee._id}/>
+              <div className="form-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  defaultValue={_.capitalize(this.data.employee.profile.name)}
+                  onChange={this.handleUpdateEmployeeName}/>
+              </div>
+              <div className="form-group">
+                <label>Username</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  defaultValue={this.data.employee.username}
+                  onChange={this.handleUpdateEmployeeUsername}/>
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  defaultValue={this.data.employee.emails[0].address}
+                  onChange={this.handleUpdateEmployeeEmail}/>
+              </div>
             </div>
           </div>
-        </div>
+        : <span>Nope Nope Nope</span>}
       </div>
     );
   }
@@ -90,7 +92,9 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.publish('employeeProfile', function(id) {
-    return Meteor.users.find(id);
+    if(Roles.userIsInRole(this.userId, ['admin']) || this.userId === id) {
+      return Meteor.users.find(id);
+    }
   });
 
   Meteor.methods({
