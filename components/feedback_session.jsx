@@ -3,26 +3,9 @@
  */
 
 const _ = lodash;
+const cx = React.addons.classSet;
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var FeedbackActions = React.createClass({
-  render() {
-    return (
-      <div className="feedback-actions">
-        <div
-          className="feedback-action feedback-action_positive"
-          onClick={this.props.handleFeedback.bind(null, 'positive')}>
-          Yes
-        </div>
-        <div
-          className="feedback-action feedback-action_negative"
-          onClick={this.props.handleFeedback.bind(null, 'negative')}>
-          No
-        </div>
-      </div>
-    );
-  }
-});
 
 FeedbackSession = React.createClass({
   mixins: [ReactMeteorData],
@@ -36,33 +19,57 @@ FeedbackSession = React.createClass({
 
   getInitialState() {
     return {
-      active: 0,
-      response: 'none'
+      response: null,
+      score: 0,
+      total: 0
     };
   },
 
   handleFeedback(response) {
-    Meteor.call('addFeedback', {
-      id: this.data.employees[this.state.active]._id,
+    let newScore = this.state.score + response;
+    let newTotal = this.state.total + 1;
+    this.setState({
       response: response,
+      score: newScore,
+      total: newTotal
+    });
+
+    // Submit incremental results to FeedbackSession document?
+    Meteor.call('addFeedbackResults', {
+      id: this.data.feedbackSession[0]._id,
+      employeeId: this.data.employees[newTotal]._id,
+      response: response,
+      year: this.data.feedbackSession[0].year,
       period: this.data.feedbackSession[0].period,
-      feedbackSession: this.data.feedbackSession[0]._id,
       createdAt: Date.now()
     });
 
-    this.setState({
-      active: this.state.active + 1,
-      response: response
-    });
+    // Submit session totals to Meteor.user document
+    if(newTotal === this.data.employees.length - 1) {
+      Meteor.call('addFeedbackSessionResults', {
+        feedbackSessionId: this.data.feedbackSession[0]._id,
+        forId: this.data.feedbackSession[0].for,
+        year: this.data.feedbackSession[0].year,
+        period: this.data.feedbackSession[0].period,
+        score: newScore,
+        total: newTotal
+      });
+    }
   },
 
   render() {
+    let feedbackWrapperClassName = cx({
+      "feedback-card__wrapper": true,
+      "feedback-response_positive": this.state.response === 1,
+      "feedback-response_negative": this.state.response === 0
+    });
+
     return (
-      <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
+      <div className={feedbackWrapperClassName}>
         <CSSTransitionGroup transitionName="feedback">
           {this.data.employees.map((employee, i) => {
             // Got to exclude the current user
-            if(i >= this.state.active && employee._id !== Meteor.userId()) {
+            if(i > this.state.total && employee._id !== Meteor.userId()) {
               return (
                 <FeedbackCard
                   name={employee.profile.name}
@@ -73,9 +80,23 @@ FeedbackSession = React.createClass({
             }
           })}
         </CSSTransitionGroup>
-        {this.state.active === this.data.employees.length ?
+
+        {this.state.total === this.data.employees.length - 1 ?
           <div className="null">All done!</div>
-        : <FeedbackActions handleFeedback={this.handleFeedback}/>}
+        :
+          <div className="feedback-actions">
+            <div
+              className="feedback-action feedback-action_positive"
+              onClick={this.handleFeedback.bind(null, 1)}>
+              Yes
+            </div>
+            <div
+              className="feedback-action feedback-action_negative"
+              onClick={this.handleFeedback.bind(null, 0)}>
+              No
+            </div>
+          </div>
+        }
       </div>
     );
   }
@@ -99,18 +120,31 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
   Meteor.methods({
-    'addFeedback': function(args){
-      FeedbackSessions.update(args.feedbackSession, {
+    'addFeedbackResults': function(args) {
+      return FeedbackSessions.update(args.id, {
+        $addToSet: {
+          responses: {
+            employeeId: args.employeeId,
+            response: args.response,
+            year: args.period,
+            period: args.period,
+            createdAt: args.createdAt
+          }
+        }
+      });
+    },
+
+    'addFeedbackSessionResults': function(args){
+      FeedbackSessions.update(args.feedbackSessionId, {
         $set: {complete: true}
       });
-      
-      return Meteor.users.update(args.id,{
+
+      return Meteor.users.update(args.forId, {
         $addToSet: {
           'profile.feedback': {
-            response: args.response,
             period: args.period,
-            feedbackSession: args.feedbackSession,
-            createdAt: args.createdAt
+            score: args.score,
+            total: args.total
           }
         }
       });
