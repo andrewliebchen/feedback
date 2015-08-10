@@ -34,6 +34,7 @@ FeedbackSessionsList = React.createClass({
                 <tr key={i}>
                   <td>{this.renderEmployee(session.respondant)}</td>
                   <td>{session.period}</td>
+                  <td>{session.complete ? '✅' : '⏳'}</td>
                   <td>
                     <a href={`/feedbacks/${session._id}`} className="btn btn-default btn-sm">View</a>
                   </td>
