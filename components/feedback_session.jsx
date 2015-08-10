@@ -45,7 +45,7 @@ FeedbackSession = React.createClass({
     Meteor.call('addFeedback', {
       id: this.data.employees[this.state.active]._id,
       response: response,
-      period: this.data.feedbackSession.period,
+      period: this.data.feedbackSession[0].period,
       feedbackSession: this.data.feedbackSession[0]._id,
       createdAt: Date.now()
     });
@@ -100,6 +100,10 @@ if(Meteor.isClient) {
 if(Meteor.isServer) {
   Meteor.methods({
     'addFeedback': function(args){
+      FeedbackSessions.update(args.feedbackSession, {
+        $set: {complete: true}
+      });
+      
       return Meteor.users.update(args.id,{
         $addToSet: {
           'profile.feedback': {
