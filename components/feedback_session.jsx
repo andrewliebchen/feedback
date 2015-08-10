@@ -61,7 +61,8 @@ FeedbackSession = React.createClass({
       <div className={`feedback-card__wrapper feedback-response_${this.state.response}`}>
         <CSSTransitionGroup transitionName="feedback">
           {this.data.employees.map((employee, i) => {
-            if(i >= this.state.active) {
+            // Got to exclude the current user
+            if(i >= this.state.active && employee._id !== Meteor.userId()) {
               return (
                 <FeedbackCard
                   name={employee.profile.name}

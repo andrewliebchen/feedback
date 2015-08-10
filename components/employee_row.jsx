@@ -10,6 +10,10 @@ EmployeeRow = React.createClass({
     });
   },
 
+  handleNewFeedbackSession() {
+    Meteor.call('createFeedbackSession', this.props.employee._id);
+  },
+
   handleDelete() {
     Meteor.call('deleteEmployee', this.props.employee._id);
   },
@@ -37,6 +41,9 @@ EmployeeRow = React.createClass({
           : null}
         </td>
         <td>
+          <button className="btn btn-default btn-sm" onClick={this.handleNewFeedbackSession}>+FS</button>
+        </td>
+        <td>
           {Meteor.userId() !== this.props.employee._id && canEdit ?
             <button className="btn btn-danger btn-sm" onClick={this.handleDelete}>X</button>
           : null}
@@ -54,6 +61,13 @@ if(Meteor.isServer) {
           "profile.team": args.team
         }
       });
+    },
+
+    'createFeedbackSession': function(employeeId) {
+      let employees = Meteor.users.find().fetch();
+      let employee = Meteor.users.findOne(employeeId);
+
+      createFeedbackSession(employees, employee);
     },
 
     'deleteEmployee': function(id) {
