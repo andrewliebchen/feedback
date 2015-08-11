@@ -119,7 +119,9 @@ if(Meteor.isClient) {
 };
 
 if(Meteor.isServer) {
+  // THIS IS ALL FUCKED UP!
   Meteor.methods({
+    // This shouldn't be here...
     'addFeedbackResults': function(args) {
       return FeedbackSessions.update(args.id, {
         $addToSet: {
@@ -134,14 +136,19 @@ if(Meteor.isServer) {
       });
     },
 
+
     'addFeedbackSessionResults': function(args){
+      // This is okay...
       FeedbackSessions.update(args.feedbackSessionId, {
         $set: {complete: true}
       });
 
+      // This needs to be the individual results. We're going to have to calculate
+      // the totals on the client...
       return Meteor.users.update(args.forId, {
         $addToSet: {
           'profile.feedback': {
+            year: args.year,
             period: args.period,
             score: args.score,
             total: args.total

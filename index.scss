@@ -166,6 +166,27 @@ body {
   }
 }
 
+// Feedback results
+.feedback-result {
+  position: relative;
+}
+
+.feedback-result__outer,
+.feedback-result__inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.feedback-result__outer {
+  border: 1px solid;
+}
+
+.feedback-result__inner {
+  background-color: green;
+}
+
 // Bootstrap shim
 .modal-background {
   position: fixed;

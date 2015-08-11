@@ -2,6 +2,29 @@
  * @jsx React.DOM
  */
 
+var FeedbackPeriod = React.createClass({
+  render() {
+    const size = 10;
+    let outerStyle = {
+      width: this.props.feedback.total * size,
+      height: this.props.feedback.total * size,
+      borderRadius: this.props.feedback.total * size * 0.5
+    };
+    let innerStyle = {
+      width: this.props.feedback.score * size,
+      height: this.props.feedback.score * size,
+      borderRadius: this.props.feedback.score * size * 0.5
+    };
+
+    return (
+      <div className="feedback-result">
+        <div className="feedback-result__outer" style={outerStyle}/>
+        <div className="feedback-result__inner" style={innerStyle}/>
+      </div>
+    );
+  }
+});
+
 EmployeeRow = React.createClass({
   handleSelectTeam(event) {
     Meteor.call('employeeTeam', {
@@ -26,7 +49,7 @@ EmployeeRow = React.createClass({
         {this.props.employee.profile.feedback ?
           <td>
             {this.props.employee.profile.feedback.map((feedback, i) => {
-              return <span key={i}>{feedback.response === 'positive' ? "👍" : "👎"}</span>;
+              return <FeedbackPeriod feedback={feedback}/>
             })}
           </td>
         : <td/>}
