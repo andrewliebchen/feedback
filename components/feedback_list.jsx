@@ -15,8 +15,8 @@ FeedbackSessionsList = React.createClass({
     Meteor.call('createFeedbackSessions');
   },
 
-  renderEmployee(respondant) {
-    let employee = _.find(this.props.employees, {_id: respondant});
+  renderEmployee(respondent) {
+    let employee = _.find(this.props.employees, {_id: respondent});
     return <Avatar employee={employee}/>;
   },
 
@@ -32,8 +32,8 @@ FeedbackSessionsList = React.createClass({
             {this.props.feedbackSessions.map((session, i) =>{
               return (
                 <tr key={i}>
-                  <td>{this.renderEmployee(session.respondant)}</td>
-                  <td>{session.period}</td>
+                  <td>{this.renderEmployee(session.for)}</td>
+                  <td>{`${session.period}/${session.year}`}</td>
                   <td>{session.complete ? '✅' : '⏳'}</td>
                   <td>
                     <a href={`/feedbacks/${session._id}`} className="btn btn-default btn-sm">View</a>
