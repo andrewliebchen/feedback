@@ -33,7 +33,7 @@ FeedbackSessionsList = React.createClass({
               return (
                 <tr key={i}>
                   <td>{this.renderEmployee(session.for)}</td>
-                  <td>{`${session.period}/${session.year}`}</td>
+                  <td>{`${session.month}/${session.year}`}</td>
                   <td>{session.complete ? '✅' : '⏳'}</td>
                   <td>
                     <a href={`/feedbacks/${session._id}`} className="btn btn-default btn-sm">View</a>

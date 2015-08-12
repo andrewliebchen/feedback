@@ -35,7 +35,7 @@ FeedbackSession = React.createClass({
     Meteor.call('addFeedback', {
       id: this.data.employees[newActiveEmployee]._id,
       response: response,
-      period: this.data.feedbackSession[0].period,
+      month: this.data.feedbackSession[0].month,
       year: this.data.feedbackSession[0].year,
       feedbackSession: this.data.feedbackSession[0]._id,
       createdAt: Date.now()
@@ -115,7 +115,7 @@ if(Meteor.isServer) {
           'profile.feedbacks': {
             response: args.response,
             year: args.year,
-            period: args.period,
+            month: args.month,
             feedbackSession: args.feedbackSession,
             createdAt: args.createdAt
           }

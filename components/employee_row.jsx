@@ -4,48 +4,36 @@
 
 const _ = lodash;
 
-var FeedbackPeriods = React.createClass({
-  getInitialState() {
-    return {
-      score: 0,
-      total: 0
-    };
-  },
-
-  componentWillMount() {
-    let score = this.state.score;
+var FeedbackMonths = React.createClass({
+  render() {
+    const size = 10;
+    let score = 0;
+    let total = 0;
 
     this.props.feedbacks.map((feedback, i) => {
-      score = score + feedback.response;
+      if(this.props.month == feedback.month) {
+        score = score + feedback.response;
+        total++;
+      }
     });
 
-    this.setState({
-      score: score,
-      total: _.size(this.props.feedbacks)
-    });
-  },
-  render() {
-    // const size = 10;
-    // let outerStyle = {
-    //   width: this.props.feedback.total * size,
-    //   height: this.props.feedback.total * size,
-    //   borderRadius: this.props.feedback.total * size * 0.5
-    // };
-    // let innerStyle = {
-    //   width: this.props.feedback.score * size,
-    //   height: this.props.feedback.score * size,
-    //   borderRadius: this.props.feedback.score * size * 0.5
-    // };
-
-    // return (
-    //   <div className="feedback-result">
-    //     <div className="feedback-result__outer" style={outerStyle}/>
-    //     <div className="feedback-result__inner" style={innerStyle}/>
-    //   </div>
-    // );
+    let outerStyle = {
+      width: total * size,
+      height: total * size,
+      borderRadius: total * size * 0.5
+    };
+    let innerStyle = {
+      width: score * size,
+      height: score * size,
+      borderRadius: score * size * 0.5
+    };
 
     return (
-      <td>{`${this.state.score}/${this.state.total}`}</td>
+      <div className="feedback-result">
+        <div className="feedback-result__outer" style={outerStyle}/>
+        <div className="feedback-result__inner" style={innerStyle}/>
+        {/*`${score}/${total}`*/}
+      </div>
     );
   }
 });
@@ -72,7 +60,11 @@ EmployeeRow = React.createClass({
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
         {this.props.employee.profile.feedbacks ?
-          <FeedbackPeriods feedbacks={this.props.employee.profile.feedbacks}/>
+          <td>
+            {_.times(12, (i) => {
+              return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
+            })}
+          </td>
         : <td/>}
         <td>
           <TeamChooser
