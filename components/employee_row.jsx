@@ -2,25 +2,50 @@
  * @jsx React.DOM
  */
 
-var FeedbackPeriod = React.createClass({
+const _ = lodash;
+
+var FeedbackPeriods = React.createClass({
+  getInitialState() {
+    return {
+      score: 0,
+      total: 0
+    };
+  },
+
+  componentWillMount() {
+    let score = this.state.score;
+
+    this.props.feedbacks.map((feedback, i) => {
+      score = score + feedback.response;
+    });
+
+    this.setState({
+      score: score,
+      total: _.size(this.props.feedbacks)
+    });
+  },
   render() {
-    const size = 10;
-    let outerStyle = {
-      // width: this.props.feedback.total * size,
-      // height: this.props.feedback.total * size,
-      // borderRadius: this.props.feedback.total * size * 0.5
-    };
-    let innerStyle = {
-      // width: this.props.feedback.score * size,
-      // height: this.props.feedback.score * size,
-      // borderRadius: this.props.feedback.score * size * 0.5
-    };
+    // const size = 10;
+    // let outerStyle = {
+    //   width: this.props.feedback.total * size,
+    //   height: this.props.feedback.total * size,
+    //   borderRadius: this.props.feedback.total * size * 0.5
+    // };
+    // let innerStyle = {
+    //   width: this.props.feedback.score * size,
+    //   height: this.props.feedback.score * size,
+    //   borderRadius: this.props.feedback.score * size * 0.5
+    // };
+
+    // return (
+    //   <div className="feedback-result">
+    //     <div className="feedback-result__outer" style={outerStyle}/>
+    //     <div className="feedback-result__inner" style={innerStyle}/>
+    //   </div>
+    // );
 
     return (
-      <div className="feedback-result">
-        <div className="feedback-result__outer" style={outerStyle}/>
-        <div className="feedback-result__inner" style={innerStyle}/>
-      </div>
+      <td>{`${this.state.score}/${this.state.total}`}</td>
     );
   }
 });
@@ -47,11 +72,7 @@ EmployeeRow = React.createClass({
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
         {this.props.employee.profile.feedbacks ?
-          <td>
-            {this.props.employee.profile.feedbacks.map((feedback, i) => {
-              return <FeedbackPeriod key={i} feedback={feedback}/>
-            })}
-          </td>
+          <FeedbackPeriods feedbacks={this.props.employee.profile.feedbacks}/>
         : <td/>}
         <td>
           <TeamChooser
