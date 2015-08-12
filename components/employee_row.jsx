@@ -6,14 +6,14 @@ var FeedbackPeriod = React.createClass({
   render() {
     const size = 10;
     let outerStyle = {
-      width: this.props.feedback.total * size,
-      height: this.props.feedback.total * size,
-      borderRadius: this.props.feedback.total * size * 0.5
+      // width: this.props.feedback.total * size,
+      // height: this.props.feedback.total * size,
+      // borderRadius: this.props.feedback.total * size * 0.5
     };
     let innerStyle = {
-      width: this.props.feedback.score * size,
-      height: this.props.feedback.score * size,
-      borderRadius: this.props.feedback.score * size * 0.5
+      // width: this.props.feedback.score * size,
+      // height: this.props.feedback.score * size,
+      // borderRadius: this.props.feedback.score * size * 0.5
     };
 
     return (
@@ -46,10 +46,10 @@ EmployeeRow = React.createClass({
     return (
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
-        {this.props.employee.profile.feedback ?
+        {this.props.employee.profile.feedbacks ?
           <td>
-            {this.props.employee.profile.feedback.map((feedback, i) => {
-              return <FeedbackPeriod feedback={feedback}/>
+            {this.props.employee.profile.feedbacks.map((feedback, i) => {
+              return <FeedbackPeriod key={i} feedback={feedback}/>
             })}
           </td>
         : <td/>}

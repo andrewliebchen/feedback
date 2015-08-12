@@ -20,40 +20,29 @@ FeedbackSession = React.createClass({
   getInitialState() {
     return {
       response: null,
-      score: 0,
-      total: 0
+      active: 0
     };
   },
 
   handleFeedback(response) {
-    let newScore = this.state.score + response;
-    let newTotal = this.state.total + 1;
+    let newActiveEmployee = this.state.active + 1;
+
     this.setState({
       response: response,
-      score: newScore,
-      total: newTotal
+      active: newActiveEmployee
     });
 
-    // Submit incremental results to FeedbackSession document?
-    Meteor.call('addFeedbackResults', {
-      id: this.data.feedbackSession[0]._id,
-      employeeId: this.data.employees[newTotal]._id,
+    Meteor.call('addFeedback', {
+      id: this.data.employees[newActiveEmployee]._id,
       response: response,
+      period: this.data.feedbackSession.period,
       year: this.data.feedbackSession[0].year,
-      period: this.data.feedbackSession[0].period,
+      feedbackSession: this.data.feedbackSession[0]._id,
       createdAt: Date.now()
     });
 
-    // Submit session totals to Meteor.user document
-    if(newTotal === this.data.employees.length - 1) {
-      Meteor.call('addFeedbackSessionResults', {
-        feedbackSessionId: this.data.feedbackSession[0]._id,
-        forId: this.data.feedbackSession[0].for,
-        year: this.data.feedbackSession[0].year,
-        period: this.data.feedbackSession[0].period,
-        score: newScore,
-        total: newTotal
-      });
+    if(newActiveEmployee === this.data.employees.length - 1) {
+      Meteor.call('feedbackSessionComplete', this.data.feedbackSession[0]._id);
     }
   },
 
@@ -69,7 +58,7 @@ FeedbackSession = React.createClass({
         <CSSTransitionGroup transitionName="feedback">
           {this.data.employees.map((employee, i) => {
             // Got to exclude the current user
-            if(i > this.state.total && employee._id !== Meteor.userId()) {
+            if(i > this.state.active && employee._id !== Meteor.userId()) {
               return (
                 <FeedbackCard
                   name={employee.profile.name}
@@ -81,7 +70,7 @@ FeedbackSession = React.createClass({
           })}
         </CSSTransitionGroup>
 
-        {this.state.total === this.data.employees.length - 1 ?
+        {this.state.active === this.data.employees.length - 1 ?
           <div className="null">All done!</div>
         :
           <div className="feedback-actions">
@@ -119,41 +108,24 @@ if(Meteor.isClient) {
 };
 
 if(Meteor.isServer) {
-  // THIS IS ALL FUCKED UP!
   Meteor.methods({
-    // This shouldn't be here...
-    'addFeedbackResults': function(args) {
-      return FeedbackSessions.update(args.id, {
+    'addFeedback': function(args) {
+      return Meteor.users.update(args.id, {
         $addToSet: {
-          responses: {
-            employeeId: args.employeeId,
+          'profile.feedbacks': {
             response: args.response,
-            year: args.period,
+            year: args.year,
             period: args.period,
+            feedbackSession: args.feedbackSession,
             createdAt: args.createdAt
           }
         }
       });
     },
 
-
-    'addFeedbackSessionResults': function(args){
-      // This is okay...
-      FeedbackSessions.update(args.feedbackSessionId, {
+    'feedbackSessionComplete': function(id) {
+      FeedbackSessions.update(id, {
         $set: {complete: true}
-      });
-
-      // This needs to be the individual results. We're going to have to calculate
-      // the totals on the client...
-      return Meteor.users.update(args.forId, {
-        $addToSet: {
-          'profile.feedback': {
-            year: args.year,
-            period: args.period,
-            score: args.score,
-            total: args.total
-          }
-        }
       });
     }
   });
