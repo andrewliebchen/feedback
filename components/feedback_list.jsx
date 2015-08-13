@@ -68,9 +68,10 @@ if(Meteor.isServer) {
   Meteor.methods({
     'createFeedbackSessions': function() {
       let employees = Meteor.users.find().fetch();
+      let month = _.random(1, 12); // For the current month...`moment().format('M')`
 
       employees.map(function(employee) {
-        createFeedbackSession(employees, employee);
+        createFeedbackSession(employees, employee, month);
       });
     },
 

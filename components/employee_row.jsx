@@ -29,11 +29,11 @@ var FeedbackMonths = React.createClass({
     };
 
     return (
-      <div className="feedback-result">
+      <td className="feedback-result">
         <div className="feedback-result__outer" style={outerStyle}/>
         <div className="feedback-result__inner" style={innerStyle}/>
         {/*`${score}/${total}`*/}
-      </div>
+      </td>
     );
   }
 });
@@ -59,13 +59,9 @@ EmployeeRow = React.createClass({
     return (
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
-        {this.props.employee.profile.feedbacks ?
-          <td>
-            {_.times(12, (i) => {
-              return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
-            })}
-          </td>
-        : <td/>}
+        {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
+          return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
+        }) : null}
         <td>
           <TeamChooser
             organization={this.props.organization}
