@@ -69,10 +69,15 @@ TeamChooser = React.createClass({
   },
 
   render() {
+    let teamLength = _.pluck(_.where(this.data.teams, {'members': [this.props.employee._id]}), 'members').length;
+
     return (
       <div className="dropdown">
         <button className="btn btn-default btn-sm dropdown-toggle" onClick={this.handleToggleDropdown}>
-          Select team <span className="caret"/>
+          {teamLength == 0 ?
+            <span>No teams </span>
+          : <span>{`On ${teamLength} ${teamLength == 1 ? 'team' : 'teams'}`} </span>}
+          <span className="caret"/>
         </button>
         {this.state.dropdown ?
           <span>
