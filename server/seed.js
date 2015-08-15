@@ -16,7 +16,8 @@ function createTeam() {
   return Teams.insert({
     name: 'Team 1',
     organization: '',
-    createdAt: Date.now()
+    createdAt: Date.now(),
+    members: []
   });
 }
 
@@ -44,6 +45,9 @@ Meteor.startup(function() {
       Teams.update(seedTeam, {
         $set: {
           organization: result
+        },
+        $addToSet: {
+          members: seedAdmin
         }
       });
     });

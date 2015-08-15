@@ -8,13 +8,13 @@ const Team = React.createClass({
   handleTeamCheck(event) {
     if(event.target.checked) {
       Meteor.call('assignTeam', {
-        employeeId: this.props.employee._id,
-        team: this.props.team
+        team: this.props.team._id,
+        employee: this.props.employee._id
       });
     } else {
       Meteor.call('removeTeam', {
-        employeeId: this.props.employee._id,
-        team: this.props.team
+        team: this.props.team._id,
+        employee: this.props.employee._id
       });
     }
   },
@@ -25,9 +25,10 @@ const Team = React.createClass({
         <label>
           <input
             type="checkbox"
-            defaultChecked={_.includes(this.props.employee.profile.teams, this.props.team)}
+            defaultChecked={_.includes(this.props.team.members, this.props.employee._id)}
             onChange={this.handleTeamCheck}/>
-          {this.props.team.name}
+          <strong>{this.props.team.name}</strong>
+          <span className="badge pull-right">{this.props.team.members.length}</span>
         </label>
       </li>
     );
@@ -54,14 +55,17 @@ TeamChooser = React.createClass({
     this.setState({dropdown: !this.state.dropdown});
   },
 
-  handleNewTeam() {
-    Meteor.call('addTeam', {
-      name: React.findDOMNode(this.refs.newTeam).value,
-      organization: Meteor.user().profile.organization,
-      createdAt: Date.now()
-    }, (err, success) => {
-      success ? React.findDOMNode(this.refs.newTeam).value = '' : null;
-    });
+  handleNewTeam(event) {
+    if(event.keyCode === 13) {
+      Meteor.call('addTeam', {
+        name: event.target.value,
+        organization: Meteor.user().profile.organization,
+        createdAt: Date.now(),
+        members: [this.props.employee._id]
+      }, (err, success) => {
+        success ? React.findDOMNode(this.refs.newTeam).value = '' : null;
+      });
+    }
   },
 
   render() {
@@ -78,9 +82,8 @@ TeamChooser = React.createClass({
               })}
               <li className="form-inline">
                 <div className="form-group">
-                  <input type="type" className="form-control" ref="newTeam" placeholder="Team name"/>
+                  <input type="type" className="form-control" placeholder="Team name" ref="newTeam" onKeyDown={this.handleNewTeam}/>
                 </div>
-                <button className="btn btn-default btn-sm" onClick={this.handleNewTeam}>Add</button>
               </li>
             </ul>
             <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
@@ -94,14 +97,14 @@ TeamChooser = React.createClass({
 if(Meteor.isServer) {
   Meteor.methods({
     'assignTeam': function(args) {
-      Meteor.users.update(args.employeeId, {
-        $addToSet: {'profile.teams': args.team}
+      Teams.update(args.team, {
+        $addToSet: {members: args.employee}
       });
     },
 
     'removeTeam': function(args) {
-      Meteor.users.update(args.employeeId, {
-        $pull: {'profile.teams': args.team}
+      Teams.update(args.team, {
+        $pull: {members: args.employee}
       })
     },
 
@@ -109,7 +112,8 @@ if(Meteor.isServer) {
       return Teams.insert({
         name: args.name,
         organization: args.organization,
-        createdAt: args.createdAt
+        createdAt: args.createdAt,
+        members: args.members
       });
     }
   });
