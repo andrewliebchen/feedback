@@ -93,22 +93,7 @@ EditOrganization = React.createClass({
             </dl>
           </div>
         </section>
-        <section className="panel panel-default">
-          <header className="panel-heading">
-            <h3 className="panel-title">Teams</h3>
-          </header>
-          <div className="panel-body">
-            <ul className="list-group">
-              {this.data.organization.teams.map((team, i) => {
-                return (
-                  <li className="list-group-item" key={i}>
-                    {team}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
+        <Teams organization={this.data.organization}/>
       </div>
     );
   }

@@ -27,7 +27,7 @@ const Team = React.createClass({
             type="checkbox"
             defaultChecked={_.includes(this.props.employee.profile.teams, this.props.team)}
             onChange={this.handleTeamCheck}/>
-          {this.props.team}
+          {this.props.team.name}
         </label>
       </li>
     );
@@ -35,6 +35,15 @@ const Team = React.createClass({
 });
 
 TeamChooser = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
+    Meteor.subscribe('teams');
+    return {
+      teams: Teams.find().fetch()
+    }
+  },
+
   getInitialState() {
     return {
       dropdown: false
@@ -47,8 +56,11 @@ TeamChooser = React.createClass({
 
   handleNewTeam() {
     Meteor.call('addTeam', {
-      org: Meteor.user().profile.organization,
-      team: React.findDOMNode(this.refs.newTeam).value
+      name: React.findDOMNode(this.refs.newTeam).value,
+      organization: Meteor.user().profile.organization,
+      createdAt: Date.now()
+    }, (err, success) => {
+      success ? React.findDOMNode(this.refs.newTeam).value = '' : null;
     });
   },
 
@@ -61,7 +73,7 @@ TeamChooser = React.createClass({
         {this.state.dropdown ?
           <span>
             <ul className="dropdown-menu" style={{display: 'block'}}>
-              {this.props.organization.teams.map((team, i) => {
+              {this.data.teams.map((team, i) => {
                 return <Team key={i} team={team} employee={this.props.employee}/>;
               })}
               <li className="form-inline">
@@ -94,8 +106,10 @@ if(Meteor.isServer) {
     },
 
     'addTeam': function(args) {
-      Organizations.update(args.org, {
-        $addToSet: {'teams': args.team}
+      return Teams.insert({
+        name: args.name,
+        organization: args.organization,
+        createdAt: args.createdAt
       });
     }
   });

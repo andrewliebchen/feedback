@@ -20,6 +20,11 @@ Meteor.publish('organization', function() {
   return Organizations.find({_id: currentOrgId});
 });
 
+Meteor.publish('teams', function() {
+  var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
+  return Teams.find({'organization': currentOrgId});
+});
+
 Meteor.publish('feedbackSession', function(id){
   var feedbackSession = FeedbackSessions.findOne(id);
   var respondant = feedbackSession.respondant;

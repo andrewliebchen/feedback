@@ -1,21 +1,30 @@
 function createAdmin() {
   return Accounts.createUser({
-    username: "admin",
-    email : "admin@example.com",
-    password : "password",
+    username: 'admin',
+    email : 'admin@example.com',
+    password : 'password',
     profile: {
-      organization: "",
+      organization: '',
       teams: ['Team 1'],
-      gender: "female",
-      name: "Manuela Velasco",
-      imageSrc: "http://api.randomuser.me/portraits/women/39.jpg"
+      name: 'Manuela Velasco',
+      imageSrc: 'http://api.randomuser.me/portraits/women/39.jpg'
     }
+  });
+}
+
+function createTeam() {
+  return Teams.insert({
+    name: 'Team 1',
+    organization: '',
+    createdAt: Date.now()
   });
 }
 
 Meteor.startup(function() {
   if(Organizations.find().count() === 0) {
     var seedAdmin = createAdmin();
+    var seedTeam = createTeam();
+
     Roles.addUsersToRoles(seedAdmin, ['admin'])
 
     Organizations.insert({
@@ -26,11 +35,15 @@ Meteor.startup(function() {
         status: true,
         frequency: 'Monthly'
       },
-      teams: ['Team 1', 'Team 2', 'Team 3']
-    }, function(error, result){
+    }, function(error, result) {
       Meteor.users.update(seedAdmin, {
         $set: {
-          "profile.organization": result
+          'profile.organization': result
+        }
+      });
+      Teams.update(seedTeam, {
+        $set: {
+          organization: result
         }
       });
     });
