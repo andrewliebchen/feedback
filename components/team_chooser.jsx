@@ -40,6 +40,7 @@ TeamChooser = React.createClass({
 
   getMeteorData() {
     Meteor.subscribe('teams');
+    
     return {
       teams: Teams.find().fetch()
     }

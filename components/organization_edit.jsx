@@ -93,7 +93,7 @@ EditOrganization = React.createClass({
             </dl>
           </div>
         </section>
-        <Teams organization={this.data.organization}/>
+        <TeamsList/>
       </div>
     );
   }
