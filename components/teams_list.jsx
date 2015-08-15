@@ -5,6 +5,16 @@
 const _ = lodash;
 
 const Team = React.createClass({
+  handleDeleteTeam() {
+    if(this.props.team.members.length > 0) {
+      if(window.confirm('This team has members. Are you sure you want to delete it?')) {
+        Meteor.call('deleteTeam', this.props.team._id);
+      }
+    } else {
+      Meteor.call('deleteTeam', this.props.team._id);
+    }
+  },
+
   handleRemoveEmployee(employeeId) {
     Meteor.call('removeEmployee', {
       team: this.props.team._id,
@@ -17,7 +27,11 @@ const Team = React.createClass({
       <div className="panel panel-default">
         <header className="panel-heading clearfix">
           <h4 className="panel-title pull-left">{this.props.team.name}</h4>
-          <button className="btn btn-danger btn-xs pull-right">Delete team</button>
+          <button
+            className="btn btn-danger btn-xs pull-right"
+            onClick={this.handleDeleteTeam}>
+            Delete
+          </button>
         </header>
         {this.props.team.members.length > 0 ?
           <table className="table">
@@ -76,6 +90,10 @@ TeamsList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
+    'deleteTeam': function(team) {
+      Teams.remove(team);
+    },
+
     'removeEmployee': function(args) {
       Teams.update(args.team, {
         $pull: {
