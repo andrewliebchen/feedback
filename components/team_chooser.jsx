@@ -12,7 +12,7 @@ const Team = React.createClass({
         employee: this.props.employee._id
       });
     } else {
-      Meteor.call('removeTeam', {
+      Meteor.call('removeEmployeeFromTeam', {
         team: this.props.team._id,
         employee: this.props.employee._id
       });
@@ -40,7 +40,7 @@ TeamChooser = React.createClass({
 
   getMeteorData() {
     Meteor.subscribe('teams');
-    
+
     return {
       teams: Teams.find().fetch()
     }
@@ -108,7 +108,7 @@ if(Meteor.isServer) {
       });
     },
 
-    'removeTeam': function(args) {
+    'removeEmployeeFromTeam': function(args) {
       Teams.update(args.team, {
         $pull: {members: args.employee}
       })

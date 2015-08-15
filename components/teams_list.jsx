@@ -16,7 +16,7 @@ const Team = React.createClass({
   },
 
   handleRemoveEmployee(employeeId) {
-    Meteor.call('removeEmployee', {
+    Meteor.call('removeEmployeeFromTeam', {
       team: this.props.team._id,
       employee: employeeId
     });
@@ -72,6 +72,15 @@ TeamsList = React.createClass({
     }
   },
 
+  handleAddTeam() {
+    Meteor.call('addTeam', {
+      name: '',
+      organization: Meteor.user().profile.organization,
+      createdAt: Date.now(),
+      members: []
+    });
+  },
+
   render() {
     return (
       <section className="panel panel-default">
@@ -82,6 +91,7 @@ TeamsList = React.createClass({
           {this.data.teams.map((team, i) => {
             return <Team team={team} employees={this.data.employees} key={i}/>;
           })}
+          <button className="btn btn-primary" onClick={this.handleAddTeam}>Add team</button>
         </div>
       </section>
     );
@@ -92,14 +102,6 @@ if(Meteor.isServer) {
   Meteor.methods({
     'deleteTeam': function(team) {
       Teams.remove(team);
-    },
-
-    'removeEmployee': function(args) {
-      Teams.update(args.team, {
-        $pull: {
-          members: args.employee
-        }
-      });
     }
   });
 }
