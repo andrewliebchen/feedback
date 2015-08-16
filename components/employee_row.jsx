@@ -63,9 +63,7 @@ EmployeeRow = React.createClass({
           return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
         }) : null}
         <td>
-          <TeamChooser
-            organization={this.props.organization}
-            employee={this.props.employee}/>
+          <TeamChooser employee={this.props.employee}/>
         </td>
         <td>
           {canEdit ?

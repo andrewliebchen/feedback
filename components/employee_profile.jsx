@@ -66,6 +66,10 @@ EmployeeProfile = React.createClass({
                   defaultValue={this.data.employee.emails[0].address}
                   onChange={this.handleUpdateEmployeeEmail}/>
               </div>
+              <div className="form-group">
+                <label>Team</label>
+                <TeamChooser employee={this.data.employee}/>
+              </div>
             </div>
           </div>
         : <span>Nope Nope Nope</span>}

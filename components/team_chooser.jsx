@@ -38,6 +38,10 @@ const Team = React.createClass({
 TeamChooser = React.createClass({
   mixins: [ReactMeteorData],
 
+  propTypes: {
+    employee: React.PropTypes.object.isRequired
+  },
+
   getMeteorData() {
     Meteor.subscribe('teams');
 
