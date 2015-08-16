@@ -5,6 +5,12 @@
 const _ = lodash;
 
 const Team = React.createClass({
+  getInitialState() {
+    return {
+      dropdown: false
+    };
+  },
+
   handleDeleteTeam() {
     if(this.props.team.members.length > 0) {
       if(window.confirm('This team has members. Are you sure you want to delete it?')) {
@@ -20,6 +26,18 @@ const Team = React.createClass({
       team: this.props.team._id,
       employee: employeeId
     });
+  },
+
+  handleToggleDropdown() {
+    this.setState({dropdown: !this.state.dropdown});
+  },
+
+  handleAddEmployee(employee) {
+    Meteor.call('addEmployeeToTeam', {
+      employee: employee,
+      team: this.props.team._id
+    });
+    this.setState({dropdown: !this.state.dropdown});
   },
 
   render() {
@@ -53,7 +71,22 @@ const Team = React.createClass({
               })}
             </tbody>
           </table>
-        : <div className="panel-body">No members</div>}
+        : null}
+        <div className="panel-body">
+          <div className="dropdown">
+            <button className="btn btn-default btn-xs" onClick={this.handleToggleDropdown}>
+              Add member <span className="caret"/>
+            </button>
+            {this.state.dropdown ?
+              <span>
+                <div className="dropdown-menu" style={{display: 'block'}}>
+                  <EmployeeChooser handleSelectEmployee={this.handleAddEmployee}/>
+                </div>
+                <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
+              </span>
+            : null}
+          </div>
+        </div>
       </div>
     );
   }
@@ -102,6 +135,12 @@ if(Meteor.isServer) {
   Meteor.methods({
     'deleteTeam': function(team) {
       Teams.remove(team);
+    },
+
+    'addEmployeeToTeam': function(args) {
+      Teams.update(args.team, {
+        $addToSet: {members: args.employee}
+      })
     }
   });
 }
