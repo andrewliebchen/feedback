@@ -75,7 +75,7 @@ const NewEmployee = React.createClass({
     return (
       <div className="container">
         <Header noSession/>
-        <NewEmployeeForm organization={this.data.organization}/>
+        <NewEmployeeForm organization={this.props.organization}/>
       </div>
     );
   }

@@ -16,15 +16,6 @@ Meteor.publish('registration', function(id) {
   return Organizations.find({_id: id});
 });
 
-Meteor.publish('organization', function() {
-  var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-  return [
-    Organizations.find({_id: currentOrgId}),
-    Teams.find({'organization': currentOrgId}),
-    Meteor.users.find({'profile.organization': currentOrgId})
-  ];
-});
-
 Meteor.publish('teams', function() {
   var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
   return Teams.find({'organization': currentOrgId});

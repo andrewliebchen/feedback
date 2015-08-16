@@ -5,12 +5,6 @@
 const _ = lodash;
 
 EmployeesList = React.createClass({
-  getInitialState() {
-    return {
-      newEmployeeModal: false
-    };
-  },
-
   handleDeleteAllEmployees() {
     if(window.confirm(`Are you sure you want to delete all employees? This will also delete all feedback sessions.`)) {
       Meteor.call('deleteAllEmployees');
@@ -47,8 +41,16 @@ EmployeesList = React.createClass({
     });
   },
 
-  toggleNewEmployeeModal() {
-    this.setState({newEmployeeModal: !this.state.newEmployeeModal});
+  toggleNewEmployee() {
+    FlowRouter.setQueryParams({
+      show: 'new_employee'
+    });
+  },
+
+  handleEmailInvite() {
+    FlowRouter.setQueryParams({
+      show: 'email_invite'
+    });
   },
 
   render() {
@@ -76,17 +78,13 @@ EmployeesList = React.createClass({
             <button className="btn btn-default" onClick={this.handleAddSeedEmployee}>
               New seed employee
             </button>
-            <button className="btn btn-default" onClick={this.toggleNewEmployeeModal}>
+            <button className="btn btn-default" onClick={this.toggleNewEmployee}>
               New employee
             </button>
-            <EmailInvite organizationId={this.props.organization._id}/>
+            <button className="btn btn-default" onClick={this.handleEmailInvite}>
+              Send email invite
+            </button>
           </footer>
-        : null}
-
-        {this.state.newEmployeeModal ?
-          <Modal close={this.toggleNewEmployeeModal}>
-            <NewEmployeeForm organization={this.props.organization}/>
-          </Modal>
         : null}
       </section>
     );

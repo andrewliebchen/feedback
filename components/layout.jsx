@@ -2,6 +2,8 @@
  * @jsx React.DOM
  */
 
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 Header = React.createClass({
   render() {
     return (
@@ -42,12 +44,19 @@ Layout = React.createClass({
     let type = FlowRouter.getQueryParam('show');
     let id = FlowRouter.getQueryParam('id');
 
-    if(type === 'employee') {
-      return <Drawer><EmployeeProfile employee={Meteor.users.findOne(id)}/></Drawer>;
-    }
+    // Switch statement?
+    switch(type) {
+      case 'employee':
+        return <Drawer><EmployeeProfile employee={Meteor.users.findOne(id)}/></Drawer>;
 
-    if(type === 'organization') {
-      return <Drawer><EditOrganization/></Drawer>;
+      case 'organization':
+        return <Drawer><EditOrganization/></Drawer>;
+
+      case 'new_employee':
+        return <Drawer><NewEmployeeForm organization={Organizations.findOne()}/></Drawer>;
+
+      case 'email_invite':
+        return <Drawer><EmailInvite organization={Organizations.findOne()}/></Drawer>;
     }
   },
 
@@ -56,7 +65,9 @@ Layout = React.createClass({
       <div className="container">
         <Header session/>
         {this.props.content}
-        {this.renderDrawer()}
+        <CSSTransitionGroup transitionName="drawer">
+          {this.renderDrawer()}
+        </CSSTransitionGroup>
       </div>
     );
   }

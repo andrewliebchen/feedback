@@ -200,7 +200,28 @@ a {
   background-color: white;
   width: 40vw;
   padding: 1em;
+  border-left: 1px solid #ccc;
+  z-index: 1;
 }
+
+.drawer-enter {
+  transform: translate3d(100%, 0, 0);
+
+  &.drawer-enter-active {
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.1s ease-out;
+  }
+}
+
+.drawer-leave {
+  transform: translate3d(0, 0, 0);
+
+  &.drawer-leave-active {
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.1s ease-in;
+  }
+}
+
 
 // Bootstrap shim
 .modal-background {
