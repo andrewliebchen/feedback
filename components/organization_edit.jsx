@@ -102,22 +102,6 @@ EditOrganization = React.createClass({
   }
 });
 
-if(Meteor.isClient) {
-  FlowRouter.route('/organization', {
-    subscriptions: function(params) {
-      this.register('organization', Meteor.subscribe('organization'));
-    },
-
-    action: function() {
-      FlowRouter.subsReady('organization', function() {
-        ReactLayout.render(Layout, {
-          content: <EditOrganization/>
-        });
-      });
-    }
-  });
-}
-
 if(Meteor.isServer) {
   Meteor.methods({
     'updateOrganizationName': function(args) {

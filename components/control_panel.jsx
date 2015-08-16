@@ -15,6 +15,13 @@ ControlPanel = React.createClass({
     };
   },
 
+  handleEditOrganization() {
+    FlowRouter.setQueryParams({
+      show: 'organization',
+      id: this.data.organization._id
+    });
+  },
+
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
@@ -31,7 +38,7 @@ ControlPanel = React.createClass({
                   {canEdit ?
                     <a
                       className="btn btn-default btn-sm pull-right"
-                      href="/organization">
+                      onClick={this.handleEditOrganization}>
                       Edit
                     </a>
                   : null}

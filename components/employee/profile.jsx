@@ -5,31 +5,23 @@
 const _ = lodash;
 
 EmployeeProfile = React.createClass({
-  mixins: [ReactMeteorData],
-
-  getMeteorData() {
-    return {
-      employee: Meteor.users.findOne()
-    };
-  },
-
   handleUpdateEmployeeName(event) {
     Meteor.call('updateEmployeeName', {
-      id: this.data.employee._id,
+      id: this.props.employee._id,
       name: event.target.value
     });
   },
 
   handleUpdateEmployeeUsername(event) {
     Meteor.call('updateEmployeeUsername', {
-      id: this.data.employee._id,
+      id: this.props.employee._id,
       username: event.target.value
     });
   },
 
   handleUpdateEmployeeEmail(event) {
     Meteor.call('updateEmployeeEmail', {
-      id: this.data.employee._id,
+      id: this.props.employee._id,
       email: event.target.value
     });
   },
@@ -37,17 +29,17 @@ EmployeeProfile = React.createClass({
   render() {
     return (
       <div>
-        {this.data.employee ?
+        {this.props.employee ?
           <div className="panel panel-default">
             <div className="panel-body">
-              <FeedbackCard name={this.data.employee.profile.name} image={this.data.employee.profile.imageSrc} index={0}/>
-              <ImageUploader employeeId={this.data.employee._id}/>
+              <FeedbackCard name={this.props.employee.profile.name} image={this.props.employee.profile.imageSrc} index={0}/>
+              <ImageUploader employeeId={this.props.employee._id}/>
               <div className="form-group">
                 <label>Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={_.capitalize(this.data.employee.profile.name)}
+                  defaultValue={_.capitalize(this.props.employee.profile.name)}
                   onChange={this.handleUpdateEmployeeName}/>
               </div>
               <div className="form-group">
@@ -55,7 +47,7 @@ EmployeeProfile = React.createClass({
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={this.data.employee.username}
+                  defaultValue={this.props.employee.username}
                   onChange={this.handleUpdateEmployeeUsername}/>
               </div>
               <div className="form-group">
@@ -63,12 +55,12 @@ EmployeeProfile = React.createClass({
                 <input
                   type="email"
                   className="form-control"
-                  defaultValue={this.data.employee.emails[0].address}
+                  defaultValue={this.props.employee.emails[0].address}
                   onChange={this.handleUpdateEmployeeEmail}/>
               </div>
               <div className="form-group">
                 <label>Team</label>
-                <TeamChooser employee={this.data.employee}/>
+                <TeamChooser employee={this.props.employee}/>
               </div>
             </div>
           </div>
@@ -77,22 +69,6 @@ EmployeeProfile = React.createClass({
     );
   }
 });
-
-if(Meteor.isClient) {
-  FlowRouter.route('/employees/:_id', {
-    subscriptions: function(params) {
-      this.register('employeeProfile', Meteor.subscribe('employeeProfile', params._id));
-    },
-
-    action: function() {
-      FlowRouter.subsReady('employeeProfile', function() {
-        ReactLayout.render(Layout, {
-          content: <EmployeeProfile/>
-        });
-      });
-    }
-  });
-}
 
 if(Meteor.isServer) {
   Meteor.methods({

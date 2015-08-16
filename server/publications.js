@@ -7,7 +7,8 @@ Meteor.publish('controlPanel', function() {
   return [
     Meteor.users.find({'profile.organization': currentOrgId}),
     Organizations.find({_id: currentOrgId}),
-    FeedbackSessions.find({'organization': currentOrgId})
+    FeedbackSessions.find({'organization': currentOrgId}),
+    Teams.find({'organization': currentOrgId})
   ];
 });
 
@@ -44,12 +45,6 @@ Meteor.publish('feedbackSession', function(id){
         _id: {$in: FeedbackSessions.findOne(id).employees}
       })
     ];
-  }
-});
-
-Meteor.publish('employeeProfile', function(id) {
-  if(Roles.userIsInRole(this.userId, ['admin']) || this.userId === id) {
-    return Meteor.users.find(id);
   }
 });
 
