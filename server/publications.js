@@ -17,7 +17,11 @@ Meteor.publish('registration', function(id) {
 
 Meteor.publish('organization', function() {
   var currentOrgId = Meteor.users.findOne({_id: this.userId}).profile.organization;
-  return Organizations.find({_id: currentOrgId});
+  return [
+    Organizations.find({_id: currentOrgId}),
+    Teams.find({'organization': currentOrgId}),
+    Meteor.users.find({'profile.organization': currentOrgId})
+  ];
 });
 
 Meteor.publish('teams', function() {

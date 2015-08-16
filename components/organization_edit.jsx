@@ -10,7 +10,9 @@ EditOrganization = React.createClass({
 
   getMeteorData() {
     return {
-      organization: Organizations.findOne()
+      organization: Organizations.findOne(),
+      teams: Teams.find().fetch(),
+      employees: Meteor.users.find().fetch()
     };
   },
 
@@ -93,7 +95,8 @@ EditOrganization = React.createClass({
             </dl>
           </div>
         </section>
-        <TeamsList/>
+        {/* Wish the component could successfully subscribe to this */}
+        <TeamsList teams={this.data.teams} employees={this.data.employees}/>
       </div>
     );
   }

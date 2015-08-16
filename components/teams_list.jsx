@@ -11,6 +11,13 @@ const Team = React.createClass({
     };
   },
 
+  handleUpdateTeamName(event) {
+    Meteor.call('updateTeamName', {
+      id: this.props.team._id,
+      name: event.target.value
+    });
+  },
+
   handleDeleteTeam() {
     if(this.props.team.members.length > 0) {
       if(window.confirm('This team has members. Are you sure you want to delete it?')) {
@@ -43,13 +50,23 @@ const Team = React.createClass({
   render() {
     return (
       <div className="panel panel-default">
-        <header className="panel-heading clearfix">
-          <h4 className="panel-title pull-left">{this.props.team.name}</h4>
-          <button
-            className="btn btn-danger btn-xs pull-right"
-            onClick={this.handleDeleteTeam}>
-            Delete
-          </button>
+        <header className="panel-heading">
+          <div className="row">
+            <div className="col-md-8">
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={this.props.team.name}
+                onChange={this.handleUpdateTeamName}/>
+            </div>
+            <div className="col-md-4">
+              <button
+                className="btn btn-danger btn-sm pull-right"
+                onClick={this.handleDeleteTeam}>
+                Delete
+              </button>
+            </div>
+          </div>
         </header>
         {this.props.team.members.length > 0 ?
           <table className="table">
@@ -93,18 +110,6 @@ const Team = React.createClass({
 });
 
 TeamsList = React.createClass({
-  mixins: [ReactMeteorData],
-
-  getMeteorData() {
-    Meteor.subscribe('teams');
-    Meteor.subscribe('employees');
-
-    return {
-      teams: Teams.find().fetch(),
-      employees: Meteor.users.find().fetch()
-    }
-  },
-
   handleAddTeam() {
     Meteor.call('addTeam', {
       name: '',
@@ -121,8 +126,8 @@ TeamsList = React.createClass({
           <h3 className="panel-title">Teams</h3>
         </header>
         <div className="panel-body">
-          {this.data.teams.map((team, i) => {
-            return <Team team={team} employees={this.data.employees} key={i}/>;
+          {this.props.teams.map((team, i) => {
+            return <Team team={team} employees={this.props.employees} key={i}/>;
           })}
           <button className="btn btn-primary" onClick={this.handleAddTeam}>Add team</button>
         </div>
@@ -133,6 +138,12 @@ TeamsList = React.createClass({
 
 if(Meteor.isServer) {
   Meteor.methods({
+    'updateTeamName': function(args) {
+      Teams.update(args.id, {
+        $set: {name: args.name}
+      });
+    },
+
     'deleteTeam': function(team) {
       Teams.remove(team);
     },
