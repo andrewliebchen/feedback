@@ -3,6 +3,10 @@
  */
 
 NewEmployeeForm = React.createClass({
+  propTypes: {
+    organization: React.PropTypes.object.isRequired
+  },
+
   getInitialState() {
     return {
       newEmployeeName: null

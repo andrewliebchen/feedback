@@ -110,6 +110,16 @@ const Team = React.createClass({
 });
 
 TeamsList = React.createClass({
+  PropTypes: {
+    teams: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      teams: []
+    };
+  },
+
   handleAddTeam() {
     Meteor.call('addTeam', {
       name: '',
