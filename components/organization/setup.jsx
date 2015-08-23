@@ -223,15 +223,49 @@ const Teams = React.createClass({
 });
 
 const Finish = React.createClass({
+  handleSendEmail(event) {
+    let message = `${React.findDOMNode(this.refs.message).value} Visit http://${Meteor.settings.public.siteURL}/${Session.get('organization')}/employees/new to sign up!`
+    Meteor.call('sendInviteEmail', {
+      to: React.findDOMNode(this.refs.to).value,
+      subject: React.findDOMNode(this.refs.subject).value,
+      message: message
+    });
+
+    FlowRouter.go('/admin');
+  },
+
   render() {
     return (
       <Section title="All done!" step={3}>
         <div className="panel-body">
-          Invite people
+          <p>Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis.</p>
+            <div className="form-group">
+              <label>To</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Seperate each address by a comma"
+                ref="to"/>
+            </div>
+            <div className="form-group">
+              <label>Subject</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue="Create your profile on Feedback"
+                ref="subject"/>
+            </div>
+            <div className="form-group">
+              <label>Message</label>
+              <textarea
+                className="form-control"
+                defaultValue="Sign up for this service or you're fired."
+                ref="message"/>
+            </div>
         </div>
         <footer className="panel-footer">
           <button href="/admin" className="btn btn-default">View dashboard</button>
-          <button className="btn btn-primary">Send and finish</button>
+          <button className="btn btn-primary" onClick={this.handleSendEmail}>Send and finish</button>
         </footer>
       </Section>
     );
