@@ -59,17 +59,21 @@ ControlPanel = React.createClass({
 });
 
 if(Meteor.isClient) {
-  FlowRouter.route('/admin', {
+  FlowRouter.route('/', {
     subscriptions: function(params) {
       this.register('controlPanel', Meteor.subscribe('controlPanel'));
     },
 
     action: function(param) {
-      FlowRouter.subsReady('controlPanel', function() {
-        ReactLayout.render(Layout, {
-          content: <ControlPanel/>
+      if(Meteor.user()) {
+        FlowRouter.subsReady('controlPanel', function() {
+          ReactLayout.render(Layout, {
+            content: <ControlPanel/>
+          });
         });
-      });
+      } else {
+        FlowRouter.go('/login');
+      }
     }
   });
 }

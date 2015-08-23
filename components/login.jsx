@@ -25,7 +25,7 @@ Login = React.createClass({
         console.log('whoops')
         this.setState({alert: "Whoops, something went wrong! Please try again..."})
       } else {
-        FlowRouter.go('/admin');
+        FlowRouter.go('/');
       }
     });
   },
