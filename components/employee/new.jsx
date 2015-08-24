@@ -5,15 +5,24 @@
 const _ = lodash;
 
 NewEmployeeForm = React.createClass({
+  mixins: [ReactMeteorData],
+
   propTypes: {
     organization: React.PropTypes.object.isRequired,
     teams: React.PropTypes.array.isRequired
   },
 
+  getMeteorData() {
+    return {
+      employees: Meteor.users.find().fetch()
+    };
+  },
+
   getInitialState() {
     return {
       name: null,
-      teams: []
+      teams: [],
+      success: false
     };
   },
 
@@ -45,6 +54,7 @@ NewEmployeeForm = React.createClass({
             employee: employee
           });
         });
+        this.setState({success: true});
       } else {
         console.log(err);
       };
@@ -57,45 +67,57 @@ NewEmployeeForm = React.createClass({
         <header className="panel-heading">
           <h3 className="panel-title">Create your profile</h3>
         </header>
-        <div className="panel-body">
-          <FeedbackCard name={this.state.name} image={null} index={0}/>
-          <div className="form-group">
-            <label>Name</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={this.updateNewEmployeeName}
-              ref="name"/>
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                ref="email"/>
-              <div className="input-group-addon">@{this.props.organization.domain}</div>
+        {this.state.success ?
+          <span>You did it!</span>
+        :
+          <span>
+            <div className="panel-body">
+              <FeedbackCard name={this.state.name} image={null} index={0}/>
+              <div className="form-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.updateNewEmployeeName}
+                  ref="name"/>
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    ref="email"/>
+                  <div className="input-group-addon">@{this.props.organization.domain}</div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="panel-body">
-          <h4>Teams</h4>
-          <p>Pick the teams you're on</p>
-          <div className="form-group">
-            {this.props.teams.map((team, i) => {
-              return (
-                <label key={i}>
-                  <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
-                  {team.name}
-                  <small> {team.members.length} members</small>
-                </label>
-              );
-            })}
-          </div>
-        </div>
-        <footer className="panel-footer">
-          <button className="btn btn-primary" onClick={this.handleNewEmployee}>Create profile</button>
-        </footer>
+            <div className="panel-body">
+              <h4>Teams</h4>
+              <p>Pick the teams you're on</p>
+              <ul className="list-group">
+                {this.props.teams.map((team, i) => {
+                  let employees = this.data.employees;
+                  return (
+                    <li className="list-group-item" key={i}>
+                      <label>
+                        <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
+                        {team.name}
+                      </label>
+                      {team.members.length > 0 ? team.members.map((member, i) => {
+                        let employee = _.filter(employees, {_id: member});
+                        return <Avatar employee={employee[0]} key={i}/>;
+                      }) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <footer className="panel-footer">
+              <button className="btn btn-primary" onClick={this.handleNewEmployee}>Create profile</button>
+            </footer>
+          </span>
+        }
       </div>
     );
   }

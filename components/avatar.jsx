@@ -5,6 +5,10 @@
 const _ = lodash;
 
 Avatar = React.createClass({
+  propTypes: {
+    employee: React.PropTypes.object.isRequired
+  },
+
   handleClick() {
     FlowRouter.setQueryParams({
       show: 'employee',

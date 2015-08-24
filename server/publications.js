@@ -42,6 +42,7 @@ Meteor.publish('feedbackSession', function(id){
 Meteor.publish('newEmployee', function(id) {
   return [
     Organizations.find({_id: id}),
-    Teams.find({organization: id})
+    Teams.find({organization: id}),
+    Meteor.users.find({'profile.organization': id})
   ];
 });
