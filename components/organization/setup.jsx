@@ -16,17 +16,18 @@ const Section = React.createClass({
   render() {
     return (
       <div className="container">
-        <nav>
+        <div className="breadcrumbs">
           {STEPS.map((step, i) => {
             let stepClassName = cx({
+              'breadcrumb': true,
               'is-selected': this.props.step === i
             });
 
             return (
-              <a className={stepClassName} key={i}>{step}</a>
+              <div className={stepClassName} key={i}>{step}</div>
             );
           })}
-        </nav>
+        </div>
         <section className="panel panel-default">
           <header className="panel-heading">
             <h3 className="panel-title">{this.props.title ? this.props.title : STEPS[this.props.step]}</h3>
@@ -41,19 +42,21 @@ const Section = React.createClass({
 const Account = React.createClass({
   getInitialState() {
     return {
+      showPassword: false,
       loading: false
     };
   },
 
-  handleCreateAdmin() {
+  handleCreateAdmin(event) {
+    event.preventDefault();
+
     let adminEmail = React.findDOMNode(this.refs.adminEmail).value;
-
     this.setState({loading: true});
-
     Meteor.call('createAdmin', {
       username: adminEmail,
       email: adminEmail,
-      name: React.findDOMNode(this.refs.adminName).value
+      name: React.findDOMNode(this.refs.adminName).value,
+      password: React.findDOMNode(this.refs.adminPassword).value
     }, (err, admin) => {
       if(admin) {
         let rx = /^([\w\.]+)@([\w\.]+)$/;
@@ -62,37 +65,59 @@ const Account = React.createClass({
         this.setState({loading: false});
         Session.set('admin', admin);
         Session.set('domain', rxEmail[2]);
-
         FlowRouter.go('/setup/organization');
       }
     });
   },
 
+  handleTogglePassword() {
+    this.setState({showPassword: !this.state.showPassword});
+  },
+
   render() {
     return (
       <Section step={0}>
-        <div className="panel-body">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui.</p>
-          <div className="form-group">
-            <label>Your name</label>
-            <input
-              type="text"
-              className="form-control"
-              ref="adminName"/>
+        <form>
+          <div className="panel-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui.</p>
+            <div className="form-group">
+              <label>Your name</label>
+              <input
+                type="text"
+                className="form-control"
+                ref="adminName"
+                required/>
+            </div>
+            <div className="form-group">
+              <label>Your work email</label>
+              <input
+                type="text"
+                className="form-control"
+                ref="adminEmail"
+                required/>
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <div className="input-group">
+                <input
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  className="form-control"
+                  ref="adminPassword"
+                  required/>
+                <div className="input-group-addon" onClick={this.handleTogglePassword}>
+                  {this.state.showPassword ? 'hide' : 'show'}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="form-group">
-            <label>Your work email</label>
+          <footer className="panel-footer">
             <input
-              type="text"
-              className="form-control"
-              ref="adminEmail"/>
-          </div>
-        </div>
-        <footer className="panel-footer">
-          <button className="btn btn-primary" onClick={this.handleCreateAdmin}>
-            {this.state.loading ? 'loading' : 'Next'}
-          </button>
-        </footer>
+              type="submit"
+              className="btn btn-primary"
+              onSubmit={this.handleCreateAdmin}
+              value={this.state.loading ? 'loading' : 'Next'}/>
+          </footer>
+        </form>
       </Section>
     );
   }
@@ -105,7 +130,9 @@ const Organization = React.createClass({
     };
   },
 
-  handleCreateOrganization() {
+  handleCreateOrganization(event) {
+    event.preventDefault();
+
     this.setState({loading: true});
     Meteor.call('createOrganization', {
       admin: Session.get('admin'),
@@ -116,7 +143,6 @@ const Organization = React.createClass({
       if(organization) {
         this.setState({loading: false});
         Session.set('organization', organization);
-
         FlowRouter.go('/setup/teams');
       }
     });
@@ -125,32 +151,36 @@ const Organization = React.createClass({
   render() {
     return (
       <Section step={1}>
-        <div className="panel-body">
-          <p>Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est.</p>
-          <div className="form-group">
-            <label>Organization's name</label>
-            <input
-              type="text"
-              className="form-control"
-              ref="orgName"
-              placeholder="Kramerica, Inc."/>
+        <form>
+          <div className="panel-body">
+            <p>Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est.</p>
+            <div className="form-group">
+              <label>Organization's name</label>
+              <input
+                type="text"
+                className="form-control"
+                ref="orgName"
+                placeholder="Kramerica, Inc."/>
+            </div>
+            <div className="form-group">
+              <label>Organization's email domain</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={Session.get('domain')}
+                ref="orgDomain"
+                placeholder="kramerica.com"/>
+              <small className="help-block">Everything after the @ in your work email</small>
+            </div>
           </div>
-          <div className="form-group">
-            <label>Organization's email domain</label>
+          <footer className="panel-footer">
             <input
-              type="text"
-              className="form-control"
-              defaultValue={Session.get('domain')}
-              ref="orgDomain"
-              placeholder="kramerica.com"/>
-            <small className="help-block">Everything after the @ in your work email</small>
-          </div>
-        </div>
-        <footer className="panel-footer">
-          <button className="btn btn-primary" onClick={this.handleCreateOrganization}>
-            {this.state.loading ? 'loading' : 'Next'}
-          </button>
-        </footer>
+              type="submit"
+              className="btn btn-primary"
+              onSubmit={this.handleCreateOrganization}
+              value={this.state.loading ? 'loading' : 'Next'}/>
+          </footer>
+        </form>
       </Section>
     );
   }
@@ -194,29 +224,33 @@ const Teams = React.createClass({
   render() {
     return (
       <Section step={2}>
-        <div className="panel-body">
-          <p>Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate.</p>
-          {this.state.teams.map((team, i) => {
-            return <div key={i}>{team}</div>;
-          })}
-          <div className="form-group">
-            <label>Team Name</label>
-            <input
-              type="text"
-              className="form-control"
-              ref="teamName"
-              onKeyDown={this.handleAddTeam}
-              placeholder="Enter a team and press enter"/>
+        <form>
+          <div className="panel-body">
+            <p>Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate.</p>
+            {this.state.teams.map((team, i) => {
+              return <div key={i}>{team}</div>;
+            })}
+            <div className="form-group">
+              <label>Team Name</label>
+              <input
+                type="text"
+                className="form-control"
+                ref="teamName"
+                onKeyDown={this.handleAddTeam}
+                placeholder="Enter a team and press enter"/>
+            </div>
           </div>
-        </div>
-        <footer className="panel-footer">
-          <button className="btn btn-default" onClick={this.goToFinish}>
-            Skip this for now
-          </button>
-          <button className="btn btn-primary" onClick={this.handleAddTeams}>
-            Continue
-          </button>
-        </footer>
+          <footer className="panel-footer">
+            <button className="btn btn-default" onClick={this.goToFinish}>
+              Skip this for now
+            </button>
+            <input
+              type="submit"
+              className="btn btn-primary"
+              onSubmit={this.handleAddTeams}
+              value="Contine"/>
+          </footer>
+        </form>
       </Section>
     );
   }
@@ -237,8 +271,9 @@ const Finish = React.createClass({
   render() {
     return (
       <Section title="All done!" step={3}>
-        <div className="panel-body">
-          <p>Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis.</p>
+        <form>
+          <div className="panel-body">
+            <p>Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis.</p>
             <div className="form-group">
               <label>To</label>
               <input
@@ -262,11 +297,16 @@ const Finish = React.createClass({
                 defaultValue="Sign up for this service or you're fired."
                 ref="message"/>
             </div>
-        </div>
-        <footer className="panel-footer">
-          <button href="/admin" className="btn btn-default">View dashboard</button>
-          <button className="btn btn-primary" onClick={this.handleSendEmail}>Send and finish</button>
-        </footer>
+          </div>
+          <footer className="panel-footer">
+            <button href="/admin" className="btn btn-default">View dashboard</button>
+            <input
+              type="submit"
+              className="btn btn-primary"
+              onSubmit={this.handleSendEmail}
+              value="Send and finish"/>
+          </footer>
+        </form>
       </Section>
     );
   }
@@ -304,14 +344,13 @@ if(Meteor.isServer) {
       let newAdminId = Accounts.createUser({
         username: args.username,
         email: args.email,
+        password: args.password,
         profile: {
           name: args.name
         }
       });
 
-      Accounts.sendEnrollmentEmail(newAdminId);
       Roles.addUsersToRoles(newAdminId, ['admin']);
-
       return newAdminId;
     },
 

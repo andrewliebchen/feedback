@@ -222,6 +222,20 @@ a {
   }
 }
 
+.breadcrumbs {
+  margin: 1em 0;
+  display: flex;
+}
+
+.breadcrumb {
+  text-align: center;
+  flex: 1;
+
+  &.is-selected {
+    font-weight: bold;
+  }
+}
+
 
 // Bootstrap shim
 .modal-background {
