@@ -22,6 +22,8 @@ NewEmployeeForm = React.createClass({
     return {
       name: null,
       teams: [],
+      showPassword: false,
+      loading: false,
       success: false
     };
   },
@@ -39,10 +41,13 @@ NewEmployeeForm = React.createClass({
     let newEmployee = {
       username: React.findDOMNode(this.refs.email).value,
       email: `${React.findDOMNode(this.refs.email).value}@${this.props.organization.domain}`,
+      password: React.findDOMNode(this.refs.password).value,
       organization: this.props.organization._id,
       name: React.findDOMNode(this.refs.name).value,
       teams: this.state.teams
     };
+
+    this.setState({loading: true});
 
     // Create the employee
     Meteor.call('newEmployee', newEmployee, (err, success) => {
@@ -54,11 +59,19 @@ NewEmployeeForm = React.createClass({
             employee: employee
           });
         });
-        this.setState({success: true});
+        this.setState({
+          loading: false,
+          success: true
+        });
       } else {
         console.log(err);
+        this.setState({loading: false});
       };
     });
+  },
+
+  handleTogglePassword() {
+    this.setState({showPassword: !this.state.showPassword});
   },
 
   render() {
@@ -68,7 +81,9 @@ NewEmployeeForm = React.createClass({
           <h3 className="panel-title">Create your profile</h3>
         </header>
         {this.state.success ?
-          <span>You did it!</span>
+          <div className="panel-body">
+            <p><strong>Awesome!</strong> Check your email, you should recieve a link to validate your account and create a password.</p>
+          </div>
         :
           <span>
             <div className="panel-body">
@@ -89,6 +104,15 @@ NewEmployeeForm = React.createClass({
                     className="form-control"
                     ref="email"/>
                   <div className="input-group-addon">@{this.props.organization.domain}</div>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <div className="input-group">
+                  <input type={this.state.showPassword ? 'text' : 'password'} className="form-control" ref="password"/>
+                  <div className="input-group-addon" onClick={this.handleTogglePassword}>
+                    {this.state.showPassword ? 'hide' : 'show'}
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,7 +138,9 @@ NewEmployeeForm = React.createClass({
               </ul>
             </div>
             <footer className="panel-footer">
-              <button className="btn btn-primary" onClick={this.handleNewEmployee}>Create profile</button>
+              <button className="btn btn-primary" onClick={this.handleNewEmployee}>
+                {this.state.loading ? 'loading' : 'Create profile'}
+              </button>
             </footer>
           </span>
         }
@@ -170,6 +196,7 @@ if(Meteor.isServer) {
       let newUserId = Accounts.createUser({
         username: employee.username,
         email: employee.email,
+        password: employee.password,
         profile: {
           organization: employee.organization,
           teams: employee.teams,
@@ -179,7 +206,7 @@ if(Meteor.isServer) {
         }
       });
 
-      Accounts.sendEnrollmentEmail(newUserId);
+      Accounts.sendVerificationEmail(newUserId);
       return newUserId;
     },
   });
