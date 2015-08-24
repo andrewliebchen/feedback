@@ -59,6 +59,10 @@ EmployeeRow = React.createClass({
     return (
       <tr>
         <td><Avatar employee={this.props.employee}/></td>
+        <td>
+          {this.props.employee.emails[0].verified ? null :
+            <span className="label label-warning">Not verified</span>}
+        </td>
         {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
           return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
         }) : null}
