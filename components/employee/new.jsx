@@ -2,20 +2,28 @@
  * @jsx React.DOM
  */
 
+const _ = lodash;
+
 NewEmployeeForm = React.createClass({
   propTypes: {
-    organization: React.PropTypes.object.isRequired
+    organization: React.PropTypes.object.isRequired,
+    teams: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
     return {
-      newEmployeeName: null
+      name: null,
+      teams: []
     };
   },
 
   updateNewEmployeeName() {
     // This will have to include pictures
-    this.setState({newEmployeeName: React.findDOMNode(this.refs.name).value});
+    this.setState({name: React.findDOMNode(this.refs.name).value});
+  },
+
+  handleAddtoTeam(team) {
+    this.setState({teams: this.state.teams.concat([team])});
   },
 
   handleNewEmployee() {
@@ -23,11 +31,23 @@ NewEmployeeForm = React.createClass({
       username: React.findDOMNode(this.refs.email).value,
       email: `${React.findDOMNode(this.refs.email).value}@${this.props.organization.domain}`,
       organization: this.props.organization._id,
-      name: React.findDOMNode(this.refs.name).value
+      name: React.findDOMNode(this.refs.name).value,
+      teams: this.state.teams
     };
 
-    Meteor.call('newEmployee', newEmployee, function(err, success) {
-      success ? FlowRouter.go('/admin') : console.log(err);
+    // Create the employee
+    Meteor.call('newEmployee', newEmployee, (err, success) => {
+      if(success){
+        let employee = success;
+        _.forEach(this.state.teams, (team) => {
+          Meteor.call('assignTeam', {
+            team: team,
+            employee: employee
+          });
+        });
+      } else {
+        console.log(err);
+      };
     });
   },
 
@@ -38,7 +58,15 @@ NewEmployeeForm = React.createClass({
           <h3 className="panel-title">Create your profile</h3>
         </header>
         <div className="panel-body">
-          <FeedbackCard name={this.state.newEmployeeName} image={null} index={0}/>
+          <FeedbackCard name={this.state.name} image={null} index={0}/>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={this.updateNewEmployeeName}
+              ref="name"/>
+          </div>
           <div className="form-group">
             <label>Email</label>
             <div className="input-group">
@@ -49,13 +77,20 @@ NewEmployeeForm = React.createClass({
               <div className="input-group-addon">@{this.props.organization.domain}</div>
             </div>
           </div>
+        </div>
+        <div className="panel-body">
+          <h4>Teams</h4>
+          <p>Pick the teams you're on</p>
           <div className="form-group">
-            <label>Name</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={this.updateNewEmployeeName}
-              ref="name"/>
+            {this.props.teams.map((team, i) => {
+              return (
+                <label key={i}>
+                  <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
+                  {team.name}
+                  <small> {team.members.length} members</small>
+                </label>
+              );
+            })}
           </div>
         </div>
         <footer className="panel-footer">
@@ -71,7 +106,8 @@ const NewEmployee = React.createClass({
 
   getMeteorData() {
     return {
-      organization: Organizations.findOne()
+      organization: Organizations.findOne(),
+      teams: Teams.find().fetch()
     };
   },
 
@@ -79,7 +115,9 @@ const NewEmployee = React.createClass({
     return (
       <div className="container">
         <Header noSession/>
-        <NewEmployeeForm organization={this.props.organization}/>
+        <NewEmployeeForm
+          organization={this.data.organization}
+          teams={this.data.teams}/>
       </div>
     );
   }
@@ -93,9 +131,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('newEmployee', function() {
-        ReactLayout.render(Layout, {
-          content: <NewEmployee/>
-        });
+        ReactLayout.render(NewEmployee);
       });
     }
   });

@@ -111,7 +111,7 @@ const Team = React.createClass({
 
 TeamsList = React.createClass({
   PropTypes: {
-    teams: React.PropTypes.bool
+    teams: React.PropTypes.array
   },
 
   getDefaultProps() {
