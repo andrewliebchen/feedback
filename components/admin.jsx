@@ -65,15 +65,15 @@ if(Meteor.isClient) {
     },
 
     action: function(param) {
-      if(Meteor.user()) {
+      // if(Meteor.user()) {
         FlowRouter.subsReady('controlPanel', function() {
           ReactLayout.render(Layout, {
             content: <ControlPanel/>
           });
         });
-      } else {
-        FlowRouter.go('/login');
-      }
+      // } else {
+      //   FlowRouter.go('/login');
+      // }
     }
   });
 }

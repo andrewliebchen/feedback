@@ -53,7 +53,13 @@ Layout = React.createClass({
         return <Drawer><EditOrganization/></Drawer>;
 
       case 'new_employee':
-        return <Drawer><NewEmployeeForm organization={Organizations.findOne()}/></Drawer>;
+        return (
+          <Drawer>
+            <NewEmployeeForm
+              organization={Organizations.findOne()}
+              teams={Teams.find().fetch()}/>
+          </Drawer>
+        );
 
       case 'email_invite':
         return <Drawer><EmailInvite organization={Organizations.findOne()}/></Drawer>;

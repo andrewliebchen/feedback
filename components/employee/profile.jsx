@@ -32,14 +32,20 @@ EmployeeProfile = React.createClass({
         {this.props.employee ?
           <div className="panel panel-default">
             <div className="panel-body">
-              <FeedbackCard name={this.props.employee.profile.name} image={this.props.employee.profile.imageSrc} index={0}/>
-              <ImageUploader employeeId={this.props.employee._id}/>
+              <div className="form-group">
+                <FeedbackCard
+                  index={0}
+                  name={this.props.employee.profile.name}
+                  image={this.props.employee.profile.imageSrc}
+                  id={this.props.employee._id}
+                  editable/>
+              </div>
               <div className="form-group">
                 <label>Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={_.capitalize(this.props.employee.profile.name)}
+                  defaultValue={_.startCase(this.props.employee.profile.name)}
                   onChange={this.handleUpdateEmployeeName}/>
               </div>
               <div className="form-group">

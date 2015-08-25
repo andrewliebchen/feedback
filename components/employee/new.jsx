@@ -87,7 +87,13 @@ NewEmployeeForm = React.createClass({
         :
           <span>
             <div className="panel-body">
-              <FeedbackCard name={this.state.name} image={null} index={0}/>
+              <div className="form-group">
+                <FeedbackCard
+                  name={this.state.name}
+                  image={null}
+                  index={0}
+                  editable/>
+              </div>
               <div className="form-group">
                 <label>Name</label>
                 <input

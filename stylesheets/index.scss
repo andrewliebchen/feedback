@@ -73,8 +73,8 @@ a {
   overflow: hidden;
   position: absolute;
   transform-origin: 50% 0;
-  width: $feedback-card-size;
-  height: $feedback-card-size;
+  max-width: $feedback-card-size;
+  max-height: $feedback-card-size;
 
   &:nth-child(1) {
     z-index: 5;
@@ -91,6 +91,14 @@ a {
       transform: scale(1 - ($modifier * 0.05));
       z-index: 6 - $i;
     }
+  }
+
+  .image-uploader {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    right: 1em;
+    z-index: 1;
   }
 }
 

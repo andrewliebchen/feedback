@@ -3,6 +3,10 @@
  */
 
 ImageUploader = React.createClass({
+  propTypes: {
+    id: React.PropTypes.string
+  },
+
   handleImageUpload(event) {
     let uploader = new Slingshot.Upload('fileUploads');
     uploader.send(event.target.files[0], (error, imageSrc) => {
@@ -11,7 +15,7 @@ ImageUploader = React.createClass({
       }
       else {
         Meteor.call('updateImage', {
-          id: this.props.employeeId,
+          id: this.props.id,
           imageSrc: imageSrc
         });
       }
@@ -20,11 +24,12 @@ ImageUploader = React.createClass({
 
   render() {
     return (
-      <div className="form-group">
+      <div className="form-group image-uploader">
         <input
           type="file"
           className="form-control"
-          onChange={this.handleImageUpload}/>
+          onChange={this.handleImageUpload}
+          disabled={!this.props.id}/>
       </div>
     );
   }
