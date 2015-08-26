@@ -2,24 +2,35 @@
  * @jsx React.DOM
  */
 
+if(Meteor.isClient) {
+  Session.setDefault('newImageUrl', null);
+}
+
 ImageUploader = React.createClass({
   propTypes: {
     id: React.PropTypes.string
   },
 
   handleImageUpload(files) {
-    let uploader = new Slingshot.Upload('fileUploads');
     let file = files[0];
+    let uploader = new Slingshot.Upload('fileUploads');
 
+    // If an id is passed to the component, we're editing an existing
+    // user's profile. If not, we're creating a new one. Since an id
+    // doesn't exist yet, put it in a Session variable for use later.
     uploader.send(file, (error, imageSrc) => {
       if (error) {
         console.error('Error uploading', uploader.xhr.response);
       }
       else {
-        Meteor.call('updateImage', {
-          id: this.props.id,
-          imageSrc: imageSrc
-        });
+        if(this.props.id) {
+          Meteor.call('updateImage', {
+            id: id,
+            imageSrc: imageSrc
+          });
+        } else {
+          Session.set('newImageUrl', imageSrc);
+        }
       }
     });
   },

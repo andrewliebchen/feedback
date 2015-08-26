@@ -92,6 +92,10 @@ a {
       z-index: 6 - $i;
     }
   }
+
+  .form-group & {
+    border: 1px solid;
+  }
 }
 
 .feedback-card__image {

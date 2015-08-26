@@ -44,7 +44,8 @@ NewEmployeeForm = React.createClass({
       password: React.findDOMNode(this.refs.password).value,
       organization: this.props.organization._id,
       name: React.findDOMNode(this.refs.name).value,
-      teams: this.state.teams
+      teams: this.state.teams,
+      imageSrc: Session.get('newImageUrl')
     };
 
     this.setState({loading: true});
@@ -53,12 +54,16 @@ NewEmployeeForm = React.createClass({
     Meteor.call('newEmployee', newEmployee, (err, success) => {
       if(success){
         let employee = success;
+
+        // Add teams
         _.forEach(this.state.teams, (team) => {
           Meteor.call('assignTeam', {
             team: team,
             employee: employee
           });
         });
+
+        // Reset the state
         this.setState({
           loading: false,
           success: true
