@@ -7,9 +7,11 @@ ImageUploader = React.createClass({
     id: React.PropTypes.string
   },
 
-  handleImageUpload(event) {
+  handleImageUpload(files) {
     let uploader = new Slingshot.Upload('fileUploads');
-    uploader.send(event.target.files[0], (error, imageSrc) => {
+    let file = files[0];
+
+    uploader.send(file, (error, imageSrc) => {
       if (error) {
         console.error('Error uploading', uploader.xhr.response);
       }
@@ -24,13 +26,11 @@ ImageUploader = React.createClass({
 
   render() {
     return (
-      <div className="form-group image-uploader">
-        <input
-          type="file"
-          className="form-control"
-          onChange={this.handleImageUpload}
-          disabled={!this.props.id}/>
-      </div>
+      <Dropzone
+        onDrop={this.handleImageUpload}
+        multiple={false}
+        accept="image/*"
+        style={{height: "auto", width: "100%"}}/>
     );
   }
 });

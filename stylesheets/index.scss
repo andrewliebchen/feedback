@@ -92,14 +92,6 @@ a {
       z-index: 6 - $i;
     }
   }
-
-  .image-uploader {
-    position: absolute;
-    top: 1em;
-    left: 1em;
-    right: 1em;
-    z-index: 1;
-  }
 }
 
 .feedback-card__image {
@@ -241,6 +233,29 @@ a {
 
   &.is-selected {
     font-weight: bold;
+  }
+}
+
+.dropzone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &:hover,
+  &.active {
+    background-color: rgba(white, 0.7);
+
+    &:after {
+      content: "Upload new image";
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      transform: translateY(-50%);
+      font-weight: bold;
+    }
   }
 }
 
