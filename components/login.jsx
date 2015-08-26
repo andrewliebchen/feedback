@@ -7,10 +7,11 @@
  }
 
 Login = React.createClass({
+  mixins: [ShowPasswordMixin],
+
   getInitialState() {
     return {
-      alert: null,
-      showPassword: false
+      alert: null
     };
   },
 
@@ -28,10 +29,6 @@ Login = React.createClass({
         FlowRouter.go('/');
       }
     });
-  },
-
-  handleTogglePassword() {
-    this.setState({showPassword: !this.state.showPassword});
   },
 
   render() {

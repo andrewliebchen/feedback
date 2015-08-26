@@ -40,9 +40,10 @@ const Section = React.createClass({
 });
 
 const Account = React.createClass({
+  mixins: [ShowPasswordMixin],
+  
   getInitialState() {
     return {
-      showPassword: false,
       loading: false
     };
   },
@@ -68,10 +69,6 @@ const Account = React.createClass({
         FlowRouter.go('/setup/organization');
       }
     });
-  },
-
-  handleTogglePassword() {
-    this.setState({showPassword: !this.state.showPassword});
   },
 
   render() {

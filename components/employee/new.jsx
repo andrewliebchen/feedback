@@ -5,7 +5,7 @@
 const _ = lodash;
 
 NewEmployeeForm = React.createClass({
-  mixins: [ReactMeteorData],
+  mixins: [ReactMeteorData, ShowPasswordMixin],
 
   propTypes: {
     organization: React.PropTypes.object.isRequired,
@@ -23,7 +23,6 @@ NewEmployeeForm = React.createClass({
     return {
       name: null,
       teams: [],
-      showPassword: false,
       loading: false,
       success: false
     };
@@ -74,10 +73,6 @@ NewEmployeeForm = React.createClass({
         this.setState({loading: false});
       };
     });
-  },
-
-  handleTogglePassword() {
-    this.setState({showPassword: !this.state.showPassword});
   },
 
   render() {
