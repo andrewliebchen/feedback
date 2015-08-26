@@ -14,7 +14,8 @@ NewEmployeeForm = React.createClass({
 
   getMeteorData() {
     return {
-      employees: Meteor.users.find().fetch()
+      employees: Meteor.users.find().fetch(),
+      image: Session.get('newImageUrl')
     };
   },
 
@@ -45,7 +46,7 @@ NewEmployeeForm = React.createClass({
       organization: this.props.organization._id,
       name: React.findDOMNode(this.refs.name).value,
       teams: this.state.teams,
-      imageSrc: Session.get('newImageUrl')
+      imageSrc: this.data.image
     };
 
     this.setState({loading: true});
@@ -95,7 +96,7 @@ NewEmployeeForm = React.createClass({
               <div className="form-group">
                 <FeedbackCard
                   name={this.state.name}
-                  image={null}
+                  image={this.data.image}
                   index={0}
                   editable/>
               </div>
