@@ -1,0 +1,11 @@
+$feedback-card-size: 20em;
+$color-positive: #3db36a;
+$color-negative: #ed1552;
+
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}

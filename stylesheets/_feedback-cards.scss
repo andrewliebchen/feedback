@@ -1,0 +1,113 @@
+.feedback-card__wrapper {
+  left: 50%;
+  position: absolute;
+  top: 30%;
+  transform: translate3d(-50%, 0, 0);
+  width: $feedback-card-size;
+}
+
+.feedback-card {
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  position: absolute;
+  transform-origin: 50% 0;
+  max-width: $feedback-card-size;
+  max-height: $feedback-card-size;
+
+  &:nth-child(1) {
+    z-index: 5;
+  }
+
+  .panel-body & {
+    position: relative;
+  }
+
+  @for $i from 2 through 5 {
+    &:nth-child(#{$i}){
+      $modifier: $i - 1;
+      top: -($modifier * 0.5em);
+      transform: scale(1 - ($modifier * 0.05));
+      z-index: 6 - $i;
+    }
+  }
+
+  .form-group & {
+    border: 1px solid;
+  }
+}
+
+.feedback-card__image {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.feedback-card__name {
+  background-image: linear-gradient(to bottom, rgba(black, 0), rgba(black, 0.8));
+  bottom: 0;
+  color: white;
+  left: 0;
+  padding: 0.5em 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  margin: 0;
+}
+
+.feedback-actions {
+  margin-top: $feedback-card-size + 2em;
+}
+
+.feedback-action {
+  $size: 5em;
+  border-radius: $size / 2;
+  border: 2px solid;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: $size;
+  margin: 2em;
+  text-align: center;
+  width: $size;
+}
+
+.feedback-action_positive {
+  background-color: rgba($color-positive, 0.2);
+  color: $color-positive;
+  float: right;
+}
+
+.feedback-action_negative {
+  background-color: rgba($color-negative, 0.2);
+  color: $color-negative;
+  float: left;
+}
+
+// Animations
+.feedback-enter {
+  opacity: 0.01;
+  transition: opacity 0.2s linear;
+}
+
+.feedback-enter.feedback-enter-active {
+  opacity: 1;
+}
+
+.feedback-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.2s ease-in-out;
+}
+
+.feedback-leave.feedback-leave-active {
+  opacity: 0.01;
+
+  .feedback-response_positive & {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .feedback-response_negative & {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
