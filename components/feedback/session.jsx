@@ -46,6 +46,26 @@ FeedbackSession = React.createClass({
     }
   },
 
+  _handleDocumentClick(event) {
+    // Positive
+    if(event.keyCode === 39) {
+      this.handleFeedback(1);
+    }
+
+    // Negative
+    if(event.keyCode === 37) {
+      this.handleFeedback(0);
+    }
+  },
+
+  componentWillMount(){
+    document.addEventListener('keydown', this._handleDocumentClick, false);
+  },
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this._handleDocumentClick, false);
+  },
+
   render() {
     let feedbackWrapperClassName = cx({
       "feedback-card__wrapper": true,
