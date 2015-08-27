@@ -9,7 +9,7 @@ Header = React.createClass({
     return (
       <header className="header">
         <div className="header__brand">
-          <a href="/admin"><strong>Feedback</strong></a>
+          <a href="/"><strong>Feedback</strong></a>
         </div>
         {this.props.session ?
           <div className="header__session">

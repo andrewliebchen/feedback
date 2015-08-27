@@ -1,14 +1,14 @@
-var _ = lodash;
+const _ = lodash;
 
 createFeedbackSession = function(employees, currentEmployee, month) {
-  var weightedEmployees = [];
+  let weightedEmployees = [];
 
   // Shuffle the list of employees, then apply a weight
   _.shuffle(employees).map(function(employee) {
-    var weightedEmployee = {};
+    let weightedEmployee = {};
 
     // Weighted factors
-    var onSameTeam = _.intersection(employee.profile.teams, currentEmployee.profile.teams).length > 0;
+    let onSameTeam = _.intersection(employee.profile.teams, currentEmployee.profile.teams).length > 0;
 
     // Construct collection
     if(employee._id != currentEmployee._id) {
@@ -28,13 +28,13 @@ createFeedbackSession = function(employees, currentEmployee, month) {
   });
 
   // Sort the collection by weight, take the top 5
-  var feedbackGroup = _.take(_.sortByOrder(weightedEmployees, 'value', 'dsc'), 5);
+  let feedbackGroup = _.take(_.sortByOrder(weightedEmployees, 'value', 'dsc'), 5);
 
   // Get the ids of the top 5
-  var feedbackGroupIds = _.pluck(feedbackGroup, 'id');
+  let feedbackGroupIds = _.pluck(feedbackGroup, 'id');
 
   // Insert document into the FeedbackSessions collection
-  return FeedbackSessions.insert({
+  let feedbackSessionId = FeedbackSessions.insert({
     organization: currentEmployee.profile.organization,
     for: currentEmployee._id,
     employees: feedbackGroupIds,
@@ -42,4 +42,16 @@ createFeedbackSession = function(employees, currentEmployee, month) {
     month: month,
     complete: false
   });
+
+  // Send email to recipient
+
+  // Send the email, fix the address eventually
+  Email.send({
+    from: 'andrewliebchen@gmail.com',
+    to: currentEmployee.emails[0].address,
+    subject: 'Time to do you feedback session',
+    text: `http://${Meteor.settings.public.siteURL}/feedbacks/${feedbackSessionId}`
+  });
+
+  return feedbackSessionId;
 }
