@@ -1,6 +1,18 @@
 $feedback-card-size: 20em;
+
+$color-brand: #4683eb;
+
+$color-gray-dark: #47525d;
+$color-gray-mid: #7b8994;
+$color-gray-light: #f5f5f7;
+$color-gray-lightest: #fafafb;
+
 $color-positive: #3db36a;
 $color-negative: #ed1552;
+
+$layout-width: 80vw;
+$layout-padding: (100vw - $layout-width) / 2;
+
 
 @mixin clearfix {
   &::after {

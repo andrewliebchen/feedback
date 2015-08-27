@@ -6,7 +6,8 @@ const _ = lodash;
 
 Avatar = React.createClass({
   propTypes: {
-    employee: React.PropTypes.object.isRequired
+    employee: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string
   },
 
   handleClick() {
@@ -19,7 +20,7 @@ Avatar = React.createClass({
   render() {
     let profile = this.props.employee.profile;
     return (
-      <a className="avatar media" onClick={this.handleClick}>
+      <a className={`avatar media ${this.props.className}`} onClick={this.handleClick}>
         {profile.imageSrc ?
           <div className="media-left">
             <img src={profile.imageSrc} className="img-rounded" width="24"/>

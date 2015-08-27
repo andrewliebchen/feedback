@@ -1,0 +1,41 @@
+.row {
+  display: flex;
+
+  + .row {
+    margin-top: 2em;
+  }
+}
+
+.row__title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.row__actions {
+
+}
+
+.row__action {
+  display: block;
+}
+
+.row__body {
+
+}
+
+
+// Columns
+.column_details {
+  flex: 1;
+  text-align: right;
+  padding: 0 1em;
+}
+
+.column_results {
+  flex: 4;
+  display: flex;
+}
+
+.column_result {
+  flex: 1;
+}

@@ -1,0 +1,26 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: $layout-padding;
+  height: 100vh;
+  width: $layout-width;
+  z-index: -1;
+}
+
+.background__result {
+  height: 100vh;
+  position: relative;
+
+  &:nth-child(odd) {
+    background-color: $color-gray-lightest;
+  }
+}
+
+.background__label {
+  position: absolute;
+  bottom: 0.5em;
+  margin: 0;
+  color: $color-gray-mid;
+  text-align: center;
+  width: 100%;
+}

@@ -2,6 +2,7 @@
  * @jsx React.DOM
  */
 
+const _ = lodash;
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 Header = React.createClass({
@@ -66,6 +67,23 @@ Layout = React.createClass({
     }
   },
 
+  renderBackground() {
+    return (
+      <div className="background row">
+        <div className="background__details column_details"/>
+        <div className="background__results column_results">
+          {_.times(12, (i) => {
+            return (
+              <div key={i} className="background__result column_result">
+                <p className="background__label">{moment(i + 1, 'M').format('MMM')}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  },
+
   render() {
     return (
       <div className="container">
@@ -74,6 +92,7 @@ Layout = React.createClass({
         <CSSTransitionGroup transitionName="drawer">
           {this.renderDrawer()}
         </CSSTransitionGroup>
+        {this.renderBackground()}
       </div>
     );
   }

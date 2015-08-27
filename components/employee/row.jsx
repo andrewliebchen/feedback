@@ -6,7 +6,7 @@ const _ = lodash;
 
 var FeedbackMonths = React.createClass({
   render() {
-    const size = 10;
+    const size = 16;
     let score = 0;
     let total = 0;
 
@@ -29,11 +29,11 @@ var FeedbackMonths = React.createClass({
     };
 
     return (
-      <td className="feedback-result">
+      <div className="feedback-result column_result">
         <div className="feedback-result__outer" style={outerStyle}/>
         <div className="feedback-result__inner" style={innerStyle}/>
         {/*`${score}/${total}`*/}
-      </td>
+      </div>
     );
   }
 });
@@ -61,37 +61,46 @@ EmployeeRow = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
-      <tr>
-        <td><Avatar employee={this.props.employee}/></td>
-        <td>
-          {this.props.employee.emails[0].verified ? null :
-            <span className="label label-warning">Not verified</span>}
-        </td>
-        {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
-          return (
-            <FeedbackMonths
-              key={i}
-              feedbacks={this.props.employee.profile.feedbacks}
-              month={i + 1}/>
-          );
-        }) : null}
-        <td>
-          <TeamChooser employee={this.props.employee}/>
-        </td>
-        <td>
+      <div className="row">
+        <div className="column_details">
+          <div className="row__title">
+            <Avatar employee={this.props.employee} className="row__title"/>
+            {this.props.employee.emails[0].verified ? null :
+              <span className="label label-warning">Not verified</span>}
+          </div>
           {canEdit ?
-            <a href={`/employees/${this.props.employee._id}`} className="btn btn-default btn-sm">Edit</a>
+            <div className="row__actions">
+              <a className="row__action"
+                href={`/employees/${this.props.employee._id}`}>
+                Edit
+              </a>
+              <div className="row__action">
+                <TeamChooser employee={this.props.employee}/>
+              </div>
+              <a className="row__action"
+                onClick={this.handleNewFeedbackSession}>
+                Add feedback session
+              </a>
+              {Meteor.userId() !== this.props.employee._id ?
+                <a className="row__action"
+                  onClick={this.handleDelete}>
+                  Delete
+                </a>
+              : null}
+            </div>
           : null}
-        </td>
-        <td>
-          <button className="btn btn-default btn-sm" onClick={this.handleNewFeedbackSession}>+FS</button>
-        </td>
-        <td>
-          {Meteor.userId() !== this.props.employee._id && canEdit ?
-            <button className="btn btn-danger btn-sm" onClick={this.handleDelete}>X</button>
-          : null}
-        </td>
-      </tr>
+        </div>
+        <div className="column_results">
+          {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
+            return (
+              <FeedbackMonths
+                key={i}
+                feedbacks={this.props.employee.profile.feedbacks}
+                month={i + 1}/>
+            );
+          }) : null}
+        </div>
+      </div>
     );
   }
 });
