@@ -39,6 +39,10 @@ var FeedbackMonths = React.createClass({
 });
 
 EmployeeRow = React.createClass({
+  PropTypes: {
+    employee: React.PropTypes.object.isRequired
+  },
+
   handleSelectTeam(event) {
     Meteor.call('employeeTeam', {
       id: this.props.employee._id,
@@ -64,7 +68,12 @@ EmployeeRow = React.createClass({
             <span className="label label-warning">Not verified</span>}
         </td>
         {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
-          return <FeedbackMonths feedbacks={this.props.employee.profile.feedbacks} month={i + 1}/>;
+          return (
+            <FeedbackMonths
+              key={i}
+              feedbacks={this.props.employee.profile.feedbacks}
+              month={i + 1}/>
+          );
         }) : null}
         <td>
           <TeamChooser employee={this.props.employee}/>
