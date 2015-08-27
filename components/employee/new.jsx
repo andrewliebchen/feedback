@@ -86,7 +86,7 @@ NewEmployeeForm = React.createClass({
             <p><strong>Awesome!</strong> Check your email, you should recieve a link to validate your account and create a password.</p>
           </div>
         :
-          <span>
+          <form>
             <div className="panel-body">
               <div className="form-group">
                 <FeedbackCard
@@ -145,11 +145,13 @@ NewEmployeeForm = React.createClass({
               </ul>
             </div>
             <footer className="panel-footer">
-              <button className="btn btn-primary" onClick={this.handleNewEmployee}>
-                {this.state.loading ? 'loading' : 'Create profile'}
-              </button>
+              <input
+                type="submit"
+                className="btn btn-primary"
+                onSubmit={this.handleNewEmployee}
+                value={this.state.loading ? 'loading' : 'Create profile'}/>
             </footer>
-          </span>
+          </form>
         }
       </div>
     );
