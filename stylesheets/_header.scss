@@ -1,0 +1,32 @@
+$header-size: 3em;
+
+.header {
+  position: fixed;
+  top: 1em;
+  left: $layout-padding;
+  width: $layout-width;
+}
+
+.header__brand {
+  display: block;
+  width: $header-size;
+  height: $header-size;
+  background-color: $color-gray-light;
+  position: absolute;
+  left: -($header-size);
+  top: 0;
+  font-weight: bold;
+  line-height: $header-size;
+  text-align: center;
+
+  &:hover {
+    background-color: $color-brand;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.header__session {
+  position: absolute;
+  right: 0;
+}

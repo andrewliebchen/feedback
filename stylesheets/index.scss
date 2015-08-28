@@ -5,6 +5,7 @@
 @import "drawer";
 @import "feedback-cards";
 @import "feedback-results";
+@import "header";
 @import "rows";
 
 .null {
@@ -22,20 +23,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-.header {
-  @include clearfix;
-  color: #999;
-  padding: 1em 0;
-}
-
-.header__brand {
-  float: left;
-}
-
-.header__session {
-  float: right;
 }
 
 .employees-list {
