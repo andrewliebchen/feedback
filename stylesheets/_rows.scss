@@ -34,31 +34,32 @@
   }
 }
 
-.row__actions {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  background-color: $color-gray-dark;
-  z-index: 10;
-  border-radius: $border-radius;
-  padding: 0.5em;
-  width: auto;
-  margin-left: 0.5em;
-}
-
-.row__action {
-  display: block;
-  padding: 0.25em 0.5em;
-  color: $color-gray-light;
-  border-radius: 2px;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: $color-brand;
-    color: $color-gray-light;
-    text-decoration: none;
-  }
-}
+// Dropdown style?
+// .row__actions {
+//   position: absolute;
+//   top: 0;
+//   left: 100%;
+//   background-color: $color-gray-dark;
+//   z-index: 10;
+//   border-radius: $border-radius;
+//   padding: 0.5em;
+//   width: auto;
+//   margin-left: 0.5em;
+// }
+//
+// .row__action {
+//   display: block;
+//   padding: 0.25em 0.5em;
+//   color: $color-gray-light;
+//   border-radius: 2px;
+//   white-space: nowrap;
+//
+//   &:hover {
+//     background-color: $color-brand;
+//     color: $color-gray-light;
+//     text-decoration: none;
+//   }
+// }
 
 .row__body {
 
