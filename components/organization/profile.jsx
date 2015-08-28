@@ -5,7 +5,7 @@
 const cx = React.addons.classSet;
 const _ = lodash;
 
-const OrganizationActions = React.createClass({
+const EmployeeActions = React.createClass({
   handleEmailInvite() {
     FlowRouter.setQueryParams({
       show: 'email_invite'
@@ -99,7 +99,7 @@ EditOrganization = React.createClass({
       <div>
         <Tabs
           defaultTabNum={1}
-          tabNames={["Details", "Teams", "Feedback Sessions"]}>
+          tabNames={["Details", "Teams", "Employees", "Feedbacks"]}>
           <section className="panel-body">
             <div className="form-group">
               <label>Organization name</label>
@@ -141,12 +141,17 @@ EditOrganization = React.createClass({
             <TeamsList teams={this.data.teams} employees={this.data.employees}/>
           </section>
           <section className="panel-body">
+            {this.data.employees.map((employee, i) => {
+              return <Avatar employee={employee} key={i}/>;
+            })}
+            {canEdit ? <EmployeeActions/> : null}
+          </section>
+          <section className="panel-body">
             <FeedbackSessionsList
               feedbackSessions={this.data.feedbackSessions}
               employees={this.data.employees}/>
           </section>
         </Tabs>
-        {canEdit ? <OrganizationActions/> : null}
       </div>
     );
   }
