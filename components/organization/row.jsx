@@ -14,7 +14,7 @@ OrganizationRow = React.createClass({
 
   render() {
     return (
-      <section className="organization row">
+      <section className="organization">
         <div className="column_details">
           <h3 className="row__title" onClick={this.handleViewOrganization}>
             {this.props.organization.name}

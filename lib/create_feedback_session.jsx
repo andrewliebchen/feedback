@@ -46,12 +46,12 @@ createFeedbackSession = function(employees, currentEmployee, month) {
   // Send email to recipient
 
   // Send the email, fix the address eventually
-  Email.send({
-    from: 'andrewliebchen@gmail.com',
-    to: currentEmployee.emails[0].address,
-    subject: 'Time to do you feedback session',
-    text: `http://${Meteor.settings.public.siteURL}/feedbacks/${feedbackSessionId}`
-  });
+  // Email.send({
+  //   from: 'andrewliebchen@gmail.com',
+  //   to: currentEmployee.emails[0].address,
+  //   subject: 'Time to do you feedback session',
+  //   text: `http://${Meteor.settings.public.siteURL}/feedbacks/${feedbackSessionId}`
+  // });
 
   return feedbackSessionId;
 }

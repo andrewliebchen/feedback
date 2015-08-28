@@ -1,9 +1,10 @@
 .background {
   position: fixed;
   top: 0;
-  left: $layout-padding;
   height: 100vh;
-  width: $layout-width;
+  width: 100vw;
+  left: 0;
+  right: 0;
   z-index: -1;
 }
 
@@ -11,7 +12,7 @@
   height: 100vh;
   position: relative;
 
-  &:nth-child(odd) {
+  &:nth-child(even) {
     background-color: $color-gray-lightest;
   }
 }

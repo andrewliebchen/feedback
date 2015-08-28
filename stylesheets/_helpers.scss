@@ -12,8 +12,11 @@ $color-gray-lightest: #fafafb;
 $color-positive: #3db36a;
 $color-negative: #ed1552;
 
-$layout-width: 80vw;
-$layout-padding: (100vw - $layout-width) / 2;
+$header-width: 4em;
+$brand-size: 3em;
+$header-padding: ($header-width - $brand-size) / 2;
+
+$sidebar-width: 24em;
 
 $border-radius: 5px;
 

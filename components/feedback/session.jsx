@@ -119,9 +119,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('feedbackSession', function() {
-        ReactLayout.render(Layout, {
-          content: <FeedbackSession/>
-        });
+        ReactLayout.render(FeedbackSession);
       });
     }
   });

@@ -8,7 +8,7 @@ const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 Header = React.createClass({
   render() {
     return (
-      <header className="header">
+      <header className="header column_app">
         <a href="/" className="header__brand">F</a>
         {this.props.session ?
           <div className="header__session">
@@ -20,66 +20,55 @@ Header = React.createClass({
   }
 });
 
-Drawer = React.createClass({
-  handleCloseDrawer() {
-    FlowRouter.setQueryParams({
-      show: null,
-      id: null
-    });
-  },
-
+Sidebar = React.createClass({
   render() {
     return (
-      <div className="drawer">
-        <div className="drawer__container">
-          <a className="drawer__close" onClick={this.handleCloseDrawer}>close</a>
+      <aside className="sidebar">
+        <div className="sidebar__container">
           {this.props.children}
         </div>
-      </div>
+      </aside>
     );
   }
 })
 
 Layout = React.createClass({
-  renderDrawer() {
+  renderSidebar() {
     let type = FlowRouter.getQueryParam('show');
     let id = FlowRouter.getQueryParam('id');
 
     // Switch statement?
     switch(type) {
       case 'employee':
-        return <Drawer><EmployeeProfile employee={Meteor.users.findOne(id)}/></Drawer>;
-
-      case 'organization':
-        return <Drawer><EditOrganization/></Drawer>;
+        return (
+          <Sidebar>
+            <EmployeeProfile employee={Meteor.users.findOne(id)}/>
+          </Sidebar>
+        );
 
       case 'new_employee':
         return (
-          <Drawer>
+          <Sidebar>
             <NewEmployeeForm
               organization={Organizations.findOne()}
               teams={Teams.find().fetch()}/>
-          </Drawer>
+          </Sidebar>
         );
 
       case 'email_invite':
-        return <Drawer><EmailInvite organization={Organizations.findOne()}/></Drawer>;
-    }
-  },
+        return (
+          <Sidebar>
+            <EmailInvite organization={Organizations.findOne()}/>
+          </Sidebar>
+        );
 
-  renderBackground() {
-    return (
-      <div className="background row">
-        <div className="background__details column_details"/>
-          {_.times(12, (i) => {
-            return (
-              <div key={i} className="background__result column_result">
-                <p className="background__label">{moment(i + 1, 'M').format('MMM')}</p>
-              </div>
-            );
-          })}
-      </div>
-    );
+      default:
+        return (
+          <Sidebar>
+            <EditOrganization/>
+          </Sidebar>
+        );
+    }
   },
 
   render() {
@@ -87,10 +76,7 @@ Layout = React.createClass({
       <div className="container">
         <Header session/>
         {this.props.content}
-        <CSSTransitionGroup transitionName="drawer">
-          {this.renderDrawer()}
-        </CSSTransitionGroup>
-        {this.renderBackground()}
+        {this.renderSidebar()}
       </div>
     );
   }

@@ -15,7 +15,7 @@ ControlPanel = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
-      <div className="admin-wrapper">
+      <div>
         <OrganizationRow
           organization={this.data.organization}
           editOrganization={this.handleEditOrganization}
@@ -23,6 +23,7 @@ ControlPanel = React.createClass({
         <EmployeesList
           employees={this.data.employees}
           organization={this.data.organization}/>
+        <Background/>
       </div>
     );
   }

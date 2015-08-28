@@ -1,0 +1,21 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  width: $sidebar-width;
+  padding: 1em;
+  z-index: 1;
+  background-color: $color-gray-mid;
+}
+
+.sidebar__container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

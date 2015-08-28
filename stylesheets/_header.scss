@@ -1,22 +1,20 @@
-$header-size: 3em;
-
 .header {
   position: fixed;
-  top: 1em;
-  left: $layout-padding;
-  width: $layout-width;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .header__brand {
   display: block;
-  width: $header-size;
-  height: $header-size;
+  width: $brand-size;
+  height: $brand-size;
   background-color: $color-gray-light;
   position: absolute;
-  left: -($header-size);
-  top: 0;
+  left: $header-padding;
+  top: $header-padding;
   font-weight: bold;
-  line-height: $header-size;
+  line-height: $brand-size;
   text-align: center;
 
   &:hover {
@@ -28,5 +26,6 @@ $header-size: 3em;
 
 .header__session {
   position: absolute;
-  right: 0;
+  left: $header-padding;
+  bottom: $header-padding;
 }

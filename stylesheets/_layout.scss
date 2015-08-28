@@ -1,0 +1,26 @@
+// Columns
+.column_app {
+  width: $header-width;
+  flex-shrink: 0;
+}
+
+.column_content {
+  flex: 1;
+  display: flex;
+}
+
+.column_details {
+  @include clearfix;
+  flex-shrink: 0;
+  position: relative;
+  width: 9em;
+}
+
+.column_result {
+  flex: 1;
+}
+
+.column_sidebar {
+  width: $sidebar-width;
+  flex-shrink: 0;
+}
