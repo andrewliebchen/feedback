@@ -13,7 +13,7 @@
   float: right;
 
   &:hover::after {
-    content: "Options";
+    content: "View";
     color: white;
     font-size: 3em;
     font-weight: bold;
@@ -28,17 +28,22 @@
     z-index: 1;
     border-radius: $border-radius;
   }
+
+  .feedback-card__name {
+    font-size: 3em;
+  }
 }
 
 .row__actions {
   position: absolute;
   top: 0;
-  left: 1em;
+  left: 100%;
   background-color: $color-gray-dark;
   z-index: 10;
   border-radius: $border-radius;
   padding: 0.5em;
   width: auto;
+  margin-left: 0.5em;
 }
 
 .row__action {

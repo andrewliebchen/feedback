@@ -26,49 +26,74 @@ EmployeeProfile = React.createClass({
     });
   },
 
+  handleNewFeedbackSession() {
+    Meteor.call('createFeedbackSession', this.props.employee._id);
+  },
+
+  handleDelete() {
+    if(window.confirm("Are you sure you want to delete this employee? This action can't be undone.")) {
+      Meteor.call('deleteEmployee', this.props.employee._id);
+    }
+  },
+
+
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
+
     return (
       <div>
         {this.props.employee ?
-          <div className="panel panel-default">
-            <div className="panel-body">
-              <div className="form-group">
-                <FeedbackCard
-                  index={0}
-                  name={this.props.employee.profile.name}
-                  image={this.props.employee.profile.imageSrc}
-                  id={this.props.employee._id}
-                  editable/>
-              </div>
-              <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  defaultValue={_.startCase(this.props.employee.profile.name)}
-                  onChange={this.handleUpdateEmployeeName}/>
-              </div>
-              <div className="form-group">
-                <label>Username</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  defaultValue={this.props.employee.username}
-                  onChange={this.handleUpdateEmployeeUsername}/>
-              </div>
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  defaultValue={this.props.employee.emails[0].address}
-                  onChange={this.handleUpdateEmployeeEmail}/>
-              </div>
-              <div className="form-group">
-                <label>Team</label>
-                <TeamChooser employee={this.props.employee}/>
-              </div>
+          <div className="panel-body">
+            <div className="form-group">
+              <FeedbackCard
+                index={0}
+                name={this.props.employee.profile.name}
+                image={this.props.employee.profile.imageSrc}
+                id={this.props.employee._id}
+                editable/>
             </div>
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={_.startCase(this.props.employee.profile.name)}
+                onChange={this.handleUpdateEmployeeName}/>
+            </div>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={this.props.employee.username}
+                onChange={this.handleUpdateEmployeeUsername}/>
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                className="form-control"
+                defaultValue={this.props.employee.emails[0].address}
+                onChange={this.handleUpdateEmployeeEmail}/>
+            </div>
+            <div className="form-group">
+              <label>Team</label>
+              <TeamChooser employee={this.props.employee}/>
+            </div>
+            {canEdit ?
+              <span>
+                <button className="btn btn-default"
+                  onClick={this.handleNewFeedbackSession}>
+                  Add feedback session
+                </button>
+                {Meteor.userId() !== this.props.employee._id ?
+                  <button className="btn btn-danger"
+                    onClick={this.handleDelete}>
+                    Delete
+                  </button>
+                : null}
+              </span>
+            : null}
           </div>
         : <span>Nope Nope Nope</span>}
       </div>
@@ -100,6 +125,17 @@ if(Meteor.isServer) {
           'email.0.address': args.email
         }
       });
+    },
+
+    'createFeedbackSession': function(employeeId) {
+      let employees = Meteor.users.find().fetch();
+      let employee = Meteor.users.findOne(employeeId);
+
+      createFeedbackSession(employees, employee);
+    },
+
+    'deleteEmployee': function(id) {
+      return Meteor.users.remove(id);
     }
   });
 }

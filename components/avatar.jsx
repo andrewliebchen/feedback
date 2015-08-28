@@ -6,7 +6,7 @@ const _ = lodash;
 
 Avatar = React.createClass({
   propTypes: {
-    employee: React.PropTypes.object.isRequired,
+    employee: React.PropTypes.object,
     className: React.PropTypes.string
   },
 

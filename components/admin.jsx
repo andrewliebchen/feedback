@@ -8,16 +8,8 @@ ControlPanel = React.createClass({
   getMeteorData() {
     return {
       employees: Meteor.users.find().fetch(),
-      organization: Organizations.findOne(),
-      feedbackSessions: FeedbackSessions.find().fetch()
+      organization: Organizations.findOne()
     };
-  },
-
-  handleEditOrganization() {
-    FlowRouter.setQueryParams({
-      show: 'organization',
-      id: this.data.organization._id
-    });
   },
 
   render() {
@@ -31,9 +23,6 @@ ControlPanel = React.createClass({
         <EmployeesList
           employees={this.data.employees}
           organization={this.data.organization}/>
-        {/*<FeedbackSessionsList
-          feedbackSessions={this.data.feedbackSessions}
-          employees={this.data.employees}/>*/}
       </div>
     );
   }

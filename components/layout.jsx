@@ -31,8 +31,10 @@ Drawer = React.createClass({
   render() {
     return (
       <div className="drawer">
-        <button className="btn btn-default btn-sm" onClick={this.handleCloseDrawer}>close</button>
-        {this.props.children}
+        <div className="drawer__container">
+          <button className="btn btn-default btn-sm" onClick={this.handleCloseDrawer}>close</button>
+          {this.props.children}
+        </div>
       </div>
     );
   }

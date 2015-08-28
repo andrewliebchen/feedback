@@ -5,6 +5,33 @@
 const cx = React.addons.classSet;
 const _ = lodash;
 
+const OrganizationActions = React.createClass({
+  handleEmailInvite() {
+    FlowRouter.setQueryParams({
+      show: 'email_invite'
+    });
+  },
+
+  render() {
+    return (
+      <span>
+        <button className="btn btn-default"
+          onClick={this.handleDownload}>
+          Download CSV
+        </button>
+        <button className="btn btn-default"
+          onClick={this.handleEmailInvite}>
+          Send email invite
+        </button>
+        <button className="btn btn-danger"
+          onClick={this.handleDeleteAllEmployees}>
+          Delete all employees
+        </button>
+      </span>
+    );
+  }
+});
+
 EditOrganization = React.createClass({
   mixins: [ReactMeteorData],
 
@@ -12,7 +39,8 @@ EditOrganization = React.createClass({
     return {
       organization: Organizations.findOne(),
       teams: Teams.find().fetch(),
-      employees: Meteor.users.find().fetch()
+      employees: Meteor.users.find().fetch(),
+      feedbackSessions: FeedbackSessions.find().fetch()
     };
   },
 
@@ -44,7 +72,23 @@ EditOrganization = React.createClass({
     });
   },
 
+  handleDeleteAllEmployees() {
+    if(window.confirm(`Are you sure you want to delete all employees? This will also delete all feedback sessions.`)) {
+      Meteor.call('deleteAllEmployees');
+    }
+  },
+
+  handleDownload() {
+    Meteor.call('downloadEmployees', function(err, fileContent) {
+      if(fileContent){
+        let blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, 'employee_list.csv');
+      }
+    });
+  },
+
   render() {
+    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     let feedbackStatusClassName = cx({
       "btn": true,
       "btn-success": this.data.organization.feedback.status,
@@ -95,8 +139,11 @@ EditOrganization = React.createClass({
             </dl>
           </div>
         </section>
-        {/* Wish the component could successfully subscribe to this */}
         <TeamsList teams={this.data.teams} employees={this.data.employees}/>
+        <FeedbackSessionsList
+          feedbackSessions={this.data.feedbackSessions}
+          employees={this.data.employees}/>
+        {canEdit ? <OrganizationActions/> : null}
       </div>
     );
   }
@@ -128,6 +175,15 @@ if(Meteor.isServer) {
         $set: {'feedback.frequency': args.frequency}
       });
       Meteor.call('scheduleFeedbackSessions');
+    },
+
+    'deleteAllEmployees': function() {
+      Meteor.users.remove({});
+      FeedbackSessions.remove({});
+    },
+
+    'downloadEmployees': function() {
+      return exportcsv.exportToCSV(Employees.find().fetch());
     }
   });
 }

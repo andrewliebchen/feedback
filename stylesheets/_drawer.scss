@@ -10,6 +10,16 @@
   z-index: 1;
 }
 
+.drawer__container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .drawer-enter {
   transform: translate3d(100%, 0, 0);
 

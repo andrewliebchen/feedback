@@ -17,6 +17,7 @@ FeedbackSessionsList = React.createClass({
 
   renderEmployee(respondent) {
     let employee = _.find(this.props.employees, {_id: respondent});
+    console.log(employee);
     return <Avatar employee={employee}/>;
   },
 
