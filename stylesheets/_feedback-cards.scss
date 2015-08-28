@@ -20,10 +20,6 @@
     z-index: 5;
   }
 
-  .panel-body & {
-    position: relative;
-  }
-
   @for $i from 2 through 5 {
     &:nth-child(#{$i}){
       $modifier: $i - 1;
@@ -33,8 +29,17 @@
     }
   }
 
+  .panel-body & {
+    position: relative;
+  }
+
   .form-group & {
     border: 1px solid;
+  }
+
+  .row & {
+    font-size: 0.4em;
+    position: relative;
   }
 }
 
@@ -49,11 +54,12 @@
   bottom: 0;
   color: white;
   left: 0;
-  padding: 0.5em 0;
+  padding: 0.5em 0.25em;
   position: absolute;
   right: 0;
   text-align: center;
   margin: 0;
+  font-size: 3em;
 }
 
 .feedback-actions {

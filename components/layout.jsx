@@ -69,7 +69,6 @@ Layout = React.createClass({
     return (
       <div className="background row">
         <div className="background__details column_details"/>
-        <div className="background__results column_results">
           {_.times(12, (i) => {
             return (
               <div key={i} className="background__result column_result">
@@ -77,7 +76,6 @@ Layout = React.createClass({
               </div>
             );
           })}
-        </div>
       </div>
     );
   },

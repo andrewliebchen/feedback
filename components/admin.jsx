@@ -23,7 +23,7 @@ ControlPanel = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
-      <div>
+      <div className="admin-wrapper">
         <OrganizationRow
           organization={this.data.organization}
           editOrganization={this.handleEditOrganization}

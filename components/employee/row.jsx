@@ -64,9 +64,12 @@ EmployeeRow = React.createClass({
       <div className="row">
         <div className="column_details">
           <div className="row__title">
-            <Avatar employee={this.props.employee} className="row__title"/>
-            {this.props.employee.emails[0].verified ? null :
-              <span className="label label-warning">Not verified</span>}
+            {/*<Avatar employee={this.props.employee} className="row__title"/>*/}
+            <FeedbackCard
+              name={this.props.employee.profile.name}
+              image={this.props.employee.profile.imageSrc}/>
+            {/* this.props.employee.emails[0].verified ? null :
+              <span className="label label-warning">Not verified</span> */}
           </div>
           {canEdit ?
             <div className="row__actions">
@@ -90,16 +93,14 @@ EmployeeRow = React.createClass({
             </div>
           : null}
         </div>
-        <div className="column_results">
-          {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
-            return (
-              <FeedbackMonths
-                key={i}
-                feedbacks={this.props.employee.profile.feedbacks}
-                month={i + 1}/>
-            );
-          }) : null}
-        </div>
+        {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
+          return (
+            <FeedbackMonths
+              key={i}
+              feedbacks={this.props.employee.profile.feedbacks}
+              month={i + 1}/>
+          );
+        }) : null}
       </div>
     );
   }
