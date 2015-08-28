@@ -58,7 +58,7 @@ OrganizationRow = React.createClass({
       <section className="organization row">
         <div className="column_details">
           <h3 className="row__title">{this.props.organization.name}</h3>
-          {this.props.canEdit ?
+          {/*this.props.canEdit ?
             <div className="row__actions">
               <a className="row__action"
                 onClick={this.props.editOrganization}>
@@ -85,7 +85,7 @@ OrganizationRow = React.createClass({
                 Delete all employees
               </a>
             </div>
-          : null}
+          : null*/}
         </div>
         <div className="row__results column_results">
           {/* Organization-wide results */}

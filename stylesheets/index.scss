@@ -17,12 +17,18 @@
   display: block;
 }
 
+.dropdown__menu {
+  position: absolue;
+  z-index: 99;
+}
+
 .dropdown__background {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 98;
 }
 
 .admin-wrapper {

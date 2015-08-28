@@ -9,7 +9,7 @@
 .feedback-card {
   transition: all 0.2s ease-in-out;
   background-color: white;
-  border-radius: 5px;
+  border-radius: $border-radius;
   overflow: hidden;
   position: absolute;
   transform-origin: 50% 0;
@@ -35,11 +35,6 @@
 
   .form-group & {
     border: 1px solid;
-  }
-
-  .row & {
-    font-size: 0.4em;
-    position: relative;
   }
 }
 

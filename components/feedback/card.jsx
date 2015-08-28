@@ -6,11 +6,18 @@ const _ = lodash;
 
 FeedbackCard = React.createClass({
   propTypes: {
+    className: React.PropTypes.string,
     name: React.PropTypes.string,
     id: React.PropTypes.string,
     image: React.PropTypes.string,
     index: React.PropTypes.number,
     editable: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      index: 1
+    };
   },
 
   renderMissingIcon() {
@@ -19,7 +26,7 @@ FeedbackCard = React.createClass({
 
   render() {
     return (
-      <div className={`feedback-card feedback-card_${this.props.index}`}>
+      <div className={`feedback-card feedback-card_${this.props.index} ${this.props.className}`}>
         {this.props.image ?
           <img className="feedback-card__image" src={this.props.image}/>
         : this.renderMissingIcon()}

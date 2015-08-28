@@ -13,6 +13,8 @@ $color-negative: #ed1552;
 $layout-width: 80vw;
 $layout-padding: (100vw - $layout-width) / 2;
 
+$border-radius: 5px;
+
 
 @mixin clearfix {
   &::after {

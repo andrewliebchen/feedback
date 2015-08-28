@@ -43,6 +43,16 @@ EmployeeRow = React.createClass({
     employee: React.PropTypes.object.isRequired
   },
 
+  getInitialState() {
+    return {
+      actions: false
+    };
+  },
+
+  handleToggleActions() {
+    this.setState({actions: !this.state.actions});
+  },
+
   handleSelectTeam(event) {
     Meteor.call('employeeTeam', {
       id: this.props.employee._id,
@@ -63,34 +73,37 @@ EmployeeRow = React.createClass({
     return (
       <div className="row">
         <div className="column_details">
-          <div className="row__title">
-            {/*<Avatar employee={this.props.employee} className="row__title"/>*/}
+          <span onClick={this.handleToggleActions}>
             <FeedbackCard
+              className="row__card"
               name={this.props.employee.profile.name}
               image={this.props.employee.profile.imageSrc}/>
-            {/* this.props.employee.emails[0].verified ? null :
-              <span className="label label-warning">Not verified</span> */}
-          </div>
-          {canEdit ?
-            <div className="row__actions">
-              <a className="row__action"
-                href={`/employees/${this.props.employee._id}`}>
-                Edit
-              </a>
-              <div className="row__action">
-                <TeamChooser employee={this.props.employee}/>
-              </div>
-              <a className="row__action"
-                onClick={this.handleNewFeedbackSession}>
-                Add feedback session
-              </a>
-              {Meteor.userId() !== this.props.employee._id ?
+          </span>
+          {/* this.props.employee.emails[0].verified ? null :
+            <span className="label label-warning">Not verified</span> */}
+          {canEdit && this.state.actions ?
+            <span>
+              <div className="row__actions dropdown__menu">
                 <a className="row__action"
-                  onClick={this.handleDelete}>
-                  Delete
+                  href={`/employees/${this.props.employee._id}`}>
+                  Edit
                 </a>
-              : null}
-            </div>
+                <div className="row__action">
+                  <TeamChooser employee={this.props.employee}/>
+                </div>
+                <a className="row__action"
+                  onClick={this.handleNewFeedbackSession}>
+                  Add feedback session
+                </a>
+                {Meteor.userId() !== this.props.employee._id ?
+                  <a className="row__action"
+                    onClick={this.handleDelete}>
+                    Delete
+                  </a>
+                : null}
+              </div>
+              <div className="dropdown__background" onClick={this.handleToggleActions}/>
+            </span>
           : null}
         </div>
         {this.props.employee.profile.feedbacks ? _.times(12, (i) => {
