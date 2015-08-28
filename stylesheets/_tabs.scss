@@ -1,0 +1,27 @@
+$tab-border-width: 3px;
+
+.tab-container {
+  border-bottom: $tab-border-width solid $color-brand-light;
+  padding: 0 1em;
+  background-color: white;
+}
+
+.tab {
+  margin-right: 1em;
+  font-weight: bold;
+  line-height: 4;
+  color: $color-brand-mid;
+  display: inline-block;
+  margin-bottom: -($tab-border-width);
+  border-bottom: $tab-border-width solid transparent;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-brand;
+  }
+
+  &.active-tab {
+    border-color: $color-brand;
+    color: $color-brand;
+  }
+}

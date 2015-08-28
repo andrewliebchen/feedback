@@ -97,11 +97,10 @@ EditOrganization = React.createClass({
 
     return (
       <div>
-        <section className="panel panel-default">
-          <header className="panel-heading">
-            <h3 className="panel-title">Organization</h3>
-          </header>
-          <div className="panel-body">
+        <Tabs
+          defaultTabNum={1}
+          tabNames={["Details", "Teams", "Feedback Sessions"]}>
+          <section className="panel-body">
             <div className="form-group">
               <label>Organization name</label>
               <input
@@ -137,12 +136,16 @@ EditOrganization = React.createClass({
               <dt>Created</dt>
               <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
             </dl>
-          </div>
-        </section>
-        <TeamsList teams={this.data.teams} employees={this.data.employees}/>
-        <FeedbackSessionsList
-          feedbackSessions={this.data.feedbackSessions}
-          employees={this.data.employees}/>
+          </section>
+          <section className="panel-body">
+            <TeamsList teams={this.data.teams} employees={this.data.employees}/>
+          </section>
+          <section className="panel-body">
+            <FeedbackSessionsList
+              feedbackSessions={this.data.feedbackSessions}
+              employees={this.data.employees}/>
+          </section>
+        </Tabs>
         {canEdit ? <OrganizationActions/> : null}
       </div>
     );

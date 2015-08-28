@@ -15,4 +15,8 @@ body {
 a {
   cursor: pointer;
   color: $color-brand;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

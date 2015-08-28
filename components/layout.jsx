@@ -32,7 +32,7 @@ Drawer = React.createClass({
     return (
       <div className="drawer">
         <div className="drawer__container">
-          <button className="btn btn-default btn-sm" onClick={this.handleCloseDrawer}>close</button>
+          <a className="drawer__close" onClick={this.handleCloseDrawer}>close</a>
           {this.props.children}
         </div>
       </div>

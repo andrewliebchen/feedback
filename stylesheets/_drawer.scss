@@ -6,8 +6,22 @@
   background-color: white;
   width: 40vw;
   padding: 1em;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid $color-gray-mid;
   z-index: 1;
+  background-color: $color-gray-lightest;
+}
+
+.drawer__close {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  line-height: 4;
+  padding: 0.25em;
+  color: $color-brand-mid;
+
+  &:hover {
+    color: $color-brand;
+  }
 }
 
 .drawer__container {

@@ -1,7 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 Dropzone = require('react-dropzone');
+Tabs = require('react-tabs-component');
 
-},{"react-dropzone":2}],2:[function(require,module,exports){
+},{"react-dropzone":2,"react-tabs-component":3}],2:[function(require,module,exports){
 (function (global){
 var React = (typeof window !== "undefined" ? window['React']['require'] : typeof global !== "undefined" ? global['React']['require'] : null)("react");
 
@@ -143,6 +144,97 @@ var Dropzone = React.createClass({
 });
 
 module.exports = Dropzone;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{}],3:[function(require,module,exports){
+(function (global){
+var React=(typeof window !== "undefined" ? window['React']['require'] : typeof global !== "undefined" ? global['React']['require'] : null)("react/addons");
+
+var getChildrenArray=function(context){
+	var children=[];
+	React.Children.forEach(context.props.children,function(child){
+		children.push(child);
+	});
+	return children;
+};
+
+var noop=function(){};
+
+var Tabs=React.createClass({displayName: "Tabs",
+	propTypes:{
+		defaultTabNum:React.PropTypes.number,
+		tabNames:React.PropTypes.array.isRequired,
+		willChange:React.PropTypes.func,
+		didChange:React.PropTypes.func,
+		classPrefix:React.PropTypes.string
+	},
+	getDefaultProps:function(){
+		return {
+			defaultTabNum:0,
+			willChange:noop,
+			didChange:noop,
+			classPrefix:''
+		};
+	},
+	getInitialState:function(){
+		return {activeTabNum:this.props.defaultTabNum};
+	},
+	setActiveTabNum:function(num,callback){
+		this.setState({activeTabNum:num},callback);
+	},
+	getActiveTabNum:function(){
+		return this.state.activeTabNum;
+	},
+	_change:function(e){
+		var oldActiveTabNum=this.state.activeTabNum;
+		var newActiveTabNum=parseInt(e.target.getAttribute('data-tabnum'));
+
+		var allowChange=this.props.willChange(newActiveTabNum,oldActiveTabNum);
+		if (typeof allowChange !== 'undefined' && !allowChange){
+			return;
+		}
+		var callback=function(){
+			this.props.didChange(newActiveTabNum,oldActiveTabNum);
+		}.bind(this);
+
+		this.setActiveTabNum(newActiveTabNum,callback);
+	},
+	render:function(){
+		var children=getChildrenArray(this);
+		var activeTabContent=children[this.state.activeTabNum];
+		var classPrefix=this.props.classPrefix;
+		var tabClassName=classPrefix+'tab';
+		var activeTabClassName=tabClassName+' '+classPrefix+'active-tab';
+
+		var tabs=this.props.tabNames.map(function(tabName,tabNum){
+			var isActive= tabNum===this.state.activeTabNum;
+			return (
+				React.createElement("span", {
+					key: 'tab-'+tabNum, 
+					className: isActive? activeTabClassName : tabClassName, 
+					"data-tabnum": tabNum, 
+					onClick: this._change
+				}, 
+					tabName
+				)
+
+					);
+		}.bind(this));
+
+		return (
+			React.createElement("div", null, 
+			React.createElement("nav", {className: classPrefix+'tab-container'}, tabs), 
+			activeTabContent
+			)
+
+		);
+	}
+
+});
+
+
+module.exports=Tabs;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
