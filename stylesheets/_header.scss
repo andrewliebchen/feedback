@@ -10,12 +10,14 @@
   width: $brand-size;
   height: $brand-size;
   background-color: $color-gray-light;
+  color: $color-gray-mid;
   position: absolute;
   left: $header-padding;
   top: $header-padding;
   font-weight: bold;
   line-height: $brand-size;
   text-align: center;
+  border-radius: 3px;
 
   &:hover {
     background-color: $color-brand;

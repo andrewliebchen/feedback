@@ -2,12 +2,12 @@
  * @jsx React.DOM
  */
 
-ControlPanel = React.createClass({
+App = React.createClass({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
     return {
-      employees: Meteor.users.find().fetch(),
+      employees: Meteor.users.find({}, {sort: {createdAt: 1}}).fetch(),
       organization: Organizations.findOne()
     };
   },
@@ -40,7 +40,7 @@ if(Meteor.isClient) {
       // if(Meteor.user()) {
         FlowRouter.subsReady('controlPanel', function() {
           ReactLayout.render(Layout, {
-            content: <ControlPanel/>
+            content: <App/>
           });
         });
       // } else {

@@ -14,7 +14,7 @@ NewEmployeeForm = React.createClass({
 
   getMeteorData() {
     return {
-      employees: Meteor.users.find().fetch(),
+      employees: Meteor.users.find({}, {sort: {createdAt: 1}}).fetch(),
       image: Session.get('newImageUrl')
     };
   },

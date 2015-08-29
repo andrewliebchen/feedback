@@ -39,7 +39,7 @@ OrganizationProfile = React.createClass({
     return {
       organization: Organizations.findOne(),
       teams: Teams.find().fetch(),
-      employees: Meteor.users.find().fetch(),
+      employees: Meteor.users.find({}, {sort: {createdAt: 1}}).fetch(),
       feedbackSessions: FeedbackSessions.find().fetch()
     };
   },

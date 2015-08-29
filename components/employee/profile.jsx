@@ -125,7 +125,7 @@ if(Meteor.isServer) {
     },
 
     'createFeedbackSession': function(employeeId) {
-      let employees = Meteor.users.find().fetch();
+      let employees = Meteor.users.find({}, {sort: {createdAt: 1}}).fetch();
       let employee = Meteor.users.findOne(employeeId);
 
       createFeedbackSession(employees, employee);

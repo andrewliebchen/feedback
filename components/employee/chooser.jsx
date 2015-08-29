@@ -11,7 +11,7 @@ EmployeeChooser = React.createClass({
     Meteor.subscribe('employees');
 
     return {
-      employees: Meteor.users.find().fetch()
+      employees: Meteor.users.find({}, {sort: {createdAt: 1}}).fetch()
     }
   },
 
