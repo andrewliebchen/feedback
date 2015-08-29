@@ -42,7 +42,7 @@ Layout = React.createClass({
       case 'employee':
         return (
           <Sidebar>
-            <EmployeeProfile employee={Meteor.users.findOne(id)}/>
+            <EmployeeProfile id={id}/>
           </Sidebar>
         );
 

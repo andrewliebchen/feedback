@@ -7,15 +7,8 @@ const _ = lodash;
 FormGroup = React.createClass({
   propTypes: {
     label: React.PropTypes.string,
-    type: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
+    value: React.PropTypes.string,
     onChange: React.PropTypes.func
-  },
-
-  getDefaultProps() {
-    return {
-      type: "text"
-    };
   },
 
   render() {
@@ -23,9 +16,9 @@ FormGroup = React.createClass({
       <div className="form-group">
         <label>{this.props.label}</label>
         <input
-          type={this.props.type}
+          type="text"
           className="form-control"
-          defaultValue={this.props.defaultValue}
+          value={this.props.value}
           onChange={this.props.onChange}/>
       </div>
     );

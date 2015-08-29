@@ -5,37 +5,44 @@
 const _ = lodash;
 
 EmployeeProfile = React.createClass({
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
+    return {
+      employee: Meteor.users.findOne(this.props.id)
+    };
+  },
+
   handleUpdateEmployeeName(event) {
     Meteor.call('updateEmployeeName', {
-      id: this.props.employee._id,
+      id: this.data.employee._id,
       name: event.target.value
     });
   },
 
   handleUpdateEmployeeUsername(event) {
     Meteor.call('updateEmployeeUsername', {
-      id: this.props.employee._id,
+      id: this.data.employee._id,
       username: event.target.value
     });
   },
 
   handleUpdateEmployeeEmail(event) {
     Meteor.call('updateEmployeeEmail', {
-      id: this.props.employee._id,
+      id: this.data.employee._id,
       email: event.target.value
     });
   },
 
   handleNewFeedbackSession() {
-    Meteor.call('createFeedbackSession', this.props.employee._id);
+    Meteor.call('createFeedbackSession', this.data.employee._id);
   },
 
   handleDelete() {
     if(window.confirm("Are you sure you want to delete this employee? This action can't be undone.")) {
-      Meteor.call('deleteEmployee', this.props.employee._id);
+      Meteor.call('deleteEmployee', this.data.employee._id);
     }
   },
-
 
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
@@ -44,9 +51,9 @@ EmployeeProfile = React.createClass({
       <div>
         <FeedbackCard
           index={0}
-          name={this.props.employee.profile.name}
-          image={this.props.employee.profile.imageSrc}
-          id={this.props.employee._id}
+          name={this.data.employee.profile.name}
+          image={this.data.employee.profile.imageSrc}
+          id={this.data.employee._id}
           className="sidebar__card"
           editable/>
         <Tabs
@@ -55,19 +62,19 @@ EmployeeProfile = React.createClass({
           <section className="panel-body">
             <FormGroup
               label="Name"
-              defaultValue={_.startCase(this.props.employee.profile.name)}
+              value={_.startCase(this.data.employee.profile.name)}
               onChange={this.handleUpdateEmployeeName}/>
             <FormGroup
               label="Username"
-              defaultValue={this.props.employee.username}
+              value={this.data.employee.username}
               onChange={this.handleUpdateEmployeeUsername}/>
             <FormGroup
               label="Email"
-              defaultValue={this.props.employee.emails[0].address}
+              value={this.data.employee.emails[0].address}
               onChange={this.handleUpdateEmployeeEmail}/>
             <div className="form-group">
               <label>Team</label>
-              <TeamChooser employee={this.props.employee}/>
+              <TeamChooser employee={this.data.employee}/>
             </div>
             {canEdit ?
               <span>
@@ -75,7 +82,7 @@ EmployeeProfile = React.createClass({
                   onClick={this.handleNewFeedbackSession}>
                   Add feedback session
                 </button>
-                {Meteor.userId() !== this.props.employee._id ?
+                {Meteor.userId() !== this.data.employee._id ?
                   <button className="btn btn-danger"
                     onClick={this.handleDelete}>
                     Delete
