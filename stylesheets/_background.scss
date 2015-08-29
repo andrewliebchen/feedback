@@ -17,11 +17,31 @@
   }
 }
 
-.background__label {
+.background-labels {
+  height: 2em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  z-index: 9;
+}
+
+.background-labels__result {
+  position: relative;
+  background-image: linear-gradient(to bottom, rgba(white, 0), rgba(white, 0.9));
+
+  &:nth-child(even) {
+    background-image: linear-gradient(to bottom, rgba($color-gray-lightest, 0), rgba($color-gray-lightest, 0.9));
+  }
+}
+
+.background-labels__label {
   position: absolute;
-  bottom: 0.5em;
   margin: 0;
   color: $color-gray-mid;
   text-align: center;
   width: 100%;
+  line-height: 2;
+  font-weight: bold;
 }

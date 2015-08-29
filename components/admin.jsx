@@ -24,6 +24,7 @@ ControlPanel = React.createClass({
           employees={this.data.employees}
           organization={this.data.organization}/>
         <Background/>
+        <BackgroundLabels/>
       </div>
     );
   }

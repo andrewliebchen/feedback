@@ -6,7 +6,7 @@
   background-color: white;
   width: $sidebar-width;
   padding: 1em;
-  z-index: 1;
+  z-index: 99;
   background-color: $color-gray-light;
   border-left: 1px solid darken($color-gray-light, 5%);
 }
