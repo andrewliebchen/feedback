@@ -53,30 +53,18 @@ EmployeeProfile = React.createClass({
           defaultTabNum={0}
           tabNames={["Profile", "Performance"]}>
           <section className="panel-body">
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={_.startCase(this.props.employee.profile.name)}
-                onChange={this.handleUpdateEmployeeName}/>
-            </div>
-            <div className="form-group">
-              <label>Username</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={this.props.employee.username}
-                onChange={this.handleUpdateEmployeeUsername}/>
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                className="form-control"
-                defaultValue={this.props.employee.emails[0].address}
-                onChange={this.handleUpdateEmployeeEmail}/>
-            </div>
+            <FormGroup
+              label="Name"
+              defaultValue={_.startCase(this.props.employee.profile.name)}
+              onChange={this.handleUpdateEmployeeName}/>
+            <FormGroup
+              label="Username"
+              defaultValue={this.props.employee.username}
+              onChange={this.handleUpdateEmployeeUsername}/>
+            <FormGroup
+              label="Email"
+              defaultValue={this.props.employee.emails[0].address}
+              onChange={this.handleUpdateEmployeeEmail}/>
             <div className="form-group">
               <label>Team</label>
               <TeamChooser employee={this.props.employee}/>

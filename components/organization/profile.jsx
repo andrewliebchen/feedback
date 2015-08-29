@@ -101,22 +101,14 @@ EditOrganization = React.createClass({
           defaultTabNum={0}
           tabNames={["Details", "Employees", "Feedbacks"]}>
           <section className="panel-body">
-            <div className="form-group">
-              <label>Organization name</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={this.data.organization.name}
-                onChange={this.handleUpdateOrganizationName}/>
-            </div>
-            <div className="form-group">
-              <label>Email domain</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={this.data.organization.domain}
-                onChange={this.handleUpdateOrganizationDomain}/>
-            </div>
+            <FormGroup
+              label="Organization name"
+              defaultValue={this.data.organization.name}
+              onChange={this.handleUpdateOrganizationName}/>
+            <FormGroup
+              label="Email domain"
+              defaultValue={this.data.organization.domain}
+              onChange={this.handleUpdateOrganizationDomain}/>
             <div className="form-group">
               <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
                 {`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}
