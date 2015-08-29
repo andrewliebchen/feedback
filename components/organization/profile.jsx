@@ -109,11 +109,11 @@ OrganizationProfile = React.createClass({
           <section className="panel-body">
             <FormGroup
               label="Organization name"
-              defaultValue={this.data.organization.name}
+              value={this.data.organization.name}
               onChange={this.handleUpdateOrganizationName}/>
             <FormGroup
               label="Email domain"
-              defaultValue={this.data.organization.domain}
+              value={this.data.organization.domain}
               onChange={this.handleUpdateOrganizationDomain}/>
             <div className="form-group">
               <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>

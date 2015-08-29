@@ -68,7 +68,7 @@ FeedbackSession = React.createClass({
 
   render() {
     let feedbackWrapperClassName = cx({
-      "feedback-card__wrapper": true,
+      "card__wrapper": true,
       "feedback-response_positive": this.state.response === 1,
       "feedback-response_negative": this.state.response === 0
     });
@@ -97,12 +97,12 @@ FeedbackSession = React.createClass({
             <div
               className="feedback-action feedback-action_positive"
               onClick={this.handleFeedback.bind(null, 1)}>
-              Yes
+              <span className="feedback-action__label">Yes</span>
             </div>
             <div
               className="feedback-action feedback-action_negative"
               onClick={this.handleFeedback.bind(null, 0)}>
-              No
+              <span className="feedback-action__label">No</span>
             </div>
           </div>
         }
