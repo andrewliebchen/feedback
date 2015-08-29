@@ -13,7 +13,7 @@
   @include clearfix;
   flex-shrink: 0;
   position: relative;
-  width: 9em;
+  width: $details-width;
 }
 
 .column_result {

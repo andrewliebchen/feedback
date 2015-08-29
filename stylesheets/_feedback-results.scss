@@ -12,8 +12,8 @@
 }
 
 .feedback-result__outer {
-  background-color: darken($color-gray-light, 5%);
-  box-shadow: inset 0 0 5px rgba(black, 0.05);
+  background-color: rgba($color-gray-mid, 0.2);
+  // box-shadow: inset 0 0 0 3px rgba($color-gray-mid, 0.2);
 }
 
 .feedback-result__inner {

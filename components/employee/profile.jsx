@@ -75,23 +75,22 @@ EmployeeProfile = React.createClass({
               <label>Team</label>
               <TeamChooser employee={this.data.employee}/>
             </div>
-            {canEdit ?
-              <span>
-                <button className="btn btn-default"
-                  onClick={this.handleNewFeedbackSession}>
-                  Add feedback session
-                </button>
-                {Meteor.userId() !== this.data.employee._id ?
-                  <button className="btn btn-danger"
-                    onClick={this.handleDelete}>
-                    Delete
-                  </button>
-                : null}
-              </span>
+            {canEdit && Meteor.userId() !== this.data.employee._id ?
+              <button className="btn btn-danger"
+                onClick={this.handleDelete}>
+                Delete
+              </button>
             : null}
           </section>
           <section className="panel-body">
             Performance
+
+            {canEdit ?
+              <button className="btn btn-default"
+                onClick={this.handleNewFeedbackSession}>
+                Add feedback session
+              </button>
+            : null}
           </section>
         </Tabs>
       </div>

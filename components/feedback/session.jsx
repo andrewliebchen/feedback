@@ -44,6 +44,8 @@ FeedbackSession = React.createClass({
     if(newActiveEmployee === this.data.employees.length - 1) {
       Meteor.call('feedbackSessionComplete', this.data.feedbackSession[0]._id);
     }
+
+    console.log(response);
   },
 
   _handleDocumentClick(event) {

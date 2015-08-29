@@ -1,7 +1,7 @@
-$tab-border-width: 3px;
+$tab-border-width: 4px;
 
 .tab-container {
-  border-bottom: $tab-border-width solid $color-brand-light;
+  border-bottom: $tab-border-width solid $sidebar-border-color;
   padding: 0 1em;
   background-color: $color-gray-lightest;
 }

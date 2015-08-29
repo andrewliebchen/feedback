@@ -8,7 +8,7 @@
   padding: 1em;
   z-index: 99;
   background-color: $color-gray-light;
-  border-left: 1px solid darken($color-gray-light, 5%);
+  border-left: 1px solid $sidebar-border-color;
 }
 
 .sidebar__container {
