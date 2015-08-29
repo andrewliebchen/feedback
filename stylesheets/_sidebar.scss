@@ -1,14 +1,16 @@
 .sidebar {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: $header-padding;
+  right: $header-padding;
+  bottom: $header-padding;
   background-color: white;
   width: $sidebar-width;
+  border-radius: $border-radius;
   padding: 1em;
   z-index: 99;
   background-color: $color-gray-light;
-  border-left: 1px solid $sidebar-border-color;
+  border: 1px solid $sidebar-border-color;
+  overflow: hidden
 }
 
 .sidebar__container {

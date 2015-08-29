@@ -6,6 +6,7 @@
 @import "cards";
 @import "feedback-results";
 @import "header";
+@import "overlay";
 @import "rows";
 @import "sidebar";
 @import "tabs";
@@ -38,7 +39,7 @@
 }
 
 .organization-list {
-  margin-top: 0.5em;
+  margin-top: $header-padding;
 }
 
 .employees-list {

@@ -3,9 +3,10 @@
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 99;
 }
 
-.header__brand {
+.header__block {
   display: block;
   width: $brand-size;
   height: $brand-size;
@@ -13,21 +14,34 @@
   color: $color-gray-mid;
   position: absolute;
   left: $header-padding;
-  top: $header-padding;
   font-weight: bold;
   line-height: $brand-size;
   text-align: center;
   border-radius: 3px;
+  fill: $color-gray-mid;
 
   &:hover {
     background-color: $color-brand;
     color: white;
+    fill: white;
     text-decoration: none;
   }
 }
 
+.header__brand {
+  top: $header-padding;
+}
+
 .header__session {
+  @include hover-overlay;
   position: absolute;
   left: $header-padding;
   bottom: $header-padding;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
 }

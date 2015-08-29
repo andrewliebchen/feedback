@@ -14,8 +14,8 @@ $color-negative: #ed1552;
 
 $sidebar-border-color: darken($color-gray-light, 5%);
 
-$header-width: 4em;
-$brand-size: 3em;
+$header-width: 4.5em;
+$brand-size: 2.5em;
 $header-padding: ($header-width - $brand-size) / 2;
 
 $details-width: 9em;
@@ -29,5 +29,24 @@ $border-radius: 5px;
     clear: both;
     content: "";
     display: table;
+  }
+}
+
+@mixin hover-overlay {
+  &:hover::after {
+    content: "";
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    line-height: $card-size / 3;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba($color-brand, 0.8);
+    z-index: 1;
+    border-radius: $border-radius;
   }
 }

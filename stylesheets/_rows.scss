@@ -7,6 +7,7 @@
 }
 
 .row__card {
+  @include hover-overlay;
   font-size: 0.4em;
   position: relative;
   cursor: pointer;
@@ -14,21 +15,8 @@
   &:hover {
     &::after {
       content: "View";
-      color: white;
-      font-size: 3em;
-      font-weight: bold;
-      text-align: center;
-      line-height: $card-size / 3;
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      background-color: rgba($color-brand, 0.8);
-      z-index: 1;
-      border-radius: $border-radius;
     }
-
+    
     .card__name {
       display: none;
     }
