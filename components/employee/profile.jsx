@@ -42,16 +42,17 @@ EmployeeProfile = React.createClass({
 
     return (
       <div>
-        {this.props.employee ?
-          <div className="panel-body">
-            <div className="form-group">
-              <FeedbackCard
-                index={0}
-                name={this.props.employee.profile.name}
-                image={this.props.employee.profile.imageSrc}
-                id={this.props.employee._id}
-                editable/>
-            </div>
+        <FeedbackCard
+          index={0}
+          name={this.props.employee.profile.name}
+          image={this.props.employee.profile.imageSrc}
+          id={this.props.employee._id}
+          className="sidebar__card"
+          editable/>
+        <Tabs
+          defaultTabNum={0}
+          tabNames={["Profile", "Performance"]}>
+          <section className="panel-body">
             <div className="form-group">
               <label>Name</label>
               <input
@@ -94,8 +95,11 @@ EmployeeProfile = React.createClass({
                 : null}
               </span>
             : null}
-          </div>
-        : <span>Nope Nope Nope</span>}
+          </section>
+          <section className="panel-body">
+            Performance
+          </section>
+        </Tabs>
       </div>
     );
   }

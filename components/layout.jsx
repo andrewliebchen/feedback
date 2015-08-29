@@ -23,7 +23,7 @@ Header = React.createClass({
 Sidebar = React.createClass({
   render() {
     return (
-      <aside className="sidebar">
+      <aside className="sidebar column_sidebar">
         <div className="sidebar__container">
           {this.props.children}
         </div>

@@ -71,6 +71,7 @@ EmployeeRow = React.createClass({
               month={i + 1}/>
           );
         }) : null}
+        <div className="column_sidebar"/>
       </div>
     );
   }

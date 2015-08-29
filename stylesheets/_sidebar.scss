@@ -7,7 +7,8 @@
   width: $sidebar-width;
   padding: 1em;
   z-index: 1;
-  background-color: $color-gray-mid;
+  background-color: $color-gray-light;
+  border-left: 1px solid darken($color-gray-light, 5%);
 }
 
 .sidebar__container {
@@ -18,4 +19,12 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.sidebar__card {
+  border: 0;
+  border-radius: 0;
+  position: relative;
+  max-width: $sidebar-width;
+  max-height: $sidebar-width;
 }

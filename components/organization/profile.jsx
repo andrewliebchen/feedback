@@ -98,8 +98,8 @@ EditOrganization = React.createClass({
     return (
       <div>
         <Tabs
-          defaultTabNum={1}
-          tabNames={["Details", "Teams", "Employees", "Feedbacks"]}>
+          defaultTabNum={0}
+          tabNames={["Details", "Employees", "Feedbacks"]}>
           <section className="panel-body">
             <div className="form-group">
               <label>Organization name</label>
@@ -136,8 +136,6 @@ EditOrganization = React.createClass({
               <dt>Created</dt>
               <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
             </dl>
-          </section>
-          <section className="panel-body">
             <TeamsList teams={this.data.teams} employees={this.data.employees}/>
           </section>
           <section className="panel-body">

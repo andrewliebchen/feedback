@@ -3,13 +3,13 @@ $tab-border-width: 3px;
 .tab-container {
   border-bottom: $tab-border-width solid $color-brand-light;
   padding: 0 1em;
-  background-color: white;
+  background-color: $color-gray-lightest;
 }
 
 .tab {
   margin-right: 1em;
   font-weight: bold;
-  line-height: 4;
+  line-height: 3.5;
   color: $color-brand-mid;
   display: inline-block;
   margin-bottom: -($tab-border-width);
