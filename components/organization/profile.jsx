@@ -32,7 +32,7 @@ const EmployeeActions = React.createClass({
   }
 });
 
-EditOrganization = React.createClass({
+OrganizationProfile = React.createClass({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
@@ -97,6 +97,12 @@ EditOrganization = React.createClass({
 
     return (
       <div>
+        <Card
+          name={this.data.organization.name}
+          image={this.data.organization.imageSrc}
+          id={this.data.organization._id}
+          className="sidebar__card"
+          editable="organization"/>
         <Tabs
           defaultTabNum={0}
           tabNames={["Details", "Employees", "Feedbacks"]}>

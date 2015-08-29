@@ -80,7 +80,7 @@ FeedbackSession = React.createClass({
             // Got to exclude the current user
             if(i > this.state.active && employee._id !== Meteor.userId()) {
               return (
-                <FeedbackCard
+                <Card
                   name={employee.profile.name}
                   image={employee.profile.imageSrc}
                   index={i}

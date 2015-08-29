@@ -49,13 +49,12 @@ EmployeeProfile = React.createClass({
 
     return (
       <div>
-        <FeedbackCard
-          index={0}
+        <Card
           name={this.data.employee.profile.name}
           image={this.data.employee.profile.imageSrc}
           id={this.data.employee._id}
           className="sidebar__card"
-          editable/>
+          editable="employee"/>
         <Tabs
           defaultTabNum={0}
           tabNames={["Profile", "Performance"]}>

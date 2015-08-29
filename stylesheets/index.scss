@@ -3,7 +3,7 @@
 @import "layout";
 @import "background";
 @import "bootstrap-shim";
-@import "feedback-cards";
+@import "cards";
 @import "feedback-results";
 @import "header";
 @import "rows";
@@ -37,12 +37,12 @@
   margin: 1em 0 2em;
 }
 
-.organization {
-
+.organization-list {
+  margin-top: 0.5em;
 }
 
 .employees-list {
-  margin: 2em 0 0;
+  margin-top: 1em;
 }
 
 .breadcrumbs {

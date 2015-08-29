@@ -89,11 +89,11 @@ NewEmployeeForm = React.createClass({
           <form>
             <div className="panel-body">
               <div className="form-group">
-                <FeedbackCard
+                <Card
                   name={this.state.name}
                   image={this.data.image}
                   index={0}
-                  editable/>
+                  editable="employee"/>
               </div>
               <div className="form-group">
                 <label>Name</label>

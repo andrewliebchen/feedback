@@ -14,11 +14,13 @@ OrganizationRow = React.createClass({
 
   render() {
     return (
-      <section className="organization">
+      <section className="organization-list">
         <div className="column_details">
-          <h3 className="row__title" onClick={this.handleViewOrganization}>
-            {this.props.organization.name}
-          </h3>
+          <Card
+            className="row__card"
+            name={this.props.organization.name}
+            image={this.props.organization.imageSrc}
+            handleClick={this.handleViewOrganization}/>
         </div>
         <div className="row__results column_results">
           {/* Organization-wide results */}

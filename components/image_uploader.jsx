@@ -8,6 +8,7 @@ if(Meteor.isClient) {
 
 ImageUploader = React.createClass({
   propTypes: {
+    destination: React.PropTypes.string,
     id: React.PropTypes.string
   },
 
@@ -25,7 +26,8 @@ ImageUploader = React.createClass({
       else {
         if(this.props.id) {
           Meteor.call('updateImage', {
-            id: id,
+            destination: this.props.destination,
+            id: this.props.id,
             imageSrc: imageSrc
           });
         } else {
@@ -50,11 +52,17 @@ ImageUploader = React.createClass({
 if(Meteor.isServer) {
   Meteor.methods({
     'updateImage': function(args) {
-      return Meteor.users.update(args.id, {
-        $set: {
-          'profile.imageSrc': args.imageSrc
-        }
-      })
+      if(args.destination === 'employee') {
+        return Meteor.users.update(args.id, {
+          $set: {'profile.imageSrc': args.imageSrc}
+        });
+      }
+
+      if(args.destination === 'organization') {
+        return Organizations.update(args.id, {
+          $set: {imageSrc: args.imageSrc}
+        });
+      }
     }
   });
 }

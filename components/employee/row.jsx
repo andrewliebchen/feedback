@@ -54,12 +54,11 @@ EmployeeRow = React.createClass({
     return (
       <div className="row">
         <div className="column_details">
-          <span onClick={this.handleViewProfile}>
-            <FeedbackCard
-              className="row__card"
-              name={this.props.employee.profile.name}
-              image={this.props.employee.profile.imageSrc}/>
-          </span>
+          <Card
+            className="row__card"
+            name={this.props.employee.profile.name}
+            image={this.props.employee.profile.imageSrc}
+            handleClick={this.handleViewProfile}/>
           {/* this.props.employee.emails[0].verified ? null :
             <span className="label label-warning">Not verified</span> */}
         </div>

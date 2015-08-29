@@ -4,14 +4,14 @@
 
 const _ = lodash;
 
-FeedbackCard = React.createClass({
+Card = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     name: React.PropTypes.string,
-    id: React.PropTypes.string,
     image: React.PropTypes.string,
     index: React.PropTypes.number,
-    editable: React.PropTypes.bool
+    editable: React.PropTypes.string,
+    handleClick: React.PropTypes.func
   },
 
   getDefaultProps() {
@@ -26,17 +26,19 @@ FeedbackCard = React.createClass({
 
   render() {
     return (
-      <div className={`feedback-card feedback-card_${this.props.index} ${this.props.className}`}>
+      <div
+        className={`card card_${this.props.index} ${this.props.className}`}
+        onClick={this.props.handleClick}>
         {this.props.image ?
-          <img className="feedback-card__image" src={this.props.image}/>
+          <img className="card__image" src={this.props.image}/>
         : this.renderMissingIcon()}
         {this.props.name ?
-          <h2 className="feedback-card__name">
+          <h2 className="card__name">
             {_.startCase(this.props.name)}
           </h2>
         : null}
         {this.props.editable ?
-          <ImageUploader id={this.props.id}/>
+          <ImageUploader id={this.props.id} destination={this.props.editable}/>
         : null}
       </div>
     );

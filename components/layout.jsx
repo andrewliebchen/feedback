@@ -65,7 +65,7 @@ Layout = React.createClass({
       default:
         return (
           <Sidebar>
-            <EditOrganization/>
+            <OrganizationProfile/>
           </Sidebar>
         );
     }
