@@ -15,18 +15,30 @@ const Session = React.createClass({
     this.setState({menu: !this.state.menu});
   },
 
+  handleProfile() {
+    FlowRouter.setQueryParams({
+      show: 'employee',
+      id: Meteor.user()._id
+    });
+    this.handleMenuToggle();
+  },
+
+  handleSignOut() {
+    Meteor.logout();
+    this.handleMenuToggle();
+  },
+
   render() {
     return (
       <span>
-        <a className="header__session header__block" onClick={this.handleMenuToggle}>
+        <a className="header__session header__block menu__toggle" onClick={this.handleMenuToggle}>
           <img src={Meteor.user().profile.imageSrc}/>
         </a>
         {this.state.menu ?
-          <div className="overlay">
-            <div className="overlay__toggle">close</div>
-            Profile
-            Sign out
-          </div>
+          <Menu className="header__session__menu" toggle={this.handleMenuToggle}>
+            <MenuItem handleClick={this.handleProfile}>Profile</MenuItem>
+            <MenuItem handleClick={this.handleSignOut}>Sign out</MenuItem>
+          </Menu>
         : null}
       </span>
     );

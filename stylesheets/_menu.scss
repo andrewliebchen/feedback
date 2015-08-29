@@ -1,0 +1,39 @@
+.menu {
+  position: absolute;
+  min-width: 10em;
+  background-color: $color-gray-dark;
+  padding: 0.5em;
+  border-radius: $border-radius;
+  z-index: 1;
+  user-select: none;
+
+  &.menu_bottom {
+    bottom: 0;
+  }
+}
+
+.menu__item {
+  display: block;
+  white-space: nowrap;
+  color: $color-gray-light;
+  border-radius: 2px;
+  padding: 0.25em 0.5em;
+  font-weight: 600;
+
+  &:hover {
+    background-color: $color-brand;
+    color: $color-gray-light;
+  }
+}
+
+.menu__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.menu__toggle {
+  position: relative;
+}
