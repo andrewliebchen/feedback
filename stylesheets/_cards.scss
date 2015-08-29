@@ -26,6 +26,7 @@
       top: -($modifier * 0.5em);
       transform: scale(1 - ($modifier * 0.05));
       z-index: 6 - $i;
+      opacity: 1 - $modifier * 0.2;
     }
   }
 
@@ -100,26 +101,35 @@
 }
 
 .feedback-action__label {
+  transition: color 0.2s ease-in-out;
   position: relative;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-weight: bold;
   z-index: 1;
-  color: white;
+  color: inherit;
+
+  .feedback-action:hover & {
+    color: white;
+  }
 }
 
 .feedback-action_positive {
-  background-color: $color-positive;
+  // background-color: $color-positive;
+  box-shadow: inset 0 0 0 3px $color-positive;
   right: 3em;
+  color: $color-positive;
 
   &::before {
-    background-color: saturate($color-positive, 25%);
+    background-color: $color-positive;
   }
 }
 
 .feedback-action_negative {
-  background-color: $color-negative;
+  // background-color: $color-negative;
+  box-shadow: inset 0 0 0 3px $color-negative;
   left: 3em;
+  color: $color-negative;
 
   &::before {
     background-color: saturate($color-negative, 25%);
