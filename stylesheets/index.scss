@@ -74,15 +74,26 @@
   }
 }
 
-// Template stuff
-.admin-wrapper {
-  margin: 1em 0 2em;
+.add-employee {
+  width: 8em;
+  margin: 1em 0 $header-padding;
+
+  .btn {
+    border-radius: 3px 3px 0 0;
+    width: 100%;
+
+    + .btn {
+      border-radius: 0 0 3px 3px;
+      margin-top: -1px;
+    }
+  }
 }
 
-.organization-list {
+// Template stuff
+.organization {
   margin-top: $header-padding;
 }
 
-.employees-list {
+.employees {
   margin-top: 1em;
 }

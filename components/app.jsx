@@ -5,6 +5,50 @@
 const cx = React.addons.classSet;
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+const AddEmployee = React.createClass({
+  handleAddSeedEmployee() {
+    $.ajax({
+      url: 'http://api.randomuser.me/',
+      dataType: 'json',
+      success: (data) => {
+        let randomUser = data.results[0].user;
+        let newEmployee = {
+          username: randomUser.username,
+          email: randomUser.email,
+          password: randomUser.password,
+          organization: Meteor.user().profile.organization,
+          name: `${randomUser.name.first} ${randomUser.name.last}`,
+          imageSrc: randomUser.picture.large,
+          teams: ['Team 1']
+        };
+
+        Meteor.call('newEmployee', newEmployee);
+      }
+    });
+  },
+
+  toggleNewEmployee() {
+    FlowRouter.setQueryParams({
+      show: 'new_employee'
+    });
+  },
+
+  render() {
+    return (
+      <div className="add-employee">
+        <button className="btn btn-default"
+          onClick={this.handleAddSeedEmployee}>
+          + Seed
+        </button>
+        <button className="btn btn-default"
+          onClick={this.toggleNewEmployee}>
+          + Employee
+        </button>
+      </div>
+    );
+  }
+});
+
 App = React.createClass({
   mixins: [ReactMeteorData],
 
@@ -47,10 +91,18 @@ App = React.createClass({
           editOrganization={this.handleEditOrganization}
           canEdit={canEdit}
           showDetail={this.handleShowDetail}/>
-        <EmployeesList
-          employees={this.data.employees}
-          organization={this.data.organization}
-          showDetail={this.handleShowDetail}/>
+        <section className="employees">
+          {this.data.employees.map((employee, i) => {
+            return (
+              <EmployeeRow
+                key={i}
+                employee={employee}
+                organization={this.data.organization}
+                showDetail={this.handleShowDetail}/>
+            );
+          })}
+          <AddEmployee/>
+        </section>
         <a className="sidebar__toggle block-link" onClick={this.handleSidebarToggle}>
           {this.state.sidebar ? '⇥' : '⇤'}
         </a>

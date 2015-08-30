@@ -7,7 +7,7 @@ const _ = lodash;
 OrganizationRow = React.createClass({
   render() {
     return (
-      <section className="organization-list">
+      <section className="organization">
         <div className="column_details" onClick={this.props.showDetail.bind(null, 'organization', this.props.organization._id)}>
           <Card
             className="row__card"

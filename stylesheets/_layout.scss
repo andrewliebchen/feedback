@@ -1,4 +1,8 @@
 // Columns
+.columns.show-sidebar {
+  padding-right: $sidebar-width;
+}
+
 .column_app {
   width: $header-width;
   flex-shrink: 0;
@@ -18,14 +22,4 @@
 
 .column_result {
   flex: 1;
-}
-
-// .column_sidebar {
-//   width: $sidebar-width;
-//   flex-shrink: 0;
-// }
-
-// Layout
-.columns.show-sidebar {
-  padding-right: $sidebar-width;
 }
