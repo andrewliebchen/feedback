@@ -31,7 +31,7 @@ const Session = React.createClass({
   render() {
     return (
       <span>
-        <a className="header__session header__block menu__toggle" onClick={this.handleMenuToggle}>
+        <a className="header__session block-link menu__toggle" onClick={this.handleMenuToggle}>
           <img src={Meteor.user().profile.imageSrc}/>
         </a>
         {this.state.menu ?
@@ -49,7 +49,7 @@ Header = React.createClass({
   render() {
     return (
       <header className="header column_app">
-        <a href="/" className="header__brand header__block">F</a>
+        <a href="/" className="header__brand block-link">F</a>
         {this.props.session ?
           <Session/>
         : null}

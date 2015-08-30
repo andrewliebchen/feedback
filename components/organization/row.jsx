@@ -5,26 +5,19 @@
 const _ = lodash;
 
 OrganizationRow = React.createClass({
-  handleViewOrganization() {
-    FlowRouter.setQueryParams({
-      show: 'organization',
-      id: this.props.organization._id
-    });
-  },
-
   render() {
     return (
       <section className="organization-list">
-        <div className="column_details">
+        <div className="column_details" onClick={this.props.showDetail.bind(null, 'organization', this.props.organization._id)}>
           <Card
             className="row__card"
             name={this.props.organization.name}
-            image={this.props.organization.imageSrc}
-            handleClick={this.handleViewOrganization}/>
+            image={this.props.organization.imageSrc}/>
         </div>
         <div className="row__results column_results">
           {/* Organization-wide results */}
         </div>
+        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </section>
     );
   }

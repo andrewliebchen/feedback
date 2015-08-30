@@ -43,22 +43,14 @@ EmployeeRow = React.createClass({
     employee: React.PropTypes.object.isRequired
   },
 
-  handleViewProfile() {
-    FlowRouter.setQueryParams({
-      show: 'employee',
-      id: this.props.employee._id
-    });
-  },
-
   render() {
     return (
       <div className="row">
-        <div className="column_details">
+        <div className="column_details" onClick={this.props.showDetail.bind(null, 'employee', this.props.employee._id)}>
           <Card
             className="row__card"
             name={this.props.employee.profile.name}
-            image={this.props.employee.profile.imageSrc}
-            handleClick={this.handleViewProfile}/>
+            image={this.props.employee.profile.imageSrc}/>
           {/* this.props.employee.emails[0].verified ? null :
             <span className="label label-warning">Not verified</span> */}
         </div>
@@ -70,7 +62,7 @@ EmployeeRow = React.createClass({
               month={i + 1}/>
           );
         }) : null}
-        <div className="column_sidebar"/>
+        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </div>
     );
   }

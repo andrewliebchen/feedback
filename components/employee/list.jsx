@@ -31,13 +31,20 @@ EmployeesList = React.createClass({
       show: 'new_employee'
     });
   },
-  
+
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <section className="employees-list">
         {this.props.employees.map((employee, i) => {
-          return <EmployeeRow key={i} employee={employee} organization={this.props.organization}/>;
+          return (
+            <EmployeeRow
+              key={i}
+              employee={employee}
+              organization={this.props.organization}
+              showDetail={this.props.showDetail}
+              sidebar={this.props.sidebar}/>
+          );
         })}
         <button className="btn btn-default"
           onClick={this.handleAddSeedEmployee}>

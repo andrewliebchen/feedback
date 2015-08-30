@@ -6,30 +6,9 @@
   z-index: 99;
 }
 
-.header__block {
-  display: block;
-  width: $brand-size;
-  height: $brand-size;
-  background-color: $color-gray-light;
-  color: $color-gray-mid;
-  position: absolute;
-  left: $header-padding;
-  font-weight: bold;
-  line-height: $brand-size;
-  text-align: center;
-  border-radius: 3px;
-  fill: $color-gray-mid;
-
-  &:hover {
-    background-color: $color-brand;
-    color: white;
-    fill: white;
-    text-decoration: none;
-  }
-}
-
 .header__brand {
   top: $header-padding;
+  left: $header-padding;
 }
 
 .header__session {

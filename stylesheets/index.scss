@@ -21,11 +21,13 @@
   display: block;
 }
 
+// Remove this?
 .dropdown__menu {
   position: absolue;
   z-index: 99;
 }
 
+// Remove this?
 .dropdown__background {
   position: fixed;
   top: 0;
@@ -35,16 +37,25 @@
   z-index: 98;
 }
 
-.admin-wrapper {
-  margin: 1em 0 2em;
-}
+.block-link {
+  display: block;
+  width: $brand-size;
+  height: $brand-size;
+  background-color: $color-gray-light;
+  color: $color-gray-mid;
+  position: absolute;
+  font-weight: bold;
+  line-height: $brand-size;
+  text-align: center;
+  border-radius: 3px;
+  fill: $color-gray-mid;
 
-.organization-list {
-  margin-top: $header-padding;
-}
-
-.employees-list {
-  margin-top: 1em;
+  &:hover {
+    background-color: $color-brand;
+    color: white;
+    fill: white;
+    text-decoration: none;
+  }
 }
 
 .breadcrumbs {
@@ -82,4 +93,17 @@
       font-weight: bold;
     }
   }
+}
+
+// Template stuff
+.admin-wrapper {
+  margin: 1em 0 2em;
+}
+
+.organization-list {
+  margin-top: $header-padding;
+}
+
+.employees-list {
+  margin-top: 1em;
 }

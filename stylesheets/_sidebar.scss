@@ -4,7 +4,7 @@
   right: $header-padding;
   bottom: $header-padding;
   background-color: white;
-  width: $sidebar-width;
+  width: $sidebar-width - $header-padding;
   border-radius: $border-radius;
   padding: 1em;
   z-index: 99;
@@ -21,6 +21,14 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.sidebar__toggle {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  left: auto;
+  z-index: 999;
 }
 
 .sidebar__card {

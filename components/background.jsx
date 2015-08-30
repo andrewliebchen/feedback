@@ -14,7 +14,7 @@ Background = React.createClass({
               <div key={i} className="background__result column_result"/>
             );
           })}
-        <div className="column_sidebar"/>
+        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </div>
     );
   }
@@ -32,7 +32,7 @@ BackgroundLabels = React.createClass({
               </div>
             );
           })}
-        <div className="column_sidebar"/>
+        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </div>
     );
   }
