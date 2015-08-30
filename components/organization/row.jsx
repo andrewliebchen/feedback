@@ -17,7 +17,6 @@ OrganizationRow = React.createClass({
         <div className="row__results column_results">
           {/* Organization-wide results */}
         </div>
-        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </section>
     );
   }

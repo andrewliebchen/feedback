@@ -42,8 +42,7 @@ EmployeesList = React.createClass({
               key={i}
               employee={employee}
               organization={this.props.organization}
-              showDetail={this.props.showDetail}
-              sidebar={this.props.sidebar}/>
+              showDetail={this.props.showDetail}/>
           );
         })}
         <button className="btn btn-default"

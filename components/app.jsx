@@ -3,6 +3,7 @@
  */
 
 const cx = React.addons.classSet;
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 App = React.createClass({
   mixins: [ReactMeteorData],
@@ -20,25 +21,6 @@ App = React.createClass({
     };
   },
 
-  renderSidebarContent() {
-    let type = FlowRouter.getQueryParam('show');
-    let id = FlowRouter.getQueryParam('id');
-
-    switch(type) {
-      case 'employee':
-        return <EmployeeProfile id={id}/>;
-
-      case 'new_employee':
-        return <NewEmployeeForm organization={Organizations.findOne()} teams={Teams.find().fetch()}/>;
-
-      case 'email_invite':
-        return <EmailInvite organization={Organizations.findOne()}/>;
-
-      default:
-        return <OrganizationProfile/>;
-    }
-  },
-
   handleSidebarToggle() {
     this.setState({sidebar: !this.state.sidebar});
   },
@@ -53,27 +35,27 @@ App = React.createClass({
 
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
-    // Do the sidebar placeholder with CSS instead...
+    let columnsClassName = cx({
+      "columns": true,
+      "show-sidebar": this.state.sidebar
+    });
+
     return (
-      <div>
+      <div className={columnsClassName}>
         <OrganizationRow
           organization={this.data.organization}
           editOrganization={this.handleEditOrganization}
           canEdit={canEdit}
-          showDetail={this.handleShowDetail}
-          sidebar={this.state.sidebar}/>
+          showDetail={this.handleShowDetail}/>
         <EmployeesList
           employees={this.data.employees}
           organization={this.data.organization}
-          showDetail={this.handleShowDetail}
-          sidebar={this.state.sidebar}/>
+          showDetail={this.handleShowDetail}/>
         <a className="sidebar__toggle block-link" onClick={this.handleSidebarToggle}>
-          {this.props.show ? '⇥' : '⇤'}
+          {this.state.sidebar ? '⇥' : '⇤'}
         </a>
         {this.state.sidebar ?
-          <Sidebar>
-            {this.renderSidebarContent()}
-          </Sidebar>
+          <Sidebar/>
         : null}
         <Background sidebar={this.state.sidebar}/>
         <BackgroundLabels sidebar={this.state.sidebar}/>

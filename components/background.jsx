@@ -14,7 +14,6 @@ Background = React.createClass({
               <div key={i} className="background__result column_result"/>
             );
           })}
-        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </div>
     );
   }
@@ -23,7 +22,7 @@ Background = React.createClass({
 BackgroundLabels = React.createClass({
   render() {
     return (
-      <div className="background-labels container row">
+      <div className="background background-labels container row">
           <div className="column_details"/>
           {_.times(12, (i) => {
             return (
@@ -32,7 +31,6 @@ BackgroundLabels = React.createClass({
               </div>
             );
           })}
-        {this.props.sidebar ? <div className="column_sidebar"/> : null}
       </div>
     );
   }

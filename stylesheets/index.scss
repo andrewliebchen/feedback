@@ -37,27 +37,6 @@
   z-index: 98;
 }
 
-.block-link {
-  display: block;
-  width: $brand-size;
-  height: $brand-size;
-  background-color: $color-gray-light;
-  color: $color-gray-mid;
-  position: absolute;
-  font-weight: bold;
-  line-height: $brand-size;
-  text-align: center;
-  border-radius: 3px;
-  fill: $color-gray-mid;
-
-  &:hover {
-    background-color: $color-brand;
-    color: white;
-    fill: white;
-    text-decoration: none;
-  }
-}
-
 .breadcrumbs {
   margin: 1em 0;
   display: flex;

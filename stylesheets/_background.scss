@@ -6,6 +6,10 @@
   left: 0;
   right: 0;
   z-index: -1;
+
+  .show-sidebar & {
+    padding-right: $sidebar-width;
+  }
 }
 
 .background__result {
@@ -19,11 +23,10 @@
 
 .background-labels {
   height: 2em;
-  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100vw;
+  top: auto;
   z-index: 9;
 }
 
