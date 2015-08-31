@@ -77,80 +77,75 @@ NewEmployeeForm = React.createClass({
 
   render() {
     return (
-      <div className="panel panel-default">
-        <header className="panel-heading">
-          <h3 className="panel-title">Create your profile</h3>
+      <div>
+        <header className="sidebar__header">
+          <h3 className="sidebar__title">Create your profile</h3>
         </header>
         {this.state.success ?
           <div className="panel-body">
             <p><strong>Awesome!</strong> Check your email, you should recieve a link to validate your account and create a password.</p>
           </div>
         :
-          <form>
-            <div className="panel-body">
-              <div className="form-group">
-                <Card
-                  name={this.state.name}
-                  image={this.data.image}
-                  index={0}
-                  editable="employee"/>
-              </div>
-              <div className="form-group">
-                <label>Name</label>
+          <form className="panel-body">
+            <div className="form-group">
+              <Card
+                name={this.state.name}
+                image={this.data.image}
+                index={0}
+                editable="employee"
+                className="new-employee__card"/>
+            </div>
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                onChange={this.updateNewEmployeeName}
+                ref="name"/>
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
-                  onChange={this.updateNewEmployeeName}
-                  ref="name"/>
+                  ref="email"/>
+                <div className="input-group-addon">@{this.props.organization.domain}</div>
               </div>
-              <div className="form-group">
-                <label>Email</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    ref="email"/>
-                  <div className="input-group-addon">@{this.props.organization.domain}</div>
-                </div>
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <div className="input-group">
-                  <input type={this.state.showPassword ? 'text' : 'password'} className="form-control" ref="password"/>
-                  <div className="input-group-addon" onClick={this.handleTogglePassword}>
-                    {this.state.showPassword ? 'hide' : 'show'}
-                  </div>
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <div className="input-group">
+                <input type={this.state.showPassword ? 'text' : 'password'} className="form-control" ref="password"/>
+                <div className="input-group-addon" onClick={this.handleTogglePassword}>
+                  {this.state.showPassword ? 'hide' : 'show'}
                 </div>
               </div>
             </div>
-            <div className="panel-body">
-              <h4>Teams</h4>
-              <p>Pick the teams you're on</p>
-              <ul className="list-group">
-                {this.props.teams.map((team, i) => {
-                  let employees = this.data.employees;
-                  return (
-                    <li className="list-group-item" key={i}>
-                      <label>
-                        <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
-                        {team.name}
-                      </label>
-                      {team.members.length > 0 ? team.members.map((member, i) => {
-                        let employee = _.filter(employees, {_id: member});
-                        return <Avatar employee={employee[0]} key={i}/>;
-                      }) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <footer className="panel-footer">
-              <input
-                type="submit"
-                className="btn btn-primary"
-                onSubmit={this.handleNewEmployee}
-                value={this.state.loading ? 'loading' : 'Create profile'}/>
-            </footer>
+            <h4>Teams</h4>
+            <p>Pick the teams you're on</p>
+            <ul className="list-group">
+              {this.props.teams.map((team, i) => {
+                let employees = this.data.employees;
+                return (
+                  <li className="list-group-item" key={i}>
+                    <label>
+                      <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
+                      {team.name}
+                    </label>
+                    {team.members.length > 0 ? team.members.map((member, i) => {
+                      let employee = _.filter(employees, {_id: member});
+                      return <Avatar employee={employee[0]} key={i}/>;
+                    }) : null}
+                  </li>
+                );
+              })}
+            </ul>
+            <input
+              type="submit"
+              className="btn btn-primary"
+              onSubmit={this.handleNewEmployee}
+              value={this.state.loading ? 'loading' : 'Create profile'}/>
           </form>
         }
       </div>

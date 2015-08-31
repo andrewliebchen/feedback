@@ -48,7 +48,7 @@ EmployeeProfile = React.createClass({
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
 
     return (
-      <div>
+      <span>
         <Card
           name={this.data.employee.profile.name}
           image={this.data.employee.profile.imageSrc}
@@ -93,7 +93,7 @@ EmployeeProfile = React.createClass({
             : null}
           </section>
         </Tabs>
-      </div>
+      </span>
     );
   }
 });
