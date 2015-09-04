@@ -15,7 +15,7 @@ let teams = [];
 const Section = React.createClass({
   render() {
     return (
-      <div className="container">
+      <span>
         <div className="breadcrumbs">
           {STEPS.map((step, i) => {
             let stepClassName = cx({
@@ -34,14 +34,14 @@ const Section = React.createClass({
           </header>
           {this.props.children}
         </section>
-      </div>
+      </span>
     );
   }
 });
 
 const Account = React.createClass({
   mixins: [ShowPasswordMixin],
-  
+
   getInitialState() {
     return {
       loading: false
@@ -312,25 +312,33 @@ const Finish = React.createClass({
 if(Meteor.isClient) {
  FlowRouter.route('/setup/account', {
    action: function() {
-     ReactLayout.render(Account);
+     ReactLayout.render(LayoutNarrow, {
+       content: <Account/>
+     });
    }
  });
 
  FlowRouter.route('/setup/organization', {
    action: function() {
-     ReactLayout.render(Organization);
+     ReactLayout.render(LayoutNarrow, {
+       content: <Organization/>
+     });
    }
  });
 
  FlowRouter.route('/setup/teams', {
    action: function() {
-     ReactLayout.render(Teams);
+     ReactLayout.render(LayoutNarrow, {
+       content: <Teams/>
+     });
    }
  });
 
  FlowRouter.route('/setup/finish', {
    action: function() {
-     ReactLayout.render(Finish);
+     ReactLayout.render(LayoutNarrow, {
+       content: <Finish/>
+     });
    }
  });
 }

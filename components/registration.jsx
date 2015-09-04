@@ -78,7 +78,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('registration', function() {
-        ReactLayout.render(Layout, {
+        ReactLayout.render(LayoutNarrow, {
           content: <Registration/>
         });
       });

@@ -125,7 +125,7 @@ if(Meteor.isClient) {
     action: function(param) {
       // if(Meteor.user()) {
         FlowRouter.subsReady('controlPanel', function() {
-          ReactLayout.render(Layout, {
+          ReactLayout.render(LayoutWide, {
             content: <App/>
           });
         });

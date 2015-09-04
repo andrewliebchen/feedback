@@ -1,3 +1,18 @@
+.container {
+
+  &_narrow {
+    padding: 0 2em;
+    margin: 0 auto;
+    max-width: 26em;
+    width: 100%;
+  }
+
+  &_wide {
+    width: 100vw;
+    padding-left: $header-width;
+  }
+}
+
 // Columns
 .columns.show-sidebar {
   padding-right: $sidebar-width;

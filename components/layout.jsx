@@ -4,11 +4,20 @@
 
 const _ = lodash;
 
-// Store sidebar state in Query?
-Layout = React.createClass({
+LayoutNarrow = React.createClass({
   render() {
     return (
-      <div className="container">
+      <div className="container container_narrow">
+        {this.props.content}
+      </div>
+    );
+  }
+});
+
+LayoutWide = React.createClass({
+  render() {
+    return (
+      <div className="container container_wide">
         <Header session/>
         {this.props.content}
       </div>
