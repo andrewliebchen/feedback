@@ -32,7 +32,11 @@ var FeedbackMonths = React.createClass({
       <div className="feedback-result column_result">
         <div className="feedback-result__outer" style={outerStyle}/>
         <div className="feedback-result__inner" style={innerStyle}/>
-        {/*`${score}/${total}`*/}
+        {total > 0 ?
+          <div className="feedback-result__tooltip">
+            {moment(this.props.month, 'M').format('MMMM')} <strong>{`${score}/${total}`}</strong>
+          </div>
+        : null}
       </div>
     );
   }

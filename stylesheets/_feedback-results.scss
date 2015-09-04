@@ -1,6 +1,10 @@
 .feedback-result {
   position: relative;
   float: left;
+
+  &:hover {
+    z-index: 99;
+  }
 }
 
 .feedback-result__outer,
@@ -18,4 +22,36 @@
 
 .feedback-result__inner {
   background-color: $color-positive;
+}
+
+.feedback-result__tooltip {
+  transition: all 0.15s ease-in-out;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate3d(-50%, -10px, 0);
+  background-color: $color-gray-dark;
+  color: $color-gray-lightest;
+  padding: 0.25em 0.5em;
+  border-radius: 3px;
+  opacity: 0;
+  text-align: center;
+  white-space: nowrap;
+
+  &::before {
+    $size: 0.5em;
+    content: "";
+    background-color: inherit;
+    width: $size;
+    height: $size;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0) rotate(45deg);
+  }
+
+  .feedback-result:hover & {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+  }
 }
