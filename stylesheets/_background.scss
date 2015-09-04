@@ -17,7 +17,7 @@
   position: relative;
 
   &:nth-child(even) {
-    background-color: $color-gray-lightest;
+    background-color: $color-gray-lighter;
   }
 }
 
@@ -35,14 +35,14 @@
   background-image: linear-gradient(to bottom, rgba(white, 0), rgba(white, 0.9));
 
   &:nth-child(even) {
-    background-image: linear-gradient(to bottom, rgba($color-gray-lightest, 0), rgba($color-gray-lightest, 0.9));
+    background-image: linear-gradient(to bottom, rgba($color-gray-lighter, 0), rgba($color-gray-lighter, 0.9));
   }
 }
 
 .background-labels__label {
   position: absolute;
   margin: 0;
-  color: $color-gray-mid;
+  color: $color-gray-dark;
   text-align: center;
   width: 100%;
   line-height: 2;

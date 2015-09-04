@@ -3,14 +3,14 @@ $tab-border-width: 4px;
 .tab-container {
   border-bottom: $tab-border-width solid $sidebar-border-color;
   padding: 0 1em;
-  background-color: $color-gray-lightest;
+  background-color: $color-gray-lighter;
 }
 
 .tab {
   margin-right: 1em;
   font-weight: 600;
   line-height: 3.5;
-  color: $color-brand-mid;
+  color: $color-brand-light;
   display: inline-block;
   margin-bottom: -($tab-border-width);
   border-bottom: $tab-border-width solid transparent;
