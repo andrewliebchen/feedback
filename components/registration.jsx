@@ -35,7 +35,7 @@ Registration = React.createClass({
 
   render() {
     return (
-      <div>
+      <div className="container_narrow">
         <section className="panel">
           <header className="panel__header">
             <h3 className="panel__title">Register for {this.data.organization.name}</h3>

@@ -2,39 +2,17 @@
   &_narrow {
     padding: $padding;
     margin: 0 auto;
-    max-width: 28em;
+    max-width: $narrow-width;
     width: 100%;
   }
 
   &_wide {
-    width: 100vw;
-    padding-left: $header-width;
-    background-color: white;
+    max-width: 70em;
+    margin: 0 auto;
+    padding: 1em $padding $padding;
   }
 }
 
-// Columns
-.columns.show-sidebar {
-  padding-right: $sidebar-width;
-}
-
-.column_app {
-  width: $header-width;
-  flex-shrink: 0;
-}
-
-.column_content {
-  flex: 1;
-  display: flex;
-}
-
-.column_details {
-  @include clearfix;
-  flex-shrink: 0;
-  position: relative;
-  width: $details-width;
-}
-
-.column_result {
+.column {
   flex: 1;
 }

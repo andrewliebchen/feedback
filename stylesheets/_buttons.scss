@@ -15,9 +15,15 @@
   }
 }
 
+// reset
+button,
+.btn {
+  appearance: none;
+  border: 0;
+}
+
 .btn {
   @include uppercase;
-  appearance: none;
   padding: 1em;
   line-height: 1;
   border-radius: $border-radius;
@@ -46,4 +52,16 @@
 
 .btn-success {
   @include button-style($color-positive);
+}
+
+.btn-sm {
+  padding: 0.5em;
+}
+
+.btn-block {
+  width: 100%;
+
+  + .btn-block {
+    margin-top: 0.5em;
+  }
 }

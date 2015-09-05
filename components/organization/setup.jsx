@@ -15,7 +15,7 @@ let teams = [];
 const Section = React.createClass({
   render() {
     return (
-      <span>
+      <div className="container_narrow">
         <div className="breadcrumbs">
           {STEPS.map((step, i) => {
             let stepClassName = cx({
@@ -34,7 +34,7 @@ const Section = React.createClass({
           </header>
           {this.props.children}
         </section>
-      </span>
+      </div>
     );
   }
 });
@@ -312,33 +312,25 @@ const Finish = React.createClass({
 if(Meteor.isClient) {
  FlowRouter.route('/setup/account', {
    action: function() {
-     ReactLayout.render(LayoutNarrow, {
-       content: <Account/>
-     });
+     ReactLayout.render(Account);
    }
  });
 
  FlowRouter.route('/setup/organization', {
    action: function() {
-     ReactLayout.render(LayoutNarrow, {
-       content: <Organization/>
-     });
+     ReactLayout.render(Organization);
    }
  });
 
  FlowRouter.route('/setup/teams', {
    action: function() {
-     ReactLayout.render(LayoutNarrow, {
-       content: <Teams/>
-     });
+     ReactLayout.render(Teams);
    }
  });
 
  FlowRouter.route('/setup/finish', {
    action: function() {
-     ReactLayout.render(LayoutNarrow, {
-       content: <Finish/>
-     });
+     ReactLayout.render(Finish);
    }
  });
 }

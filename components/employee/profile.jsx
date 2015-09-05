@@ -49,47 +49,53 @@ EmployeeProfile = React.createClass({
 
     return (
       <span>
-        <Card
-          name={this.data.employee.profile.name}
-          image={this.data.employee.profile.imageSrc}
-          id={this.data.employee._id}
-          className="sidebar__card"
-          editable="employee"/>
+        <div className="panel__card__wrapper">
+          <Card
+            name={this.data.employee.profile.name}
+            image={this.data.employee.profile.imageSrc}
+            id={this.data.employee._id}
+            className="panel__card"
+            editable="employee"/>
+        </div>
         <Tabs
           defaultTabNum={0}
           tabNames={["Profile", "Performance"]}>
-          <section className="panel__body">
-            <FormGroup
-              label="Name"
-              value={_.startCase(this.data.employee.profile.name)}
-              onChange={this.handleUpdateEmployeeName}/>
-            <FormGroup
-              label="Username"
-              value={this.data.employee.username}
-              onChange={this.handleUpdateEmployeeUsername}/>
-            <FormGroup
-              label="Email"
-              value={this.data.employee.emails[0].address}
-              onChange={this.handleUpdateEmployeeEmail}/>
-            <div className="form-group">
-              <label>Team</label>
-              <TeamChooser employee={this.data.employee}/>
+          <section>
+            <div className="panel__body">
+              <FormGroup
+                label="Name"
+                value={_.startCase(this.data.employee.profile.name)}
+                onChange={this.handleUpdateEmployeeName}/>
+              <FormGroup
+                label="Username"
+                value={this.data.employee.username}
+                onChange={this.handleUpdateEmployeeUsername}/>
+              <FormGroup
+                label="Email"
+                value={this.data.employee.emails[0].address}
+                onChange={this.handleUpdateEmployeeEmail}/>
+              <div className="form-group">
+                <label>Team</label>
+                <TeamChooser employee={this.data.employee}/>
+              </div>
             </div>
             {canEdit && Meteor.userId() !== this.data.employee._id ?
-              <button className="btn btn-danger"
-                onClick={this.handleDelete}>
-                Delete
-              </button>
+              <div className="panel__body">
+                <button className="btn btn-danger btn-block"
+                  onClick={this.handleDelete}>
+                  Delete
+                </button>
+              </div>
             : null}
           </section>
-          <section className="panel__body">
-            Performance
-
+          <section>
             {canEdit ?
-              <button className="btn btn-default"
-                onClick={this.handleNewFeedbackSession}>
-                Add feedback session
-              </button>
+              <div className="panel__body">
+                <button className="btn btn-default btn-block"
+                  onClick={this.handleNewFeedbackSession}>
+                  Add feedback session
+                </button>
+              </div>
             : null}
           </section>
         </Tabs>

@@ -6,25 +6,19 @@ $color-brand-lighter: lighten($color-brand, 35%);
 
 $color-gray-darker: #47525d;
 $color-gray-dark: #7b8994;
-$color-gray: #d0d5d8;
+$color-gray: mix(white, $color-gray-dark, 60%); //#d0d5d8;
 $color-gray-light: #efeff2;
 $color-gray-lighter: #fafafb;
+
+$color-placeholder: $color-gray-dark;
 
 $color-positive: #3db36a;
 $color-negative: #ed1552;
 
-$sidebar-border-color: darken($color-gray-light, 5%);
-
-$header-width: 4.5em;
-$brand-size: 2.5em;
-$header-padding: ($header-width - $brand-size) / 2;
-
-$details-width: 9em;
-$sidebar-width: 22em;
-
+$narrow-width: 28em;
+$header-height: 3em;
 $padding: 2em;
 $border-radius: 5px;
-
 $avatar-size: 1.5em;
 
 
@@ -43,6 +37,8 @@ $avatar-size: 1.5em;
 }
 
 @mixin hover-overlay {
+  cursor: pointer;
+
   &:hover::after {
     content: "";
     color: white;

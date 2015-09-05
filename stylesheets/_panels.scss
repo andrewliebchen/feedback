@@ -19,10 +19,20 @@
 }
 
 .panel__body {
-  padding: 1em $padding $padding;
+  padding: $padding;
 
   + .panel__body {
     border-top: 1px solid $color-gray;
+  }
+}
+
+.panel__card {
+  position: relative;
+
+  &__wrapper {
+    padding: $padding $padding 0;
+    background-color: $color-gray-lighter;
+    border-radius: $border-radius $border-radius 0 0;
   }
 }
 

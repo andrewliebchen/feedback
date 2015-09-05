@@ -1,16 +1,15 @@
 @import "helpers";
 @import "base";
 @import "avatars";
-@import "background";
 @import "buttons";
 @import "cards";
 @import "forms";
 @import "layout";
 @import "media-object";
+@import "modals";
 @import "menu";
 @import "panels";
 @import "rows";
-@import "sidebar";
 @import "tabs";
 
 @import "feedback-results";
@@ -81,7 +80,7 @@
 
 .add-employee {
   width: 8em;
-  margin: 1em 0 $header-padding;
+  margin: 1em 0;
 
   .btn {
     border-radius: 3px 3px 0 0;
@@ -95,14 +94,6 @@
 }
 
 // Template stuff
-.organization {
-  padding-top: $header-padding;
-}
-
-.employees {
-  margin-top: 1em;
-}
-
 .login-container {
   position: absolute;
   top: 33%;

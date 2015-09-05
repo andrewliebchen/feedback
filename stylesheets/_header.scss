@@ -1,21 +1,29 @@
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 99;
+  @include clearfix;
+  padding: 0 0 1em;
+  position: relative;
+  display: flex;
 }
 
 .header__brand {
-  top: $header-padding;
-  left: $header-padding;
+  @include uppercase;
+  display: block;
+  line-height: $header-height;
+  width: 10.5em;
+}
+
+.header__search {
+  flex: 1;
+  position: relative;
+  margin: 0 4em 0 0;
 }
 
 .header__session {
   @include hover-overlay;
-  position: absolute;
-  left: $header-padding;
-  bottom: $header-padding;
+  display: block;
+  width: $header-height;
+  height: $header-height;
+  border-radius: 3px;
   overflow: hidden;
 
   img {
@@ -26,6 +34,6 @@
 }
 
 .header__session__menu {
-  bottom: 1em;
-  left: 1em;
+  top: 0;
+  right: 0;
 }

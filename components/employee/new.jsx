@@ -171,10 +171,12 @@ const NewEmployee = React.createClass({
 
   render() {
     return (
-      <div className="panel">
-        <NewEmployeeForm
-          organization={this.data.organization}
-          teams={this.data.teams}/>
+      <div className="container_narrow">
+        <div className="panel">
+          <NewEmployeeForm
+            organization={this.data.organization}
+            teams={this.data.teams}/>
+        </div>
       </div>
     );
   }
@@ -188,9 +190,7 @@ if(Meteor.isClient) {
 
     action: function() {
       FlowRouter.subsReady('newEmployee', function() {
-        ReactLayout.render(LayoutNarrow, {
-          content: <NewEmployee/>
-        });
+        ReactLayout.render(NewEmployee);
       });
     }
   });

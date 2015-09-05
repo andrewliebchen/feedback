@@ -1,9 +1,13 @@
+.feedback-results {
+  flex: 1;
+  display: flex;
+}
+
 .feedback-result {
   position: relative;
-  float: left;
 
-  &:hover {
-    z-index: 99;
+  &:nth-child(even) {
+    background-color: $color-gray-lighter;
   }
 }
 
@@ -13,6 +17,7 @@
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
+  z-index: 1;
 }
 
 .feedback-result__outer {
@@ -37,6 +42,8 @@
   opacity: 0;
   text-align: center;
   white-space: nowrap;
+  z-index: 2;
+  font-weight: bold;
 
   &::before {
     $size: 0.5em;
@@ -53,5 +60,18 @@
   .feedback-result:hover & {
     opacity: 1;
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.feedback-result__label {
+  @include uppercase;
+  position: absolute;
+  bottom: 0.5em;
+  text-align: center;
+  width: 100%;
+  color: $color-gray-light;
+
+  .row:hover & {
+    color: $color-gray;
   }
 }

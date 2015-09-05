@@ -14,20 +14,20 @@ const EmployeeActions = React.createClass({
 
   render() {
     return (
-      <span>
-        <button className="btn btn-default"
+      <div className="panel__body">
+        <button className="btn btn-default btn-block"
           onClick={this.handleDownload}>
           Download CSV
         </button>
-        <button className="btn btn-default"
+        <button className="btn btn-default btn-block"
           onClick={this.handleEmailInvite}>
           Send email invite
         </button>
-        <button className="btn btn-danger"
+        <button className="btn btn-danger btn-block"
           onClick={this.handleDeleteAllEmployees}>
           Delete all employees
         </button>
-      </span>
+      </div>
     );
   }
 });
@@ -96,59 +96,65 @@ OrganizationProfile = React.createClass({
     });
 
     return (
-      <div>
-        <Card
-          name={this.data.organization.name}
-          image={this.data.organization.imageSrc}
-          id={this.data.organization._id}
-          className="sidebar__card"
-          editable="organization"/>
+      <span>
+        <div className="panel__card__wrapper">
+          <Card
+            name={this.data.organization.name}
+            image={this.data.organization.imageSrc}
+            id={this.data.organization._id}
+            className="panel__card"
+            editable="organization"/>
+        </div>
         <Tabs
           defaultTabNum={0}
           tabNames={["Details", "Employees", "Feedbacks"]}>
-          <section className="panel__body">
-            <FormGroup
-              label="Organization name"
-              value={this.data.organization.name}
-              onChange={this.handleUpdateOrganizationName}/>
-            <FormGroup
-              label="Email domain"
-              value={this.data.organization.domain}
-              onChange={this.handleUpdateOrganizationDomain}/>
-            <div className="form-group">
-              <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
-                {`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}
-              </button>
+          <section>
+            <div className="panel__body">
+              <FormGroup
+                label="Organization name"
+                value={this.data.organization.name}
+                onChange={this.handleUpdateOrganizationName}/>
+              <FormGroup
+                label="Email domain"
+                value={this.data.organization.domain}
+                onChange={this.handleUpdateOrganizationDomain}/>
+              <div className="form-group">
+                <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
+                  {`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}
+                </button>
+              </div>
+              <div className="form-group">
+                <label>Feedback frequency</label>
+                <select
+                  className="form-control"
+                  defaultValue={this.data.organization.feedback.frequency}
+                  onChange={this.handleFeedbackFrequency}>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Weekly">Weekly</option>
+                </select>
+              </div>
+              <dl>
+                <dt>Created</dt>
+                <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
+              </dl>
+              <TeamsList teams={this.data.teams} employees={this.data.employees}/>
             </div>
-            <div className="form-group">
-              <label>Feedback frequency</label>
-              <select
-                className="form-control"
-                defaultValue={this.data.organization.feedback.frequency}
-                onChange={this.handleFeedbackFrequency}>
-                <option value="Monthly">Monthly</option>
-                <option value="Weekly">Weekly</option>
-              </select>
-            </div>
-            <dl>
-              <dt>Created</dt>
-              <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
-            </dl>
-            <TeamsList teams={this.data.teams} employees={this.data.employees}/>
           </section>
-          <section className="panel__body">
-            {this.data.employees.map((employee, i) => {
-              return <Avatar employee={employee} key={i}/>;
-            })}
+          <section>
+            <div className="panel__body">
+              {this.data.employees.map((employee, i) => {
+                return <Avatar employee={employee} key={i}/>;
+              })}
+            </div>
             {canEdit ? <EmployeeActions/> : null}
           </section>
-          <section className="panel__body">
+          <section>
             <FeedbackSessionsList
               feedbackSessions={this.data.feedbackSessions}
               employees={this.data.employees}/>
           </section>
         </Tabs>
-      </div>
+      </span>
     );
   }
 });

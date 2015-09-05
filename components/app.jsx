@@ -60,58 +60,51 @@ App = React.createClass({
   },
 
   getInitialState() {
+    let modal = FlowRouter.getQueryParam('show') ? FlowRouter.getQueryParam('show') : false;
     return {
-      sidebar: true
+      modal: modal
     };
   },
 
-  handleSidebarToggle() {
-    this.setState({sidebar: !this.state.sidebar});
+  handleShowDetail(id) {
+    if(Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+      FlowRouter.setQueryParams({
+        show: id
+      });
+      this.setState({modal: true});
+    }
   },
 
-  handleShowDetail(show, id) {
-    this.setState({sidebar: true});
-    FlowRouter.setQueryParams({
-      show: show,
-      id: id
-    });
+  handleCloseModal() {
+    this.setState({modal: false});
   },
 
   render() {
-    let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
-    let columnsClassName = cx({
-      "columns": true,
-      "show-sidebar": this.state.sidebar
-    });
-
     return (
-      <div className={columnsClassName}>
-        <Background sidebar={this.state.sidebar}/>
-        <OrganizationRow
-          organization={this.data.organization}
-          editOrganization={this.handleEditOrganization}
-          canEdit={canEdit}
+      <section className="dashboard container_wide">
+        <Header session/>
+        <Row
+          id={this.data.organization._id}
+          name={this.data.organization.name}
+          image={this.data.organization.imageSrc}
           showDetail={this.handleShowDetail}/>
-        <section className="employees">
-          {this.data.employees.map((employee, i) => {
-            return (
-              <EmployeeRow
-                key={i}
-                employee={employee}
-                organization={this.data.organization}
-                showDetail={this.handleShowDetail}/>
-            );
-          })}
-          <AddEmployee/>
-        </section>
-        <a className="sidebar__toggle block-link" onClick={this.handleSidebarToggle}>
-          {this.state.sidebar ? '⇥' : '⇤'}
-        </a>
-        {this.state.sidebar ?
-          <Sidebar/>
+        {this.data.employees.map((employee, i) => {
+          return (
+            <Row
+              key={i}
+              id={employee._id}
+              name={employee.profile.name}
+              image={employee.profile.imageSrc}
+              feedbacks={employee.profile.feedbacks}
+              showDetail={this.handleShowDetail}/>
+          );
+        })}
+        {/*<AddEmployee/>*/}
+
+        {this.state.modal ?
+          <Modal close={this.handleCloseModal}/>
         : null}
-        <BackgroundLabels sidebar={this.state.sidebar}/>
-      </div>
+      </section>
     );
   }
 });
@@ -125,9 +118,7 @@ if(Meteor.isClient) {
     action: function(param) {
       // if(Meteor.user()) {
         FlowRouter.subsReady('controlPanel', function() {
-          ReactLayout.render(LayoutWide, {
-            content: <App/>
-          });
+          ReactLayout.render(App);
         });
       // } else {
       //   FlowRouter.go('/login');

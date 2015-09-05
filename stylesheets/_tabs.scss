@@ -1,8 +1,8 @@
 $tab-border-width: 4px;
 
 .tab-container {
-  border-bottom: $tab-border-width solid $sidebar-border-color;
-  padding: 0 1em;
+  border-bottom: $tab-border-width solid $color-gray;
+  padding: 0 $padding;
   background-color: $color-gray-lighter;
 }
 

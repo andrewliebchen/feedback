@@ -24,10 +24,7 @@ FeedbackSessionsList = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
-      <section className="panel">
-        <header className="panel__header">
-          <h3 className="panel__title">Feedback Sessions</h3>
-        </header>
+      <div className="panel__body">
         <table className="table">
           <tbody>
             {this.props.feedbackSessions.map((session, i) =>{
@@ -54,7 +51,7 @@ FeedbackSessionsList = React.createClass({
             </button>
           </footer>
         : null}
-      </section>
+      </div>
     );
   }
 });
