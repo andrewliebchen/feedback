@@ -8,7 +8,7 @@
   border-radius: $border-radius;
   padding: 1em;
   z-index: 99;
-  background-color: $color-gray-light;
+  background-color: white;
   border: 1px solid $sidebar-border-color;
   overflow: hidden
 }
@@ -31,28 +31,10 @@
   height: $sidebar-width;
 }
 
-.sidebar__header {
-  background-color: $color-gray-lighter;
-  padding: 1em;
-  border-bottom: 2px solid $sidebar-border-color;
-}
-
-.sidebar__title {
-  font-size: 1em;
-  font-weight: bold;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
 .sidebar__toggle {
   position: fixed;
   top: 1.25em;
   right: 1.25em;
   left: auto;
   z-index: 999;
-}
-
-.new-employee__card {
-  position: relative;
 }

@@ -22,11 +22,11 @@ Avatar = React.createClass({
     return (
       <a className={`avatar media ${this.props.className}`} onClick={this.handleClick}>
         {profile.imageSrc ?
-          <div className="media-left">
-            <img src={profile.imageSrc} className="img-rounded" width="24"/>
+          <div className="avatar__image media-left">
+            <img src={profile.imageSrc} width="24"/>
           </div>
         : null}
-        <div className="media-body">{_.startCase(profile.name)}</div>
+        <div className="avatar__body media-body">{_.startCase(profile.name)}</div>
       </a>
     );
   }

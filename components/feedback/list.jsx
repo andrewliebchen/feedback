@@ -24,9 +24,9 @@ FeedbackSessionsList = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
-      <section className="panel panel-default">
-        <header className="panel-heading">
-          <h3 className="panel-title">Feedback Sessions</h3>
+      <section className="panel">
+        <header className="panel__header">
+          <h3 className="panel__title">Feedback Sessions</h3>
         </header>
         <table className="table">
           <tbody>
@@ -45,7 +45,7 @@ FeedbackSessionsList = React.createClass({
           </tbody>
         </table>
         {canEdit ?
-          <footer className="panel-footer">
+          <footer className="panel__footer">
             <button className="btn btn-danger" onClick={this.handleDeleteAllFeedbackSessions}>
               Delete all
             </button>

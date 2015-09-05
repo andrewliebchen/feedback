@@ -5,7 +5,7 @@
   width: 100vw;
   left: 0;
   right: 0;
-  z-index: -1;
+  padding-left: $header-width;
 
   .show-sidebar & {
     padding-right: $sidebar-width;

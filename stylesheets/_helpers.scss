@@ -20,9 +20,12 @@ $brand-size: 2.5em;
 $header-padding: ($header-width - $brand-size) / 2;
 
 $details-width: 9em;
-$sidebar-width: 21em;
+$sidebar-width: 22em;
 
+$padding: 2em;
 $border-radius: 5px;
+
+$avatar-size: 1.5em;
 
 
 @mixin clearfix {
@@ -31,6 +34,12 @@ $border-radius: 5px;
     content: "";
     display: table;
   }
+}
+
+@mixin uppercase {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 @mixin hover-overlay {

@@ -10,7 +10,6 @@ jquery
 fourseven:scss
 mrt:normalize.css
 meteorhacks:flow-router
-twbs:bootstrap
 lfergon:exportcsv
 momentjs:moment
 accounts-password

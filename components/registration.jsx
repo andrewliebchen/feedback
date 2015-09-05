@@ -36,12 +36,12 @@ Registration = React.createClass({
   render() {
     return (
       <div>
-        <section className="panel panel-default">
-          <header className="panel-heading">
-            <h3 className="panel-title">Register for {this.data.organization.name}</h3>
+        <section className="panel">
+          <header className="panel__header">
+            <h3 className="panel__title">Register for {this.data.organization.name}</h3>
           </header>
           <form>
-            <div className="panel-body">
+            <div className="panel__body">
               <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh.</p>
               <div className="form-group">
                 <label>Your email</label>
@@ -60,7 +60,7 @@ Registration = React.createClass({
                 <input type="type" className="form-control" ref="lastName"/>
               </div>
             </div>
-            <footer className="panel-footer">
+            <footer className="panel__footer">
               <button className="btn btn-primary" onClick={this.handleCreateEmployee}>Join organization</button>
             </footer>
           </form>

@@ -106,7 +106,7 @@ OrganizationProfile = React.createClass({
         <Tabs
           defaultTabNum={0}
           tabNames={["Details", "Employees", "Feedbacks"]}>
-          <section className="panel-body">
+          <section className="panel__body">
             <FormGroup
               label="Organization name"
               value={this.data.organization.name}
@@ -136,13 +136,13 @@ OrganizationProfile = React.createClass({
             </dl>
             <TeamsList teams={this.data.teams} employees={this.data.employees}/>
           </section>
-          <section className="panel-body">
+          <section className="panel__body">
             {this.data.employees.map((employee, i) => {
               return <Avatar employee={employee} key={i}/>;
             })}
             {canEdit ? <EmployeeActions/> : null}
           </section>
-          <section className="panel-body">
+          <section className="panel__body">
             <FeedbackSessionsList
               feedbackSessions={this.data.feedbackSessions}
               employees={this.data.employees}/>

@@ -14,11 +14,11 @@ EmailInvite = React.createClass({
 
   render() {
     return (
-      <form className="panel panel-default">
-        <header className="panel-heading">
-          <h4 className="panel-title">Invite</h4>
+      <form className="panel">
+        <header className="panel__header">
+          <h4 className="panel__title">Invite</h4>
         </header>
-        <div className="panel-body">
+        <div className="panel__body">
           <div className="form-group">
             <label>To</label>
             <input
@@ -43,7 +43,7 @@ EmailInvite = React.createClass({
               ref="message"/>
           </div>
         </div>
-        <footer className="panel-footer">
+        <footer className="panel__footer">
           <input
             type="submit"
             className="btn btn-primary"

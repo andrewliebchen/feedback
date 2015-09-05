@@ -1,0 +1,22 @@
+.media {
+  @include clearfix;
+}
+
+.media,
+.media-body {
+  overflow: auto;
+}
+
+.media-right {
+  margin-left: 0.5em;
+}
+
+.media-left {
+  margin-right: 0.5em;
+}
+
+.media-left,
+.media-right,
+.media-body {
+  display: inline-block;
+}

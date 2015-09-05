@@ -1,0 +1,49 @@
+@mixin button-style($color) {
+  background-color: $color;
+
+  &:hover {
+    background-color: darken($color, 5%);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 5px lighten($color, 15%);
+  }
+
+  &:active {
+    background-color: darken($color, 10%);
+    box-shadow: none;
+  }
+}
+
+.btn {
+  @include uppercase;
+  appearance: none;
+  padding: 1em;
+  line-height: 1;
+  border-radius: $border-radius;
+  display: inline-block;
+  text-align: center;
+  background: transparent;
+  color: $color-gray-lighter;
+}
+
+.btn-default {
+  @include button-style($color-gray-light);
+  color: $color-brand;
+
+  &:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 5px lighten($color-brand, 15%);
+  }
+}
+
+.btn-primary {
+  @include button-style($color-brand);
+}
+
+.btn-danger {
+  @include button-style($color-negative);
+}
+
+.btn-success {
+  @include button-style($color-positive);
+}

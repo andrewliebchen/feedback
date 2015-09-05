@@ -7,7 +7,7 @@ const _ = lodash;
 Background = React.createClass({
   render() {
     return (
-      <div className="background container_wide row">
+      <div className="background row">
           <div className="column_details"/>
           {_.times(12, (i) => {
             return (
@@ -22,7 +22,7 @@ Background = React.createClass({
 BackgroundLabels = React.createClass({
   render() {
     return (
-      <div className="background background-labels container_wide row">
+      <div className="background background-labels row">
           <div className="column_details"/>
           {_.times(12, (i) => {
             return (

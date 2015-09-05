@@ -1,15 +1,15 @@
 .container {
-
   &_narrow {
-    padding: 0 2em;
+    padding: $padding;
     margin: 0 auto;
-    max-width: 26em;
+    max-width: 28em;
     width: 100%;
   }
 
   &_wide {
     width: 100vw;
     padding-left: $header-width;
+    background-color: white;
   }
 }
 

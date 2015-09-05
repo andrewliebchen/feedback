@@ -58,7 +58,7 @@ EmployeeProfile = React.createClass({
         <Tabs
           defaultTabNum={0}
           tabNames={["Profile", "Performance"]}>
-          <section className="panel-body">
+          <section className="panel__body">
             <FormGroup
               label="Name"
               value={_.startCase(this.data.employee.profile.name)}
@@ -82,7 +82,7 @@ EmployeeProfile = React.createClass({
               </button>
             : null}
           </section>
-          <section className="panel-body">
+          <section className="panel__body">
             Performance
 
             {canEdit ?

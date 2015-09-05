@@ -28,9 +28,9 @@ const Section = React.createClass({
             );
           })}
         </div>
-        <section className="panel panel-default">
-          <header className="panel-heading">
-            <h3 className="panel-title">{this.props.title ? this.props.title : STEPS[this.props.step]}</h3>
+        <section className="panel">
+          <header className="panel__header">
+            <h3 className="panel__title">{this.props.title ? this.props.title : STEPS[this.props.step]}</h3>
           </header>
           {this.props.children}
         </section>
@@ -75,7 +75,7 @@ const Account = React.createClass({
     return (
       <Section step={0}>
         <form>
-          <div className="panel-body">
+          <div className="panel__body">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui.</p>
             <div className="form-group">
               <label>Your name</label>
@@ -107,7 +107,7 @@ const Account = React.createClass({
               </div>
             </div>
           </div>
-          <footer className="panel-footer">
+          <footer className="panel__footer">
             <input
               type="submit"
               className="btn btn-primary"
@@ -149,7 +149,7 @@ const Organization = React.createClass({
     return (
       <Section step={1}>
         <form>
-          <div className="panel-body">
+          <div className="panel__body">
             <p>Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est.</p>
             <div className="form-group">
               <label>Organization's name</label>
@@ -170,7 +170,7 @@ const Organization = React.createClass({
               <small className="help-block">Everything after the @ in your work email</small>
             </div>
           </div>
-          <footer className="panel-footer">
+          <footer className="panel__footer">
             <input
               type="submit"
               className="btn btn-primary"
@@ -222,7 +222,7 @@ const Teams = React.createClass({
     return (
       <Section step={2}>
         <form>
-          <div className="panel-body">
+          <div className="panel__body">
             <p>Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate.</p>
             {this.state.teams.map((team, i) => {
               return <div key={i}>{team}</div>;
@@ -237,7 +237,7 @@ const Teams = React.createClass({
                 placeholder="Enter a team and press enter"/>
             </div>
           </div>
-          <footer className="panel-footer">
+          <footer className="panel__footer">
             <button className="btn btn-default" onClick={this.goToFinish}>
               Skip this for now
             </button>
@@ -269,7 +269,7 @@ const Finish = React.createClass({
     return (
       <Section title="All done!" step={3}>
         <form>
-          <div className="panel-body">
+          <div className="panel__body">
             <p>Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio. Proin quis.</p>
             <div className="form-group">
               <label>To</label>
@@ -295,7 +295,7 @@ const Finish = React.createClass({
                 ref="message"/>
             </div>
           </div>
-          <footer className="panel-footer">
+          <footer className="panel__footer">
             <button href="/admin" className="btn btn-default">View dashboard</button>
             <input
               type="submit"

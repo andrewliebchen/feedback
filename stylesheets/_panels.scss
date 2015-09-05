@@ -1,0 +1,31 @@
+.panel {
+  border-radius: $border-radius;
+  background-color: white;
+  border: 1px solid $color-gray;
+
+  + .panel {
+    margin-top: $padding;
+  }
+}
+
+.panel__header {
+  padding: $padding $padding 0;
+  border-radius: $border-radius $border-radius 0 0;
+}
+
+.panel__title {
+  margin: 0;
+  font-size: 1em;
+}
+
+.panel__body {
+  padding: 1em $padding $padding;
+
+  + .panel__body {
+    border-top: 1px solid $color-gray;
+  }
+}
+
+.panel__footer {
+  padding: 0 $padding $padding;
+}

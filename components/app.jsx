@@ -86,6 +86,7 @@ App = React.createClass({
 
     return (
       <div className={columnsClassName}>
+        <Background sidebar={this.state.sidebar}/>
         <OrganizationRow
           organization={this.data.organization}
           editOrganization={this.handleEditOrganization}
@@ -109,7 +110,6 @@ App = React.createClass({
         {this.state.sidebar ?
           <Sidebar/>
         : null}
-        <Background sidebar={this.state.sidebar}/>
         <BackgroundLabels sidebar={this.state.sidebar}/>
       </div>
     );

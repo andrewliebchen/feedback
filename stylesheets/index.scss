@@ -1,10 +1,14 @@
 @import "helpers";
 @import "base";
+@import "avatars";
 @import "background";
-@import "bootstrap-shim";
+@import "buttons";
 @import "cards";
+@import "forms";
 @import "layout";
+@import "media-object";
 @import "menu";
+@import "panels";
 @import "rows";
 @import "sidebar";
 @import "tabs";
@@ -60,7 +64,7 @@
 
   &:hover,
   &.active {
-    background-color: rgba(white, 0.7);
+    background-color: rgba($color-brand, 0.8);
 
     &:after {
       content: "Upload new image";
@@ -70,6 +74,7 @@
       text-align: center;
       transform: translateY(-50%);
       font-weight: bold;
+      color: white;
     }
   }
 }
@@ -91,9 +96,19 @@
 
 // Template stuff
 .organization {
-  margin-top: $header-padding;
+  padding-top: $header-padding;
 }
 
 .employees {
   margin-top: 1em;
+}
+
+.login-container {
+  position: absolute;
+  top: 33%;
+  transform: translateY(-50%);
+
+  input[type="submit"] {
+    margin-top: 1.25em;
+  }
 }

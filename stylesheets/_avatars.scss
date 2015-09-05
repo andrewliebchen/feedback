@@ -1,0 +1,18 @@
+.avatar {
+  
+}
+
+.avatar__image {
+  max-width: $avatar-size;
+  max-height: $avatar-size;
+  border-radius: 3px;
+  overflow: hidden;
+
+  img {
+    display: block;
+  }
+}
+
+.avatar__body {
+  line-height: $avatar-size;
+}

@@ -49,8 +49,8 @@ const Team = React.createClass({
 
   render() {
     return (
-      <div className="panel panel-default">
-        <header className="panel-heading">
+      <div className="panel">
+        <header className="panel__header">
           <div className="row">
             <div className="col-md-8">
               <input
@@ -89,7 +89,7 @@ const Team = React.createClass({
             </tbody>
           </table>
         : null}
-        <div className="panel-body">
+        <div className="panel__body">
           <div className="dropdown">
             <button className="btn btn-default btn-xs" onClick={this.handleToggleDropdown}>
               Add member <span className="caret"/>
@@ -131,11 +131,11 @@ TeamsList = React.createClass({
 
   render() {
     return (
-      <section className="panel panel-default">
-        <header className="panel-heading">
-          <h3 className="panel-title">Teams</h3>
+      <section className="panel">
+        <header className="panel__header">
+          <h3 className="panel__title">Teams</h3>
         </header>
-        <div className="panel-body">
+        <div className="panel__body">
           {this.props.teams.map((team, i) => {
             return <Team team={team} employees={this.props.employees} key={i}/>;
           })}

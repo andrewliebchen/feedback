@@ -33,30 +33,27 @@ Login = React.createClass({
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-4 col-md-offset-4">
-          <Header/>
-          {this.state.alert ?
-            <div className="alert alert-danger" role="alert">{this.state.alert}</div>
-          : null}
-          <form className="panel panel-default panel-body" action="action">
-            <div className="form-group">
-              <label>Email</label>
-              <input type="email" className="form-control" ref="email"/>
+      <div>
+      {this.state.alert ?
+        <div className="alert alert-danger" role="alert">{this.state.alert}</div>
+      : null}
+      <form className="login-container panel panel__body" action="action">
+        <div className="form-group">
+          <label>Email</label>
+          <input type="email" className="form-control" ref="email"/>
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <div className="input-group">
+            <input type={this.state.showPassword ? 'text' : 'password'} className="form-control" ref="password"/>
+            <div className="input-group-addon" onClick={this.handleTogglePassword}>
+              {this.state.showPassword ? 'hide' : 'show'}
             </div>
-            <div className="form-group">
-              <label>Password</label>
-              <div className="input-group">
-                <input type={this.state.showPassword ? 'text' : 'password'} className="form-control" ref="password"/>
-                <div className="input-group-addon" onClick={this.handleTogglePassword}>
-                  {this.state.showPassword ? 'hide' : 'show'}
-                </div>
-              </div>
-            </div>
-            <input type="submit" className="btn btn-primary" value="Sign in" onClick={this.handleLogin}/>
-           </form>
-         </div>
-       </div>
+          </div>
+        </div>
+        <input type="submit" className="btn btn-primary" value="Sign in" onClick={this.handleLogin}/>
+       </form>
+     </div>
     );
   }
 });
