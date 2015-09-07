@@ -5,33 +5,6 @@
 const cx = React.addons.classSet;
 const _ = lodash;
 
-const EmployeeActions = React.createClass({
-  handleEmailInvite() {
-    FlowRouter.setQueryParams({
-      show: 'email_invite'
-    });
-  },
-
-  render() {
-    return (
-      <div className="panel__body">
-        <button className="btn btn-default btn-block"
-          onClick={this.handleDownload}>
-          Download CSV
-        </button>
-        <button className="btn btn-default btn-block"
-          onClick={this.handleEmailInvite}>
-          Send email invite
-        </button>
-        <button className="btn btn-danger btn-block"
-          onClick={this.handleDeleteAllEmployees}>
-          Delete all employees
-        </button>
-      </div>
-    );
-  }
-});
-
 OrganizationProfile = React.createClass({
   mixins: [ReactMeteorData],
 
@@ -137,16 +110,10 @@ OrganizationProfile = React.createClass({
                 <dt>Created</dt>
                 <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
               </dl>
-              <TeamsList teams={this.data.teams} employees={this.data.employees}/>
             </div>
           </section>
           <section>
-            <div className="panel__body">
-              {this.data.employees.map((employee, i) => {
-                return <Avatar employee={employee} key={i}/>;
-              })}
-            </div>
-            {canEdit ? <EmployeeActions/> : null}
+            <EmployeeList/>
           </section>
           <section>
             <FeedbackSessionsList

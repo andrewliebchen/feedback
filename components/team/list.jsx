@@ -49,61 +49,46 @@ const Team = React.createClass({
 
   render() {
     return (
-      <div className="panel">
-        <header className="panel__header">
-          <div className="row">
-            <div className="col-md-8">
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={this.props.team.name}
-                onChange={this.handleUpdateTeamName}/>
-            </div>
-            <div className="col-md-4">
-              <button
-                className="btn btn-danger btn-sm pull-right"
-                onClick={this.handleDeleteTeam}>
-                Delete
-              </button>
-            </div>
-          </div>
-        </header>
-        {this.props.team.members.length > 0 ?
-          <table className="table">
-            <tbody>
-              {this.props.team.members.map((member, i) => {
-                let employee = _.filter(this.props.employees, {_id: member});
-                return (
-                  <tr key={i}>
-                    <td><Avatar employee={employee[0]}/></td>
-                    <td>
-                      <button
-                        className="btn btn-default btn-xs"
-                        onClick={this.handleRemoveEmployee.bind(null, employee[0]._id)}>
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        : null}
-        <div className="panel__body">
-          <div className="dropdown">
-            <button className="btn btn-default btn-xs" onClick={this.handleToggleDropdown}>
-              Add member <span className="caret"/>
-            </button>
-            {this.state.dropdown ?
-              <span>
-                <div className="dropdown-menu" style={{display: 'block'}}>
-                  <EmployeeChooser handleSelectEmployee={this.handleAddEmployee}/>
-                </div>
-                <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
-              </span>
-            : null}
-          </div>
+      <div>
+        <div className="selector__item">
+          <label className="selector__item__label">
+            {/*<input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>*/}
+            <strong>{this.props.team.name}</strong>
+              <div className="dropdown">
+                <a onClick={this.handleToggleDropdown}>+</a>
+                {this.state.dropdown ?
+                  <span>
+                    <div className="dropdown-menu" style={{display: 'block'}}>
+                      <EmployeeChooser handleSelectEmployee={this.handleAddEmployee}/>
+                    </div>
+                    <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
+                  </span>
+                : null}
+              </div>
+          </label>
+          {this.props.team.members.map((member, i) => {
+            let employee = _.filter(this.props.employees, {_id: member});
+            return (
+              <div>
+                <Avatar employee={employee[0]} key={i}/>
+                <a onClick={this.handleRemoveEmployee.bind(null, employee[0]._id)}>
+                  X
+                </a>
+              </div>
+            );
+          })}
         </div>
+
+        {/*<input
+          type="text"
+          className="form-control"
+          defaultValue={this.props.team.name}
+          onChange={this.handleUpdateTeamName}/>
+        <button
+          className="btn btn-danger btn-sm pull-right"
+          onClick={this.handleDeleteTeam}>
+          Delete
+        </button>*/}
       </div>
     );
   }
@@ -131,17 +116,16 @@ TeamsList = React.createClass({
 
   render() {
     return (
-      <section className="panel">
-        <header className="panel__header">
-          <h3 className="panel__title">Teams</h3>
-        </header>
-        <div className="panel__body">
-          {this.props.teams.map((team, i) => {
-            return <Team team={team} employees={this.props.employees} key={i}/>;
-          })}
-          <button className="btn btn-primary" onClick={this.handleAddTeam}>Add team</button>
-        </div>
-      </section>
+      <div className="panel__body">
+        {this.props.teams.map((team, i) => {
+          return <Team team={team} employees={this.props.employees} key={i}/>;
+        })}
+        <button
+          className="btn btn-primary btn-block"
+          onClick={this.handleAddTeam}>
+          Add team
+        </button>
+      </div>
     );
   }
 });
