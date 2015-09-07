@@ -29,6 +29,9 @@ Card = React.createClass({
       <div
         className={`card card_${this.props.index} ${this.props.className}`}
         onClick={this.props.handleClick}>
+        {this.props.editable ?
+          <ImageUploader id={this.props.id} destination={this.props.editable}/>
+        : null}
         {this.props.image ?
           <img className="card__image" src={this.props.image}/>
         : this.renderMissingIcon()}
@@ -36,9 +39,6 @@ Card = React.createClass({
           <span className="card__name">
             {_.startCase(this.props.name)}
           </span>
-        : null}
-        {this.props.editable ?
-          <ImageUploader id={this.props.id} destination={this.props.editable}/>
         : null}
       </div>
     );

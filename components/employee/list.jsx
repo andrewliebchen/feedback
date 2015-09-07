@@ -27,6 +27,7 @@ EmployeeList = React.createClass({
 
   getMeteorData() {
     return {
+      teams: Teams.find().fetch(),
       employees: Meteor.users.find({}, {sort: {createdAt: 1}}).fetch()
     };
   },
@@ -67,7 +68,13 @@ EmployeeList = React.createClass({
             </span>
           : null}
           {this.state.show === 1 ?
-            <TeamsList teams={this.data.teams} employees={this.data.employees}/>
+            <span>
+              <TeamsList
+                teams={this.data.teams}
+                employees={this.data.employees}
+                editable={canEdit}/>
+              {canEdit ? <NewTeam/> : null}
+            </span>
           : null}
         </div>
       </span>

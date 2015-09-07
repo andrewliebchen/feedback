@@ -11,6 +11,7 @@
 @import "panels";
 @import "rows";
 @import "tabs";
+@import "teams";
 
 @import "feedback-results";
 @import "header";
@@ -60,12 +61,14 @@
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 2;
 
   &:hover,
   &.active {
     background-color: rgba($color-brand, 0.8);
 
     &:after {
+      @include uppercase;
       content: "Upload new image";
       position: absolute;
       top: 50%;

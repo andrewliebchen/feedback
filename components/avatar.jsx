@@ -12,8 +12,7 @@ Avatar = React.createClass({
 
   handleClick() {
     FlowRouter.setQueryParams({
-      show: 'employee',
-      id: this.props.employee._id
+      show: this.props.employee._id
     });
   },
 

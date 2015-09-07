@@ -59,7 +59,7 @@ EmployeeProfile = React.createClass({
         </div>
         <Tabs
           defaultTabNum={0}
-          tabNames={["Profile", "Performance"]}>
+          tabNames={["Profile", "Teams", "Performance"]}>
           <section>
             <div className="panel__body">
               <FormGroup
@@ -74,10 +74,6 @@ EmployeeProfile = React.createClass({
                 label="Email"
                 value={this.data.employee.emails[0].address}
                 onChange={this.handleUpdateEmployeeEmail}/>
-              <div className="form-group">
-                <label>Team</label>
-                <TeamChooser employee={this.data.employee}/>
-              </div>
             </div>
             {canEdit && Meteor.userId() !== this.data.employee._id ?
               <div className="panel__body">
@@ -87,6 +83,12 @@ EmployeeProfile = React.createClass({
                 </button>
               </div>
             : null}
+          </section>
+          <section>
+            <div className="form-group">
+              <label>Team</label>
+              <TeamChooser employee={this.data.employee}/>
+            </div>
           </section>
           <section>
             {canEdit ?

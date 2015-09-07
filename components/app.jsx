@@ -76,6 +76,9 @@ App = React.createClass({
   },
 
   handleCloseModal() {
+    FlowRouter.setQueryParams({
+      show: null
+    });
     this.setState({modal: false});
   },
 

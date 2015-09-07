@@ -4,28 +4,15 @@
 
 const _ = lodash;
 
-const Team = React.createClass({
+const TeamMembers = React.createClass({
   getInitialState() {
     return {
-      dropdown: false
+      employeeList: false
     };
   },
 
-  handleUpdateTeamName(event) {
-    Meteor.call('updateTeamName', {
-      id: this.props.team._id,
-      name: event.target.value
-    });
-  },
-
-  handleDeleteTeam() {
-    if(this.props.team.members.length > 0) {
-      if(window.confirm('This team has members. Are you sure you want to delete it?')) {
-        Meteor.call('deleteTeam', this.props.team._id);
-      }
-    } else {
-      Meteor.call('deleteTeam', this.props.team._id);
-    }
+  handleToggleEmployeeList() {
+    this.setState({employeeList: !this.state.employeeList});
   },
 
   handleRemoveEmployee(employeeId) {
@@ -33,10 +20,6 @@ const Team = React.createClass({
       team: this.props.team._id,
       employee: employeeId
     });
-  },
-
-  handleToggleDropdown() {
-    this.setState({dropdown: !this.state.dropdown});
   },
 
   handleAddEmployee(employee) {
@@ -49,46 +32,117 @@ const Team = React.createClass({
 
   render() {
     return (
-      <div>
-        <div className="selector__item">
-          <label className="selector__item__label">
-            {/*<input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>*/}
-            <strong>{this.props.team.name}</strong>
-              <div className="dropdown">
-                <a onClick={this.handleToggleDropdown}>+</a>
-                {this.state.dropdown ?
-                  <span>
-                    <div className="dropdown-menu" style={{display: 'block'}}>
-                      <EmployeeChooser handleSelectEmployee={this.handleAddEmployee}/>
-                    </div>
-                    <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
-                  </span>
-                : null}
-              </div>
-          </label>
-          {this.props.team.members.map((member, i) => {
-            let employee = _.filter(this.props.employees, {_id: member});
-            return (
-              <div>
-                <Avatar employee={employee[0]} key={i}/>
-                <a onClick={this.handleRemoveEmployee.bind(null, employee[0]._id)}>
-                  X
+      <div className="team__members">
+        {this.props.team.members.map((member, i) => {
+          let employee = _.filter(this.props.employees, {_id: member});
+          return (
+            <div className="team__member" key={i}>
+              <Avatar employee={employee[0]} key={i}/>
+              {this.props.editable ?
+                <a
+                  className="team__member__remove negative"
+                  onClick={this.handleRemoveEmployee.bind(null, employee[0]._id)}>
+                  ×
                 </a>
-              </div>
-            );
-          })}
-        </div>
+              : null}
+            </div>
+          );
+        })}
+        {this.props.editable ?
+          <div className="team__add">
+            <a
+              className="btn btn-default btn-sm btn-block"
+              onClick={this.handleToggleEmployeeList}>
+              Add team member
+            </a>
+            {this.state.employeeList ?
+              <EmployeeChooser
+                selectEmployee={this.handleAddEmployee}
+                close={this.handleToggleEmployeeList}/>
+            : null}
+          </div>
+        : null}
+      </div>
+    );
+  }
+});
 
-        {/*<input
-          type="text"
-          className="form-control"
-          defaultValue={this.props.team.name}
-          onChange={this.handleUpdateTeamName}/>
-        <button
-          className="btn btn-danger btn-sm pull-right"
-          onClick={this.handleDeleteTeam}>
-          Delete
-        </button>*/}
+const Team = React.createClass({
+  PropTypes: {
+    team: React.PropTypes.object.isRequired,
+    employees: React.PropTypes.object.isRequired
+  },
+
+  getInitialState() {
+    return {
+      edit: false,
+      members: false
+    };
+  },
+
+  handleEditToggle() {
+    this.setState({edit: !this.state.edit});
+  },
+
+  handleToggleMembers() {
+    this.setState({members: !this.state.members});
+  },
+
+  handleUpdateTeamName() {
+    Meteor.call('updateTeamName', {
+      id: this.props.team._id,
+      name: React.findDOMNode(this.refs.teamName).value
+    });
+    this.setState({edit: false});
+  },
+
+  handleDeleteTeam() {
+    if(this.props.team.members.length > 0) {
+      if(window.confirm('This team has members. Are you sure you want to delete it?')) {
+        Meteor.call('deleteTeam', this.props.team._id);
+      }
+    } else {
+      Meteor.call('deleteTeam', this.props.team._id);
+    }
+  },
+
+  render() {
+    return (
+      <div className="team">
+        <div className="team__header">
+          {!this.state.edit ?
+            <span>
+              <strong>{this.props.team.name} </strong>
+              {this.props.editable ? <a onClick={this.handleEditToggle}>edit</a> : null}
+            </span>
+          :
+            <span className="team__edit">
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={this.props.team.name}
+                ref="teamName"
+                autoFocus/>
+              <a className="btn btn-default btn-xs" onClick={this.handleUpdateTeamName}>
+                Save
+              </a>
+            </span>
+          }
+          <div className="team__header__actions">
+            {this.props.employees ?
+              <a className="team__members-toggle" onClick={this.handleToggleMembers}>
+                {this.state.members ? 'Hide' : 'Show'}
+              </a>
+            : null}
+            {this.props.editable ? <a className="negative" onClick={this.handleDeleteTeam}>×</a> : null}
+          </div>
+        </div>
+        {this.state.members ?
+          <TeamMembers
+            team={this.props.team}
+            employees={this.props.employees}
+            editable={this.props.editable}/>
+        : null}
       </div>
     );
   }
@@ -96,7 +150,9 @@ const Team = React.createClass({
 
 TeamsList = React.createClass({
   PropTypes: {
-    teams: React.PropTypes.array
+    teams: React.PropTypes.array.isRequired,
+    employees: React.PropTypes.object.isRequired,
+    editable: React.PropTypes.bool
   },
 
   getDefaultProps() {
@@ -105,26 +161,18 @@ TeamsList = React.createClass({
     };
   },
 
-  handleAddTeam() {
-    Meteor.call('addTeam', {
-      name: '',
-      organization: Meteor.user().profile.organization,
-      createdAt: Date.now(),
-      members: []
-    });
-  },
-
   render() {
     return (
-      <div className="panel__body">
+      <div className="teams-list">
         {this.props.teams.map((team, i) => {
-          return <Team team={team} employees={this.props.employees} key={i}/>;
+          return (
+            <Team
+              key={i}
+              team={team}
+              employees={this.props.employees}
+              editable={this.props.editable}/>
+          );
         })}
-        <button
-          className="btn btn-primary btn-block"
-          onClick={this.handleAddTeam}>
-          Add team
-        </button>
       </div>
     );
   }

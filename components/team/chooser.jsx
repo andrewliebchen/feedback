@@ -39,7 +39,8 @@ TeamChooser = React.createClass({
   mixins: [ReactMeteorData],
 
   propTypes: {
-    employee: React.PropTypes.object.isRequired
+    employee: React.PropTypes.object.isRequired,
+    editable: React.PropTypes.bool.isRequired
   },
 
   getMeteorData() {
@@ -90,11 +91,13 @@ TeamChooser = React.createClass({
               {this.data.teams.map((team, i) => {
                 return <Team key={i} team={team} employee={this.props.employee}/>;
               })}
-              <li className="form-inline">
-                <div className="form-group">
-                  <input type="type" className="form-control" placeholder="Team name" ref="newTeam" onKeyDown={this.handleNewTeam}/>
-                </div>
-              </li>
+              {this.props.editable ?
+                <li className="form-inline">
+                  <div className="form-group">
+                    <input type="type" className="form-control" placeholder="Team name" ref="newTeam" onKeyDown={this.handleNewTeam}/>
+                  </div>
+                </li>
+              : null}
             </ul>
             <div className="dropdown__background" onClick={this.handleToggleDropdown}/>
           </span>
@@ -116,15 +119,6 @@ if(Meteor.isServer) {
       Teams.update(args.team, {
         $pull: {members: args.employee}
       })
-    },
-
-    'addTeam': function(args) {
-      return Teams.insert({
-        name: args.name,
-        organization: args.organization,
-        createdAt: args.createdAt,
-        members: args.members
-      });
     }
   });
 }
