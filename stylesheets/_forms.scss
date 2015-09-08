@@ -16,6 +16,7 @@ textarea {
 }
 
 .form-group {
+  @include clearfix;
   margin-bottom: 1em;
 
   label {
@@ -88,4 +89,42 @@ input[type="submit"] {
   margin-bottom: 0.25em;
   border-bottom: 1px solid $color-gray-light;
   display: block;
+}
+
+.switch {
+  $size: 1.5em;
+  $border-width: 2px;
+  transition: all 0.15s ease-in-out;
+  border-radius: $size / 2;
+  display: inline-block;
+  box-shadow: 0 0 0 $border-width $color-gray;
+  height: $size;
+  width: $size * 2;
+  background-color: $color-gray;
+  margin-right: 0.5em;
+  cursor: pointer;
+  float: left;
+
+  &.is-on {
+    background-color: $color-positive;
+    box-shadow: 0 0 0 $border-width $color-positive;
+
+    .switch__head {
+      transform: translateX($size);
+    }
+  }
+
+  .switch__head {
+    transition: inherit;
+    border-radius: inherit;
+    width: $size;
+    height: inherit;
+    background-color: white;
+  }
+
+  @at-root {
+    .switch__label {
+      line-height: $size;
+    }
+  }
 }

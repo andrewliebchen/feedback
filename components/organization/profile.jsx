@@ -63,9 +63,8 @@ OrganizationProfile = React.createClass({
   render() {
     let canEdit = Roles.userIsInRole(Meteor.userId(), ['admin']);
     let feedbackStatusClassName = cx({
-      "btn": true,
-      "btn-success": this.data.organization.feedback.status,
-      "btn-danger": !this.data.organization.feedback.status
+      "switch": true,
+      "is-on": this.data.organization.feedback.status
     });
 
     return (
@@ -92,24 +91,26 @@ OrganizationProfile = React.createClass({
                 value={this.data.organization.domain}
                 onChange={this.handleUpdateOrganizationDomain}/>
               <div className="form-group">
-                <button className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
-                  {`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}
-                </button>
+                <div className={feedbackStatusClassName} onClick={this.handleFeedbackToggle}>
+                  <div className="switch__head"/>
+                </div>
+                <span className="switch__label">{`Feedback ${this.data.organization.feedback.status ? 'on' : 'off'}`}</span>
               </div>
               <div className="form-group">
                 <label>Feedback frequency</label>
                 <select
                   className="form-control"
                   defaultValue={this.data.organization.feedback.frequency}
-                  onChange={this.handleFeedbackFrequency}>
+                  onChange={this.handleFeedbackFrequency}
+                  disabled={!this.data.organization.feedback.status}>
                   <option value="Monthly">Monthly</option>
                   <option value="Weekly">Weekly</option>
                 </select>
               </div>
-              <dl>
-                <dt>Created</dt>
-                <dd>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</dd>
-              </dl>
+              <div className="form-group">
+                <label>Created</label>
+                <div>{moment(this.data.organization.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+              </div>
             </div>
           </section>
           <section>
