@@ -127,19 +127,27 @@ NewEmployeeForm = React.createClass({
             <div className="panel__body">
               <h4>Teams</h4>
               <p>Pick the teams you're on</p>
-              <div className="selector">
+              <div className="teams-list">
                 {this.props.teams.map((team, i) => {
                   let employees = this.data.employees;
                   return (
-                    <div className="selector__item" key={i}>
-                      <label className="selector__item__label">
-                        <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
-                        <strong>{team.name}</strong>
-                      </label>
-                      {team.members.length > 0 ? team.members.map((member, i) => {
-                        let employee = _.filter(employees, {_id: member});
-                        return <Avatar employee={employee[0]} key={i}/>;
-                      }) : null}
+                    <div className="team" key={i}>
+                      <div className="team__header">
+                        <label>
+                          <input type="checkbox" onChange={this.handleAddtoTeam.bind(null, team._id)}/>
+                          <strong>{team.name}</strong>
+                        </label>
+                      </div>
+                      <div className="team__members">
+                        {team.members.length > 0 ? team.members.map((member, i) => {
+                          let employee = _.filter(employees, {_id: member});
+                          return (
+                            <div className="team__member" key={i}>
+                              <Avatar employee={employee[0]}/>
+                            </div>
+                          );
+                        }) : null}
+                      </div>
                     </div>
                   );
                 })}

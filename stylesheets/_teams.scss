@@ -51,7 +51,10 @@
 
 .team__member {
   @include clearfix;
-  margin-bottom: 0.25em;
+
+  + .team__member {
+    margin-top: 0.25em;
+  }
 
   .avatar {
     float: left;
