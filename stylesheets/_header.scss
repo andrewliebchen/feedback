@@ -23,7 +23,7 @@
   display: block;
   width: $header-height;
   height: $header-height;
-  border-radius: 3px;
+  border-radius: $border-radius;
   overflow: hidden;
 
   img {
@@ -36,4 +36,16 @@
 .header__session__menu {
   top: 0;
   right: 0;
+}
+
+.header__add-user {
+  width: $header-height;
+  margin-left: 0.5em;
+  position: relative;
+
+  .menu {
+    top: 0;
+    left: auto;
+    right: 0;
+  }
 }

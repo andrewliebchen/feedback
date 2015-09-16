@@ -54,9 +54,8 @@ Header = React.createClass({
         <div className="header__search form-group">
           <input type="search" className="form-control" placeholder="Search"/>
         </div>
-        {this.props.session ?
-          <Session/>
-        : null}
+        <Session/>
+        <AddEmployee/>
       </header>
     );
   }

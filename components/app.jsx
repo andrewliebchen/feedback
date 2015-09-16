@@ -5,50 +5,6 @@
 const cx = React.addons.classSet;
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-const AddEmployee = React.createClass({
-  handleAddSeedEmployee() {
-    $.ajax({
-      url: 'http://api.randomuser.me/',
-      dataType: 'json',
-      success: (data) => {
-        let randomUser = data.results[0].user;
-        let newEmployee = {
-          username: randomUser.username,
-          email: randomUser.email,
-          password: randomUser.password,
-          organization: Meteor.user().profile.organization,
-          name: `${randomUser.name.first} ${randomUser.name.last}`,
-          imageSrc: randomUser.picture.large,
-          teams: ['Team 1']
-        };
-
-        Meteor.call('newEmployee', newEmployee);
-      }
-    });
-  },
-
-  toggleNewEmployee() {
-    FlowRouter.setQueryParams({
-      show: 'new_employee'
-    });
-  },
-
-  render() {
-    return (
-      <div className="add-employee">
-        <button className="btn btn-default"
-          onClick={this.handleAddSeedEmployee}>
-          + Seed
-        </button>
-        <button className="btn btn-default"
-          onClick={this.toggleNewEmployee}>
-          + Employee
-        </button>
-      </div>
-    );
-  }
-});
-
 App = React.createClass({
   mixins: [ReactMeteorData],
 
@@ -85,7 +41,7 @@ App = React.createClass({
   render() {
     return (
       <section className="dashboard container_wide">
-        <Header session/>
+        <Header/>
         <Row
           id={this.data.organization._id}
           name={this.data.organization.name}
@@ -102,8 +58,6 @@ App = React.createClass({
               showDetail={this.handleShowDetail}/>
           );
         })}
-        {/*<AddEmployee/>*/}
-
         {this.state.modal ?
           <Modal close={this.handleCloseModal}/>
         : null}

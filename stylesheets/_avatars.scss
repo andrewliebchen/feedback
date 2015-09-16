@@ -1,11 +1,11 @@
 .avatar {
-  
+
 }
 
 .avatar__image {
   max-width: $avatar-size;
   max-height: $avatar-size;
-  border-radius: 3px;
+  border-radius: $border-radius;
   overflow: hidden;
 
   img {
