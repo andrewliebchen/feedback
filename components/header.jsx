@@ -30,8 +30,8 @@ const Session = React.createClass({
 
   render() {
     return (
-      <span>
-        <a className="header__session menu__toggle" onClick={this.handleMenuToggle}>
+      <div className="header__session" onClick={this.handleMenuToggle}>
+        <a className="header__session__toggle menu__toggle">
           <img src={Meteor.user().profile.imageSrc}/>
         </a>
         {this.state.menu ?
@@ -41,7 +41,7 @@ const Session = React.createClass({
             <MenuItem handleClick={this.handleSignOut}>Sign out</MenuItem>
           </Menu>
         : null}
-      </span>
+      </div>
     );
   }
 });

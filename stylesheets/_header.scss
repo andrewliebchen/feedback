@@ -19,12 +19,17 @@
 }
 
 .header__session {
+  position: relative;
+}
+
+.header__session__toggle {
   @include hover-overlay;
   display: block;
   width: $header-height;
   height: $header-height;
   border-radius: $border-radius;
   overflow: hidden;
+  position: relative;
 
   img {
     max-width: 100%;
