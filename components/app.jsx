@@ -41,7 +41,7 @@ App = React.createClass({
   render() {
     return (
       <section className="dashboard container_wide">
-        <Header/>
+        <Header addEmployee={this.handleShowDetail}/>
         <Row
           id={this.data.organization._id}
           name={this.data.organization.name}

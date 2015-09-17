@@ -17,8 +17,7 @@ const Session = React.createClass({
 
   handleProfile() {
     FlowRouter.setQueryParams({
-      show: 'employee',
-      id: Meteor.user()._id
+      show: Meteor.user()._id
     });
     this.handleMenuToggle();
   },
